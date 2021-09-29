@@ -32,7 +32,7 @@ var toolbarOptions = [
 
 
 
-export default function Editor() {
+export default function Editor(props) {
 
 
 
@@ -40,7 +40,16 @@ Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/imageResize", ImageResize);
 
 
+useEffect(() => {
+  if (quill == null) return
     
+      
+      
+    quill.root.innerHTML = props.editorStatus;
+     
+           
+
+}, [props.editorStatus])    
            
 
 
@@ -62,6 +71,8 @@ const [quill, setQuill] = useState();
                     parchment: Quill.import('parchment'),
                     modules: ['Resize', 'DisplaySize', "Toolbar"]
                 },
+                imageDrop: {
+              },
             },   
             theme: "snow" });
 

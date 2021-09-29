@@ -4,9 +4,17 @@ import "./NavBar.css";
 import NoteList from "./NoteList.js";
 
 
-export default function NavBar() {
+export default function NavBar(props) {
 
-    const [ noteList, setnoteList] = useState(["Animals", "History", "English", "Swedish"]);
+    const [ noteList, setnoteList] = useState([ ["Animals", "111"], ["History", "222"], ["English", "255"], ["Swedish", "355"]]);
+
+
+
+    function sendGetRequestToAppLayer(endpoint){
+
+
+        props.sendGetRequest(endpoint);
+    }
 
 
     return (
@@ -23,7 +31,7 @@ export default function NavBar() {
 
                 </div>
                
-               <NoteList listofNotes={noteList}></NoteList>
+               <NoteList sendGetRequestToAppLayer={sendGetRequestToAppLayer} listofNotes={noteList}></NoteList>
                
 
 

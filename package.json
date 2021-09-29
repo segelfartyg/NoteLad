@@ -4,13 +4,16 @@
   "description": "Your lad to help you take notes.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"nodemon app\" \"cd client && npm start"
   },
   "author": "segelfartyg",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^6.2.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongoose": "^6.0.8",
     "path": "^0.12.7"
   }
 }

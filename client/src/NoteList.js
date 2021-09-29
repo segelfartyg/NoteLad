@@ -9,15 +9,22 @@ export default function NoteList(props) {
     
     console.log(props.listofNotes);
     
-    
+    function onNavItemClick(endpoint){
+
+        props.sendGetRequestToAppLayer(endpoint);
+    }
+
+
+    const navItemList = props.listofNotes.map((curr) => <NoteListElem clickEvent={onNavItemClick} key={Math.random()} itemID={curr[1]}>{curr[0]}</NoteListElem>);
+  
     
     return (
         <div className="NoteList">
             
-            {props.listofNotes.map((curr) => <NoteListElem key={Math.random()}>{curr}</NoteListElem>)}
-            <NoteListElem key="collectionbutton" name="collectionbutton">collection</NoteListElem>
          
-
+            {navItemList}
+            <NoteListElem key="collectionbutton" name="collectionbutton" >collection</NoteListElem>
+         
 
         </div>
     )
