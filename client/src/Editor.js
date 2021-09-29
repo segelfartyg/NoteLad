@@ -6,6 +6,8 @@ import  {ImageDrop}  from "quill-image-drop-module";
 import  ImageResize  from "quill-image-resize-module-react";
 import "./Editor.css";
 
+const axios = require("axios");
+
 var toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['image', 'blockquote', 'code-block'],
@@ -40,7 +42,7 @@ Quill.register("modules/imageResize", ImageResize);
 
     
            
-            
+
 
 const [quill, setQuill] = useState();
 
@@ -69,13 +71,23 @@ const [quill, setQuill] = useState();
     useEffect(() => {
         if (quill == null) return
     
-    
-        quill.clipboard.dangerouslyPasteHTML('<h1>HEJSAN</h1><br><p class="ql-align-center">Jag heter Samuel Swarén<p>');
+      
+        axios({
+            method: "GET",
+            url: "http://localhost:8080/",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }).then(res => {
+            quill.root.innerHTML += res.data;
+          });
+           
+
     
     
       }, [quill])
    
-    
+   
   
     return (
       
