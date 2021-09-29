@@ -1,0 +1,20 @@
+
+
+
+body, #root {
+  height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+
+
+font-family: rig-shaded-light-face,sans-serif;
+font-weight: 300;
+font-style: normal;
+}
+

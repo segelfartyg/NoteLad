@@ -1,0 +1,46 @@
+.navbar{
+    width: fit-content;
+    background-color: rgb(255, 255, 255);
+    height: 100%;
+    background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(190, 190, 190) 100%);
+    filter: drop-shadow(5px 1px 1.5px black);
+}
+
+.headerlogo{
+    width: 5rem;
+    animation: hover 2s infinite;
+    filter: drop-shadow(0.15rem 0.15rem 0.15rem black);
+  }
+
+
+@keyframes hover{
+
+    0%{
+        
+    }
+
+    50%{
+        transform: translateY(3.5px);
+    }
+
+    100%{
+
+    }
+
+
+
+}
+  
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.logotitle{
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+

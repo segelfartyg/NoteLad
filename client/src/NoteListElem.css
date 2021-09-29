@@ -1,0 +1,11 @@
+.NoteListElem{
+    margin: auto;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px black solid;
+}
+
+.collectionbutton{
+    color: red;
+    border-bottom: 1px red solid;
+}
