@@ -45,50 +45,42 @@ Quill.register("modules/imageResize", ImageResize);
 const [quill, setQuill] = useState();
 
 
-    useEffect(() => {
-
-        if(quill == null) return
-
-       const handler =  (delta, oldDelta, source) => {
-        if(source !== "user") return
-        console.log(quill.container.firstChild.innerHTML);
-    }
-    quill.on("text-change", handler)
-
-    return () => {
-        quill.off("text-change", handler);
-    }
-    },[quill]);
 
 
 
-    const wrapperRef = useCallback((wrapper) => {
-        if(wrapper == null) return
-
-        wrapper.innerHTML = "";
+ const wrapperRef = useCallback(wrapper => {
+     if(wrapper == null) return;
+    wrapperRef.innerHTML = "";
         const editor = document.createElement("div");
-
         wrapper.append(editor);
-       const q = new Quill(editor, { 
-        modules: {
-            toolbar: toolbarOptions,
-            imageResize: {
-                parchment: Quill.import('parchment'),
-                modules: ['Resize', 'DisplaySize', "Toolbar"]
-            },
-        },   
-        theme: "snow" });
+        const q = new Quill(editor, { 
+            modules: {
+                toolbar: toolbarOptions,
+                imageResize: {
+                    parchment: Quill.import('parchment'),
+                    modules: ['Resize', 'DisplaySize', "Toolbar"]
+                },
+            },   
+            theme: "snow" });
 
-        setQuill(q);
-     
+            setQuill(q);
     }, []);
-  
-  
 
+    useEffect(() => {
+        if (quill == null) return
+    
+    
+        quill.clipboard.dangerouslyPasteHTML('<h1>HEJSAN</h1><br><p class="ql-align-center">Jag heter Samuel Swarén<p>');
+    
+    
+      }, [quill])
+   
+    
+  
     return (
       
         <div id="Editor">
-            <div className="container" ref={wrapperRef}></div>
+            <div id="container" ref={wrapperRef}></div>
         </div>
     )
 }
