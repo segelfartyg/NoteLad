@@ -1,0 +1,11 @@
+{
+  "name": "noteladeditor",
+  "version": "1.0.0",
+  "description": "Your lad to help you take notes.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "segelfartyg",
+  "license": "ISC"
+}
