@@ -1,10 +1,15 @@
 
 import React, {useState, useEffect} from "react";
-
 import './App.css';
 import NavBar from "./NavBar";
 import Editor from "./Editor";
+import socketClient from "socket.io-client";
+import NoteLadHeader from "./noteladheader.svg"
 const axios = require("axios");
+
+
+const SERVER = "/";
+var socket = socketClient(SERVER);
 
 function App() {
 
@@ -14,9 +19,9 @@ const [editorStatus, setEditorStatus] = useState("");
 
 
 
-  function sendGetRequest(endpoint){
+  async function sendGetRequest(endpoint){
 
-    let endpointurl = "http://localhost:8080/";
+    let endpointurl = "http://localhost:8080/?id=";
     endpointurl += endpoint;
 
     axios({
@@ -27,6 +32,7 @@ const [editorStatus, setEditorStatus] = useState("");
       }
     }).then(res => {
      setEditorStatus(res.data);
+     
     
     });
 
@@ -34,6 +40,7 @@ const [editorStatus, setEditorStatus] = useState("");
   }
 
 useEffect(() => {
+
   console.log(editorStatus);
 
 }, [editorStatus])
@@ -44,6 +51,7 @@ useEffect(() => {
     
         <NavBar sendGetRequest={sendGetRequest}/>
         <Editor editorStatus={editorStatus}/>
+        <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
   
     </div>
   );

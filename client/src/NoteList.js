@@ -23,7 +23,7 @@ export default function NoteList(props) {
             
          
             {navItemList}
-            <NoteListElem key="collectionbutton" name="collectionbutton" >collection</NoteListElem>
+           
          
 
         </div>

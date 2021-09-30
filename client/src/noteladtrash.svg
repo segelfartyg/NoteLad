@@ -1,0 +1,36 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke-width: 30px;
+      }
+    </style>
+  </defs>
+  <g>
+    <path class="cls-1" d="M468.5,924.5c-251.91-.16-456-204.5-455.84-456.4A456.14,456.14,0,0,1,291,48.33C523.06-49.7,790.65,59,888.68,291S878.06,790.64,646,888.67A452.92,452.92,0,0,1,468.5,924.5Z" transform="translate(0.5 0.5)"/>
+    <path class="cls-2" d="M468.5,25c245,.18,443.48,199,443.3,444a443.63,443.63,0,0,1-270.68,408.2c-225.7,95.34-485.94-10.34-581.28-236s10.34-485.94,236-581.28A440.63,440.63,0,0,1,468.5,25m0-25C209.75,0,0,209.75,0,468.5S209.75,937,468.5,937,937,727.25,937,468.5,727.25,0,468.5,0Z" transform="translate(0.5 0.5)"/>
+  </g>
+  <g>
+    <g>
+      <g>
+        <rect class="cls-3" x="293.5" y="506.92" width="450" height="30" rx="15" transform="translate(1040.92 3.92) rotate(90)"/>
+        <rect class="cls-3" x="193.5" y="507.63" width="450" height="30" rx="15" transform="translate(-103.63 941.63) rotate(-90)"/>
+        <rect class="cls-3" x="393.5" y="507.75" width="450" height="30" rx="15" transform="translate(1141.75 -95.25) rotate(90)"/>
+        <rect class="cls-3" x="93.5" y="507.63" width="450" height="30" rx="15" transform="translate(841.63 204.63) rotate(90)"/>
+      </g>
+      <rect class="cls-3" x="243.78" y="780.19" width="450" height="30" rx="15"/>
+      <rect class="cls-3" x="244" y="235.48" width="450" height="30" rx="15"/>
+    </g>
+    <rect class="cls-3" x="359" y="127.81" width="220" height="30" rx="15"/>
+  </g>
+</svg>

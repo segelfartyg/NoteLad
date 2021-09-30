@@ -5,6 +5,47 @@
     background: rgb(255, 255, 255);
     background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(206, 206, 206) 100%);
     overflow-y: scroll;
+    animation: shading 5s infinite alternate;
+}
+
+@keyframes shading {
+
+0%{
+
+    background: linear-gradient(20deg, rgb(180, 180, 180) 0%, rgb(255, 255, 255) 40%, rgb(255, 255, 255) 60%, rgb(180, 180, 180) 100%);
+}
+
+
+20%{
+
+    background: linear-gradient(20deg, rgb(180, 180, 180) 0.5%, rgb(255, 255, 255) 40.5%, rgb(255, 255, 255) 60.5%, rgb(180, 180, 180) 100%);
+}
+
+
+40%{
+
+    background: linear-gradient(20deg, rgb(180, 180, 180) 1%, rgb(255, 255, 255) 41%, rgb(255, 255, 255) 61%, rgb(180, 180, 180) 100%);
+}
+
+
+60%{
+
+    background: linear-gradient(20deg, rgb(180, 180, 180) 1.5%, rgb(255, 255, 255) 41.5%, rgb(255, 255, 255) 61.5%, rgb(180, 180, 180) 100%);
+}
+
+80%{
+
+ background: linear-gradient(20deg, rgb(180, 180, 180) 2%, rgb(255, 255, 255) 42%, rgb(255, 255, 255) 62%, rgb(180, 180, 180) 100%);
+
+}
+
+100%{
+
+    background: linear-gradient(20deg, rgb(180, 180, 180) 2.5%, rgb(255, 255, 255) 42.5%, rgb(255, 255, 255) 62.5%, rgb(180, 180, 180) 100%);
+   
+   }
+
+
 }
 
 .ql-editor{

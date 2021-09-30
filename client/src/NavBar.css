@@ -8,10 +8,86 @@
 
 .headerlogo{
     width: 5rem;
-    animation: hover 2s infinite;
-    filter: drop-shadow(0.15rem 0.15rem 0.15rem black);
+    filter: drop-shadow(0rem 0rem 0.15rem rgb(90, 90, 90));
   }
 
+  .addNoteNavBar{
+
+    width: 2rem;
+    filter: drop-shadow(0.0rem 0.0rem 0.45rem black);
+    margin: auto;
+    animation: pulse 5s infinite;
+    animation: shake 2s infinite;
+  }
+
+  .addNoteNavBar:hover{
+      animation: rotate 0.25s forwards;
+  }
+
+  .addNewNoteArea{
+    display: flex;
+    padding: 2rem;
+}
+
+  @keyframes rotate{
+
+    0%{
+
+    }
+    100%{
+       
+        transform: rotate(180deg);
+        filter: drop-shadow(0rem 0rem 0.40rem black);
+        
+    }
+    100%{
+        
+    }
+
+  }
+
+  
+  @keyframes pulse{
+
+    0%{
+        filter: drop-shadow(0rem 0rem 0.25rem black);
+    }
+    50%{
+        filter: drop-shadow(0rem 0rem 0.50rem black);
+    }
+    100%{
+       
+       
+        filter: drop-shadow(0rem 0rem 0.25rem black);
+        
+    }
+    100%{
+        
+    }
+
+  }
+
+  @keyframes shake{
+
+    0%{
+        transform: translateX(0px);
+    }
+    25%{
+        transform: translateX(-5px);
+    }
+    50%{
+        transform: translateX(5px);
+    }
+    100%{
+       
+       
+        transform: translateX(0px);
+    }
+  
+
+  }
+
+ 
 
 @keyframes hover{
 

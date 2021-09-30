@@ -5,17 +5,20 @@ const port = process.env.PORT || 8080;
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+
 app.use(cors());
+const options = {
+  cors: true,
+  origins: ["http://localhost:3000"],
+};
 
 
-mongoose.connect("mongodb:localhost:27017/NoteLadDatabase",
-{
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true
-}
 
-);
+
+mongoose.connect("mongodb://localhost/NoteLadDB")
+.then(() => console.log("Connected to MongoDB"))
+.catch((err) => console.log("Couldnt connect ti MongoDB"));
+
 
 const NoteSchema = new mongoose.Schema({
   id:{
@@ -31,8 +34,32 @@ const NoteSchema = new mongoose.Schema({
 
 const Note = mongoose.model("Note", NoteSchema);
 
-const Spanish = new Note({id: 42, content: "Spanish"});
-Spanish.save();
+const Animals = new Note({id: 1, content: "<h1 style='font-size: 40px'>Animals<h1>"});
+
+
+const History = new Note({id: 2, content: "<h1 style='font-size: 40px'>History<h1>"});
+
+
+const English = new Note({id: 3, content: "<h1 style='font-size: 40px'>English<h1>"});
+
+
+const Swedish = new Note({id: 4, content: "<h1 style='font-size: 40px'>Swedish<h1>"});
+
+
+
+async function getNoteContent(_postID){
+
+  const content = await Note.find()
+  .select({ content: true })
+  .where("id")
+  .equals(_postID)
+
+
+return content[0].content;
+
+}
+
+getNoteContent(2);
 
 
 app.get("/notes", function (req, res) {
@@ -43,32 +70,33 @@ app.get("/notes", function (req, res) {
 });
 
 
-app.get("/", function (req, res) {
-    res.send("<h1 style='font-size: 5rem'>this is from the server</h1>")
-  });
+app.get("/", async function (req, res) {
 
+  if(req.query.id){
+    const response = await getNoteContent(req.query.id);
+    res.send(response);
+  }
+  else{
 
-
-  app.get("/111", function (req, res) {
-    res.send("<h1 style='font-size: 5rem'>Animals</h1>")
-  });
-
-  app.get("/222", function (req, res) {
-    res.send("<h1 style='font-size: 5rem'>History</h1>")
-  });
-
-
-  app.get("/255", function (req, res) {
-    res.send("<h1 style='font-size: 5rem'>English</h1>")
-  });
-
-  app.get("/355", function (req, res) {
-    res.send("<h1 style='font-size: 5rem'>Swedish</h1>")
+  }
+ 
   });
 
 
 
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 })
+
+const io = require("socket.io")(server, options);
+
+io.on("connection", (socket) => {
+
+  console.log("CONNECTED TO SOCKET");
+  
+  
+  
+  });
+  
+ 
