@@ -163,19 +163,28 @@ const [converterStyle, setConverterStyle] = useState("EditorConverter");
 
             <div className={converterStyle}>
 
-<div className="noteName">
- <h2>CARD:</h2><input id="noteNameField" type="text"></input>
+<div className="converterForm">
 
+  <div className="inputField">
+ <label for="nameField">CARD:</label>
+ <input id="noteNameField" name="nameField" type="text"></input>
  </div>
 
- <div className="noteDesc">
- <p>DESCRIPTION:</p> <input id="noteDescField" type="text"></input>
+ <div className="inputField">
+ <label for="descField">DESCRIPTION:</label>
+ <input id="noteDescField" name="descField" type="text" ></input>
  </div>
- <br></br>
 
- <div className="noteButton">
+ 
+
+</div>
+ 
+ 
+{/* <div className="inputField">
  <button>NOTIFY</button>
- </div>
+ </div> */}
+
+
 
  {/* <svg className="trashBin" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
   <defs>
