@@ -51,6 +51,7 @@ useEffect(() => {
     
         <NavBar sendGetRequest={sendGetRequest}/>
         <Editor editorStatus={editorStatus}/>
+      
         <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
   
     </div>

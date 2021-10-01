@@ -10,7 +10,7 @@ body, #root {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+overflow: hidden;
 
 
 font-family: rig-shaded-light-face,sans-serif;
