@@ -7,9 +7,7 @@ import NoteLadPlus from "./noteladplus.svg";
 
 export default function NavBar(props) {
 
-    const [ noteList, setnoteList] = useState([ ["Animals", "1"], ["History", "2"], ["English", "3"], ["Swedish", "4"]]);
-
-
+    
 
     function sendGetRequestToAppLayer(endpoint){
 
@@ -32,7 +30,7 @@ export default function NavBar(props) {
 
                 </div>
                
-               <NoteList sendGetRequestToAppLayer={sendGetRequestToAppLayer} listofNotes={noteList}></NoteList>
+               <NoteList sendGetRequestToAppLayer={sendGetRequestToAppLayer} listofNotes={props.noteList}></NoteList>
                
 
                <div className="addNewNoteArea">

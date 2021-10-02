@@ -14,8 +14,9 @@ export default function NoteList(props) {
         props.sendGetRequestToAppLayer(endpoint);
     }
 
+    
 
-    const navItemList = props.listofNotes.map((curr) => <NoteListElem clickEvent={onNavItemClick} key={Math.random()} itemID={curr[1]}>{curr[0]}</NoteListElem>);
+    const navItemList = props.listofNotes.map((curr) => <NoteListElem clickEvent={onNavItemClick} key={curr[1]}>{curr[0]}</NoteListElem>);
   
     
     return (

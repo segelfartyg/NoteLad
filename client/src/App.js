@@ -1,5 +1,5 @@
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import './App.css';
 import NavBar from "./NavBar";
 import Editor from "./Editor";
@@ -16,6 +16,47 @@ function App() {
 
 const [editorStatus, setEditorStatus] = useState("");
 
+const [notes, setNotes] = useState([]);
+
+
+
+useEffect(() => {
+  
+
+  let endpointurl = "http://localhost:8080/getNotes?userid=";
+  endpointurl += "1";
+
+  axios({
+    method: "GET",
+    url: endpointurl,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+
+    let templist = [];
+    res.data.map((item) => {
+      if(!templist.includes(item.name)){
+        templist.push([item.name, item._id]);
+      }
+      
+      
+      
+      
+     
+    }
+   
+  )
+  console.log("DSADSA: ", templist);
+  setNotes(templist);  
+});
+
+}, []);
+
+useEffect(() => {
+  console.log("FROM APPLAYER: ", notes);
+ 
+}, [notes])
 
 
 
@@ -39,6 +80,38 @@ const [editorStatus, setEditorStatus] = useState("");
 
   }
 
+
+  async function sendPostRequest(_noteName, _content){
+
+    let endpointurl = "http://localhost:8080/add";
+    //endpointurl += endpoint;
+
+    axios({
+      method: "POST",
+      url: endpointurl,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data:{
+        noteName: _noteName,
+        content : _content
+      }
+    }).then(res => {
+   
+      console.log(res);
+     
+    
+    });
+
+
+  }
+
+  function createPostHandler(_notename, _currentcontent){
+
+
+    sendPostRequest(_notename, _currentcontent);
+  }
+
 useEffect(() => {
 
   console.log(editorStatus);
@@ -49,8 +122,8 @@ useEffect(() => {
   return (
     <div className="App">
     
-        <NavBar sendGetRequest={sendGetRequest}/>
-        <Editor editorStatus={editorStatus}/>
+        <NavBar noteList={notes} sendGetRequest={sendGetRequest}/>
+        <Editor createPost={createPostHandler} editorStatus={editorStatus}/>
       
         <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
   
