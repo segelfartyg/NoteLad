@@ -103,3 +103,23 @@
       width: 5rem;
       margin: auto;
   }
+
+
+  .trashBin{
+    width: 5rem;
+    filter: drop-shadow(0rem 0rem 0.15rem rgb(90, 90, 90)); 
+  }
+
+  .trash {
+    fill: #fff;
+    
+  }
+
+  .trash, .trash2, .trash3 {
+    stroke: #000;
+    stroke-miterlimit: 10;
+  }
+
+  .trash3 {
+    stroke-width: 30px;
+  }

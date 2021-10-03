@@ -7,16 +7,17 @@ import NoteListElem from "./NoteListElem";
 export default function NoteList(props) {
     
     
-    console.log(props.listofNotes);
+
     
     function onNavItemClick(endpoint){
 
         props.sendGetRequestToAppLayer(endpoint);
+  
     }
 
     
 
-    const navItemList = props.listofNotes.map((curr) => <NoteListElem clickEvent={onNavItemClick} key={curr[1]}>{curr[0]}</NoteListElem>);
+    const navItemList = props.listofNotes.map((curr) => <NoteListElem clickEvent={onNavItemClick} itemID={curr[1]} key={curr[1]}>{curr[0]}</NoteListElem>);
   
     
     return (

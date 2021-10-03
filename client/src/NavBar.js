@@ -11,7 +11,7 @@ export default function NavBar(props) {
 
     function sendGetRequestToAppLayer(endpoint){
 
-
+   
         props.sendGetRequest(endpoint);
     }
 

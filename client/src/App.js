@@ -23,7 +23,7 @@ const [notes, setNotes] = useState([]);
 useEffect(() => {
   
 
-  let endpointurl = "http://localhost:8080/getNotes?userid=";
+  let endpointurl = "http://localhost:8080/getNotes?userID=";
   endpointurl += "1";
 
   axios({
@@ -37,7 +37,7 @@ useEffect(() => {
     let templist = [];
     res.data.map((item) => {
       if(!templist.includes(item.name)){
-        templist.push([item.name, item._id]);
+        templist.push([item.name, item.noteID]);
       }
       
       
@@ -47,22 +47,22 @@ useEffect(() => {
     }
    
   )
-  console.log("DSADSA: ", templist);
+
   setNotes(templist);  
 });
 
 }, []);
 
 useEffect(() => {
-  console.log("FROM APPLAYER: ", notes);
- 
+  console.log("UPDATING NOTELIST FROM APPLAYER: ", notes);
+  
 }, [notes])
 
 
 
   async function sendGetRequest(endpoint){
 
-    let endpointurl = "http://localhost:8080/?id=";
+    let endpointurl = "http://localhost:8080/getNoteContent?userID=1&noteID=";
     endpointurl += endpoint;
 
     axios({
@@ -98,7 +98,7 @@ useEffect(() => {
       }
     }).then(res => {
    
-      console.log(res);
+
      
     
     });
@@ -114,7 +114,7 @@ useEffect(() => {
 
 useEffect(() => {
 
-  console.log(editorStatus);
+
 
 }, [editorStatus])
 
