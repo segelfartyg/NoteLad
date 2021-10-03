@@ -42,7 +42,11 @@ export default function Editor(props) {
 
   const showConverter = useRef(false);
 
+  const showmenuArea = useRef(false);
+
   const [converterStyle, setConverterStyle] = useState("EditorConverter");
+
+  const [menuAreaStyle, setMenuAreaStyle] = useState("menuButtonArea");
 
   const currentContent = useRef();
 
@@ -117,12 +121,31 @@ export default function Editor(props) {
   function onMenuClickHandler() {
     if (!showConverter.current) {
       setConverterStyle("EditorConverter animateEditorConverter");
+   
       showConverter.current = true;
+   
     } else {
       setConverterStyle("EditorConverter animateBackEditorConverter");
+   
       showConverter.current = false;
+     
+    }
+
+
+    if (!showmenuArea.current) {
+    
+      setMenuAreaStyle("menuButtonArea animateMenuArea");
+   
+      showmenuArea.current = true;
+    } else {
+    
+      setMenuAreaStyle("menuButtonArea animateBackMenuArea");
+   
+      showmenuArea.current = false;
     }
   }
+
+
 
 
   function onSaveHandler(_cardname, _carddesc){
@@ -135,7 +158,7 @@ export default function Editor(props) {
 
   return (
     <div id="Editor">
-      <div onClick={onMenuClickHandler} className="menuButtonArea">
+      <div onClick={onMenuClickHandler} className={menuAreaStyle}>
         <svg
           className="MenuButton"
           alt="MBUTTON"

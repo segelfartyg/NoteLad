@@ -1,32 +1,142 @@
 
 
-.noteName{
+.EditorConverter{
+  
+  position: absolute;
+  margin-right: 0;
+
+  height: fit-content;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  min-height: 25%;
+      background: rgb(255, 255, 255);
+    
+      filter: drop-shadow(1px -5px 1.5px black);;
+      
+      display: none;
+      /*animation: glide 1s forwards;*/
+  z-index: 4;
+
+
+}
+
+.animateEditorConverter{
+  display: flex;
+  animation: glide 1s forwards;
+}
+
+.animateBackEditorConverter{
+
+
+  display: flex;
+  animation: glider 3s forwards;
+  
+ 
+}
+
+
+
+
+@keyframes glide{
+  0%{
+      transform: translateY(200px);
+
+  }
+  100%{
+
+      transform: translateY(0px);
+  }
+}
+@keyframes glider{
+  0%{
+      transform: translateY(0px);
+
+  }
+  75%{
+    transform: translateY(200px);
+  }
+  100%{
+
+    transform: translateY(1000px);
+      
+ 
+  }
+}
+
+.firstColumn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.middleColumn{
     display: flex;
     flex-direction: row;
 }
 
-.middleCollumn{
-    display: block;
+.lastColumn{
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+
+flex-direction: row;
+align-items: center;
+
 }
+
+.lastColumn div{
+  display: grid;
+ 
+  
+  }
+
+.lastColumn button{
+
+  height: fit-content;
+  width: fit-content;
+  font-family: rig-shaded-light-face,sans-serif;
+  border: black solid 1px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: 10;
+  background: white;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  
+  }
 
 .converterForm{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin: auto;
+    margin-left: 10%;
+    width: 100%;
     
 }
 
 .inputField{
-    display: block;
-    padding: 1rem;
+    display: grid;
+    margin: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    
 }
 
-.inputField label{
-    font-weight: 10;
-   font-size: 1.5rem;
-   padding: 0;
-   margin: 0;
-   height: fit-content;
+#noteNameField{
+  height: fit-content;
+  width: fit-content;
+  font-family: rig-shaded-light-face,sans-serif;
+  border: black solid 1px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: 10;
+  background: white;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
 }
 
@@ -35,8 +145,8 @@
     font-weight: 10;
    font-size: 1.5rem;
    padding: 0;
-   margin: 0;
-   margin-left: 7rem;
+   margin: auto;
+ 
 }
 
 .inputField input{
@@ -52,11 +162,16 @@
     background: white;
     border-radius: 5px;
     
+  
+    
 }
 
 
 .trashBin{
     height:5rem;
+    margin: auto;
+  
+    order: 3;
 }
 
 .cls-11 {
@@ -73,13 +188,17 @@
   }
 
 
-  .lastRow{
-
-    display: flex;
-  }
 
   .backsideText{
-      height: 1rem;
+      height: fit-content;
+      height: fit-content;
+
+      font-family: rig-shaded-light-face,sans-serif;
+      border: black solid 1px;
+      border-radius: 10px;
+      font-size: 1.5rem;
+      font-weight: 10;
+      background: white;
      
   }
 
@@ -103,6 +222,13 @@
       width: 5rem;
       margin: auto;
   }
+
+.cardNameField{
+ display: flex;
+ flex-direction: column;
+  margin: auto;
+}
+
 
 
   .trashBin{

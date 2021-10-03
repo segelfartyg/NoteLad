@@ -9,7 +9,6 @@ export default function Converter(props) {
 
     function onSubmitClick(){
 
-     
         props.onSave(currentNoteName.current.value, currentDesc.current.value);
     }
     
@@ -24,6 +23,87 @@ export default function Converter(props) {
 <div className="converterForm">
 
 <div className="firstColumn">
+
+  <div>
+
+
+  <svg className="baseCard" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 245">
+  <defs>
+    <style>
+     
+    </style>
+  </defs>
+  <rect class="cls-111" x="2.5" y="2.5" width="140" height="240" rx="9.95"/>
+</svg>
+
+
+<svg className="baseCard" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 245">
+  <defs>
+    <style>
+     
+    </style>
+  </defs>
+  <rect class="cls-112" x="2.5" y="2.5" width="140" height="240" rx="9.95"/>
+</svg>
+
+
+
+  </div>
+
+
+<div>
+
+<input type="color"></input>
+<input className="backsideText" type="text" placeholder="Backside text"></input>
+
+
+</div>
+
+</div>
+
+<div className="middleColumn">
+
+  
+<div className="cardNameField">
+ <label id="nameField" for="nameField">CARD NAME:</label>
+ <input id="noteNameField" name="nameField" type="text" ref={currentNoteName}></input>
+
+ {/* <div className="inputField">
+ <label for="descField">DESCRIPTION:</label>
+ <input id="noteDescField" name="descField" type="text" ref={currentDesc}></input>
+ </div> */}
+
+
+
+
+</div>
+
+
+<div>
+
+
+
+
+
+</div>
+
+
+
+
+
+ </div>
+
+<div className="lastColumn">
+<div>
+
+  
+</div>
+
+
+<div>
+<button className="saveCard" onClick={onSubmitClick}>SAVE CARD</button>
+<button className="createCollection">CREATE COLLECTION</button>
+</div>
 
 <svg id="Layer_1" className="trashBin" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
   <defs>
@@ -49,62 +129,6 @@ export default function Converter(props) {
     <path class="trash3" d="M375.67,161.55H562.33c3.7,0,6.67,6.68,6.67,14.95h0c0,8.27-3,14.95-6.67,14.95H375.67c-3.7,0-6.67-6.68-6.67-14.95h0C369,168.23,372,161.55,375.67,161.55Z"/>
   </g>
 </svg>
-
-</div>
-
-<div className="middleColumn">
-<div className="inputField">
- <label id="nameField" for="nameField">CARD:</label>
- <input id="noteNameField" name="nameField" type="text" ref={currentNoteName}></input>
-
- <div className="inputField">
- <label for="descField">DESCRIPTION:</label>
- <input id="noteDescField" name="descField" type="text" ref={currentDesc}></input>
- </div>
-
-
-
-</div>
-
-<div>
-
-
-
-</div>
-
-
-
-
-
- </div>
-
-<div className="lastRow">
-
-<svg className="baseCard" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 245">
-  <defs>
-    <style>
-     
-    </style>
-  </defs>
-  <rect class="cls-111" x="2.5" y="2.5" width="140" height="240" rx="9.95"/>
-</svg>
-
-
-<svg className="baseCard" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 245">
-  <defs>
-    <style>
-     
-    </style>
-  </defs>
-  <rect class="cls-112" x="2.5" y="2.5" width="140" height="240" rx="9.95"/>
-</svg>
-
-<input type="color"></input>
-<input className="backsideText" type="text" placeholder="Backside text"></input>
-<button onClick={onSubmitClick}>SAVE CARD</button>
-<button>CREATE COLLECTION</button>
-
-
 
 </div>
  

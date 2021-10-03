@@ -85,64 +85,47 @@
 }
 
 
-.EditorConverter{
+
+
+.animateMenuArea{
+
+    animation: glidee 1s forwards;
+}
+
+.animateBackMenuArea{
   
-    position: absolute;
-    margin-right: 0;
-    margin-left: 0;
-    height: fit-content;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    min-height: 25%;
-        background: rgb(255, 255, 255);
+    animation: gliderr 2.5s forwards;
+}
+
+@keyframes glidee{
+    0%{
+        transform: translateY(0px);
+
+    }
+    100%{
+
+        transform: translateY(-75%);
+    }
+}
+@keyframes gliderr{
+    0%{
+        transform: translateY(-75%);
+     
+    }
+    100%{
+
+        transform: translateY(0px);
       
-        filter: drop-shadow(1px -5px 1.5px black);;
-        animation: none;
-        display: none;
-        /*animation: glide 1s forwards;*/
-    z-index: 4;
-  
-
-}
-
-.animateEditorConverter{
-    display: flex;
-    animation: glide 1s forwards;
-}
-
-.animateBackEditorConverter{
-    display: flex;
-    animation: glider 1s forwards;
-}
-
-@keyframes glide{
-    0%{
-        transform: translateY(200px);
-
-    }
-    100%{
-
-        transform: translateY(0px);
     }
 }
-@keyframes glider{
-    0%{
-        transform: translateY(0px);
 
-    }
-    100%{
-
-        transform: translateY(300px);
-    }
-}
 
 .menuButtonArea{
   
     background: rgb(255, 255, 255);
     border: solid black;
     border-bottom: none;
-    height: 15%;
+    height: 20%;
     width: fit-content;
     position: absolute;
     background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(190, 190, 190) 100%);
@@ -154,7 +137,8 @@
     margin-left: 10%;
     bottom: 0;
     top: 0;
-    z-index: 5;
+    z-index: 3;
+    
 }
 
 .MenuButton{
