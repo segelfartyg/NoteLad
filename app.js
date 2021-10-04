@@ -77,14 +77,15 @@ const Drugs = new Note({ userid: 1, name: "Drugs", content: "<h1 style='font-siz
 async function getNoteContent(_userID, _postID){
 
   const content = await Note.find()
-  .select({ content: true })
+  .select({ content: true, 
+  noteID: true})
   .where("noteID")
   .equals(_postID)
   .where("userid")
   .equals(_userID)
 
 
-return content[0].content;
+return [content[0].content,  content[0].noteID];
 
 }
 
@@ -167,6 +168,20 @@ app.get("/getNotes", async function (req, res) {
 
    
     });
+
+
+
+    app.post("/delete", async function (req, res) {
+
+ 
+      console.log("RADERAR: ", req.body.noteID);
+      Note.deleteOne({noteID:req.body.noteID},function(err, foundNote){
+        if(!err)
+            console.log(foundNote, " REMOVED");
+    });
+      res.send("DELETED");
+     
+      });
 
 
 

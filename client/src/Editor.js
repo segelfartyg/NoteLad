@@ -150,9 +150,14 @@ export default function Editor(props) {
 
   function onSaveHandler(_cardname, _carddesc){
 
-
     console.log(_cardname, _carddesc);
     props.createPost(_cardname, currentContent.current);
+
+  }
+
+  function onDeleteHandler(){
+
+    props.deletePost();
 
   }
 
@@ -196,7 +201,7 @@ export default function Editor(props) {
       </div>
 
       <div id="container" ref={wrapperRef}></div>
-      <Converter onSave={onSaveHandler} converterStyle={converterStyle}></Converter>
+      <Converter onSave={onSaveHandler} onDelete={onDeleteHandler} converterStyle={converterStyle}></Converter>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-
 import React, {useState, useEffect, useRef} from "react";
 import './App.css';
 import NavBar from "./NavBar";
@@ -16,8 +15,44 @@ function App() {
 
 const [editorStatus, setEditorStatus] = useState("");
 
+const [currentUserID, setCurrentUserID] = useState("1");
+
+const [currentNoteID, setCurrentNoteID] = useState("");
+
+
+const [updated, setUpdated] = useState(false);
+
+
 const [notes, setNotes] = useState([]);
 
+
+
+useEffect(() => {
+  
+
+  let endpointurl = "http://localhost:8080/getNotes?userID=";
+  endpointurl += currentUserID;
+
+  axios({
+    method: "GET",
+    url: endpointurl,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => {
+
+    let templist = [];
+    res.data.map((item) => {
+      if(!templist.includes(item.name)){
+        templist.push([item.name, item.noteID]);
+      }  
+    }
+  )
+  setNotes(templist);  
+});
+setUpdated(false);
+
+}, [updated]);
 
 
 useEffect(() => {
@@ -38,16 +73,9 @@ useEffect(() => {
     res.data.map((item) => {
       if(!templist.includes(item.name)){
         templist.push([item.name, item.noteID]);
-      }
-      
-      
-      
-      
-     
+      }  
     }
-   
   )
-
   setNotes(templist);  
 });
 
@@ -72,8 +100,8 @@ useEffect(() => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-     setEditorStatus(res.data);
-     
+     setEditorStatus(res.data[0]);
+     setCurrentNoteID(res.data[1]);
     
     });
 
@@ -97,19 +125,36 @@ useEffect(() => {
         content : _content
       }
     }).then(res => {
-   
-
-     
-    
+        setUpdated(true); 
     });
+  }
 
+  async function sendDeleteRequest(){
 
+    let endpointurl = "http://localhost:8080/delete";
+    //endpointurl += endpoint;
+
+    axios({
+      method: "POST",
+      url: endpointurl,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data:{
+        noteID: currentNoteID,
+        userID : currentUserID
+      }
+    }).then(res => {
+        setUpdated(true); 
+    });
   }
 
   function createPostHandler(_notename, _currentcontent){
-
-
     sendPostRequest(_notename, _currentcontent);
+  }
+
+  function deletePostHandler(){
+    sendDeleteRequest();
   }
 
 useEffect(() => {
@@ -123,7 +168,7 @@ useEffect(() => {
     <div className="App">
     
         <NavBar noteList={notes} sendGetRequest={sendGetRequest}/>
-        <Editor createPost={createPostHandler} editorStatus={editorStatus}/>
+        <Editor createPost={createPostHandler} editorStatus={editorStatus} deletePost={deletePostHandler}/>
       
         <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
   

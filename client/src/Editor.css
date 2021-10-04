@@ -89,12 +89,12 @@
 
 .animateMenuArea{
 
-    animation: glidee 1s forwards;
+    animation: glidee 0.25s forwards;
 }
 
 .animateBackMenuArea{
   
-    animation: gliderr 2.5s forwards;
+    animation: gliderr 0.25s forwards;
 }
 
 @keyframes glidee{

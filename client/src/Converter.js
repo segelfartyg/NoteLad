@@ -11,6 +11,11 @@ export default function Converter(props) {
 
         props.onSave(currentNoteName.current.value, currentDesc.current.value);
     }
+
+
+    function onDeleteClick(){
+      props.onDelete();
+  }
     
     
     
@@ -105,7 +110,7 @@ export default function Converter(props) {
 <button className="createCollection">CREATE COLLECTION</button>
 </div>
 
-<svg id="Layer_1" className="trashBin" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
+<svg onClick={onDeleteClick} id="Layer_1" className="trashBin" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
   <defs>
     <style>
   

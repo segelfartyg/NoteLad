@@ -23,14 +23,14 @@
 
 .animateEditorConverter{
   display: flex;
-  animation: glide 1s forwards;
+  animation: glide 0.25s forwards;
 }
 
 .animateBackEditorConverter{
 
 
   display: flex;
-  animation: glider 3s forwards;
+  animation: glider 0.25s forwards;
   
  
 }
@@ -40,7 +40,7 @@
 
 @keyframes glide{
   0%{
-      transform: translateY(200px);
+      transform: translateY(75%);
 
   }
   100%{
@@ -53,12 +53,10 @@
       transform: translateY(0px);
 
   }
-  75%{
-    transform: translateY(200px);
-  }
+  
   100%{
 
-    transform: translateY(1000px);
+    transform: translateY(100%);
       
  
   }
