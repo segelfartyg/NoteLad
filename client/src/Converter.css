@@ -239,6 +239,10 @@ align-items: center;
     
   }
 
+  .trashBin:hover .top{
+    animation: flow 0.1s forwards;
+}
+
   .trash, .trash2, .trash3 {
     stroke: #000;
     stroke-miterlimit: 10;
@@ -246,4 +250,17 @@ align-items: center;
 
   .trash3 {
     stroke-width: 30px;
+    /* animation: flow 1s forwards; */
+  }
+
+
+
+  @keyframes flow {
+    0%{
+
+    }
+    100%{
+
+      transform:  translateX(-100px) translateY(100px) rotate(-20deg);
+    }
   }
