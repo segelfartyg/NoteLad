@@ -29,7 +29,7 @@ export default function Converter(props) {
 
 <div className="firstColumn">
 
-  <div>
+  {/* <div>
 
 
   <svg className="baseCard" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 245">
@@ -62,7 +62,7 @@ export default function Converter(props) {
 <input className="backsideText" type="text" placeholder="Backside text"></input>
 
 
-</div>
+</div> */}
 
 </div>
 

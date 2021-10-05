@@ -34,7 +34,7 @@ export default function NavBar(props) {
                
 
                <div className="addNewNoteArea">
-               <img className="addNoteNavBar" src={NoteLadPlus} alt="addNote"></img>
+               <img className="addNoteNavBar" onClick={props.newNote} src={NoteLadPlus} alt="addNote"></img>
 
                </div>
                

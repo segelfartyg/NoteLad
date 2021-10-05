@@ -200,7 +200,44 @@ export default function Editor(props) {
         </svg>
       </div>
 
-      <div id="container" ref={wrapperRef}></div>
+      <div id="container" ref={wrapperRef}>
+
+      <div className="checkBarArea">
+
+      <div className="checkBar">
+
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+            
+            <input type="checkbox"></input>
+            <br></br>
+       
+
+            
+
+      </div>
+      </div> 
+          
+      </div>
+      
       <Converter onSave={onSaveHandler} onDelete={onDeleteHandler} converterStyle={converterStyle}></Converter>
     </div>
   );

@@ -30,6 +30,11 @@ mongoose.connect("mongodb://localhost/NoteLadDB")
 
 const NoteSchema = new mongoose.Schema({
 
+  // noteID:{
+  //   type: Number,
+  //   required: true
+  // },
+
   userid:{
     type: Number,
     required: true,
@@ -50,9 +55,10 @@ const NoteSchema = new mongoose.Schema({
 NoteSchema.plugin(AutoIncrement, {inc_field : "noteID"});
 
 
+
 const Note = mongoose.model("Note", NoteSchema);
 
-const Animals = new Note({ userid: 1, name: "Animals", content: "<h1 style='font-size: 40px'>Animals<h1>"});
+const Animals = new Note({ noteID: 1, userid: 1, name: "Animals", content: "<h1 style='font-size: 40px'>Animals<h1>"});
 
 
 const History = new Note({ userid: 1, name: "History", content: "<h1 style='font-size: 40px'>History<h1>"});
@@ -67,12 +73,19 @@ const Swedish = new Note({ userid: 1, name: "Swedish", content: "<h1 style='font
 
 const Drugs = new Note({ userid: 1, name: "Drugs", content: "<h1 style='font-size: 40px'>Drugs<h1>"});
 
-// Animals.save();
+//Animals.save();
 // History.save();
 // English.save();
 // Swedish.save();
 // Drugs.save();
 
+
+
+// RESET THE NOTEID COUNTER:
+
+// Note.counterReset('noteID', function(err) {
+//   // Now the counter is 0
+// });
 
 async function getNoteContent(_userID, _postID){
 
@@ -84,9 +97,59 @@ async function getNoteContent(_userID, _postID){
   .where("userid")
   .equals(_userID)
 
+console.log(content[0].content);
 
-return [content[0].content,  content[0].noteID];
+let arranged = content[0].content;
+console.log("FÖRE: " + arranged);
+console.log("EFTER: " + addClassToParagraphs(arranged));
+console.log(arranged);
+return [addClassToParagraphs(arranged),  content[0].noteID];
 
+}
+
+
+function addClassToParagraphs(_html){
+
+
+  let temp = "";
+  let counted = 0;
+
+  console.log("HTML: " + _html)
+for(let i = 0; i < _html.length; i++){
+
+
+
+
+  if(_html[i] == "<" && counted == 0){
+
+    temp += "<";
+    
+    if(_html[i + 1] == "p"){
+   
+      temp += "p class='TEST'>";
+      counted =  3;
+    }
+  
+  }
+  else if(counted == 0){
+
+  temp += _html[i];
+
+  }
+
+ 
+  if(counted > 0){
+    counted--;
+  }
+
+
+
+
+
+
+}
+
+return temp;
 }
 
 

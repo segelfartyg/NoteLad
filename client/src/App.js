@@ -100,7 +100,9 @@ useEffect(() => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-     setEditorStatus(res.data[0]);
+     console.log(res.data[0]);
+      setEditorStatus(res.data[0]);
+     
      setCurrentNoteID(res.data[1]);
     
     });
@@ -155,6 +157,7 @@ useEffect(() => {
 
   function deletePostHandler(){
     sendDeleteRequest();
+    setEditorStatus("");
   }
 
 useEffect(() => {
@@ -164,10 +167,16 @@ useEffect(() => {
 }, [editorStatus])
 
 
+function onNewNoteHandler(){
+
+  setEditorStatus("");
+}
+
+
   return (
     <div className="App">
     
-        <NavBar noteList={notes} sendGetRequest={sendGetRequest}/>
+        <NavBar newNote={onNewNoteHandler} noteList={notes} sendGetRequest={sendGetRequest}/>
         <Editor createPost={createPostHandler} editorStatus={editorStatus} deletePost={deletePostHandler}/>
       
         <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>

@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
  
+ 
 }
 
 @keyframes shading {
@@ -52,6 +53,7 @@
 }
 
 .ql-editor{
+    
     width: 8.5in;
     min-height: 11in;
     padding: 1in;
@@ -66,9 +68,11 @@
 
 
 .ql-container.ql-snow{
-    display: flex; 
+     display: flex;
     justify-content: center;
     border: none;
+    order: 2;
+    
 }
 
 .ql-toolbar.ql-snow{
@@ -82,8 +86,48 @@
     filter: drop-shadow(1px 5px 1.5px black);
     height: 3rem;
     border: none;
+    order: 1;
+    z-index: 2;
 }
 
+.TEST{
+    background: green;
+}
+
+#container{
+
+display: grid;
+grid-template-columns: 1fr;
+position: relative;
+
+}
+.checkBarArea{
+   
+    height: 100%;
+    width: 100%;
+    order: 2;
+    display: grid;
+    grid-template-columns: 1fr 8.5in 1fr;
+    position: absolute;
+    margin-bottom: 5rem;
+ 
+}
+
+.checkBar{
+    
+  height: fit-content;
+  width: 100px;
+  background: white;
+  border: solid black;
+  border-right: none;
+  margin: auto;
+  margin-right: 0;
+  margin-top: 8rem;
+  z-index: 2;
+ 
+  
+
+}
 
 
 
@@ -177,5 +221,11 @@
     stroke-width: 30px;
     animation: none;
   }
+
+
+
+
+
+
 
 
