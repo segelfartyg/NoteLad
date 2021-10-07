@@ -14,7 +14,7 @@
 
   .addNoteNavBar{
     width: 2rem;
-    filter: drop-shadow(0.0rem 0.0rem 0.45rem rgb(255, 0, 0));
+    filter: drop-shadow(0.0rem 0.0rem 0.45rem rgb(0, 0, 0));
     margin: auto;
     animation: pulse 5s infinite;
   }
@@ -52,7 +52,7 @@
         filter: drop-shadow(0rem 0rem 0.25rem black);
     }
     50%{
-        filter: drop-shadow(0rem 0rem 0.50rem rgb(255, 0, 0));
+        filter: drop-shadow(0rem 0rem 0.50rem rgb(0, 0, 0));
     }
     100%{
        

@@ -160,12 +160,17 @@ useEffect(() => {
     setEditorStatus("");
   }
 
-useEffect(() => {
+// useEffect(() => {
 
 
 
-}, [editorStatus])
+// }, [editorStatus])
+function setEditorStatusHandler(content){
 
+setEditorStatus(content);
+
+
+}
 
 function onNewNoteHandler(){
 
@@ -177,7 +182,7 @@ function onNewNoteHandler(){
     <div className="App">
     
         <NavBar newNote={onNewNoteHandler} noteList={notes} sendGetRequest={sendGetRequest}/>
-        <Editor createPost={createPostHandler} editorStatus={editorStatus} deletePost={deletePostHandler}/>
+        <Editor createPost={createPostHandler} editorStatus={editorStatus} setEditorStatus={setEditorStatusHandler} deletePost={deletePostHandler}/>
       
         <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
   

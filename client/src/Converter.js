@@ -18,7 +18,10 @@ export default function Converter(props) {
   }
     
     
-    
+    function onSetShowModeHandler(){
+
+      props.onSetShowMode(true);
+    }
     
     return (
         <div>
@@ -29,6 +32,8 @@ export default function Converter(props) {
 
 <div className="firstColumn">
 
+
+  <button onClick={onSetShowModeHandler}>SWITCH TO SHOWMODE</button>
   {/* <div>
 
 

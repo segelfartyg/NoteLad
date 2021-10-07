@@ -1,0 +1,57 @@
+
+.mirrorArea{
+   
+    height: 98%;
+    width: 100%;
+    order: 2;
+    display: grid;
+    grid-template-columns: 1fr 8.5in 1fr;
+    position: absolute;
+  z-index: 0;
+
+}
+
+.show{
+  z-index: 2;
+}
+
+.mirrorMainArea{
+    height: 100%;
+    width: 100%;
+    background: rgb(255, 255, 255);
+    margin-top: 8rem;
+
+
+   
+    opacity: 1;
+}
+
+.leftArea{
+    
+  height: fit-content;
+  width: 100px;
+  background: white;
+
+  border-right: none;
+  margin: auto;
+  margin-right: 0;
+  margin-top: 8rem;
+  z-index: 2;
+ 
+  
+
+}
+
+.rightArea{
+
+
+}
+
+
+.NoteLadMovable{
+    
+}
+
+.content{
+    user-select: none;
+}

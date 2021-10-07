@@ -7,6 +7,7 @@ import ImageResize from "quill-image-resize-module-react";
 import "./Editor.css";
 import MenuButton from "./menubutton.svg";
 import Converter from "./Converter";
+import Mirror from "./Mirror";
 const axios = require("axios");
 
 var toolbarOptions = [
@@ -34,7 +35,7 @@ export default function Editor(props) {
 
   useEffect(() => {
     if (quill == null) return;
-
+  
     quill.root.innerHTML = props.editorStatus;
   }, [props.editorStatus]);
 
@@ -44,12 +45,15 @@ export default function Editor(props) {
 
   const showmenuArea = useRef(false);
 
+  const [components, setComponents] = useState([]);
+
+  const [showShowMode, setShowShowMode] = useState(false);
+
   const [converterStyle, setConverterStyle] = useState("EditorConverter");
 
   const [menuAreaStyle, setMenuAreaStyle] = useState("menuButtonArea");
 
-  const currentContent = useRef();
-
+  const currentContent = useRef("");
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -85,14 +89,16 @@ export default function Editor(props) {
     });
   }, [quill]);
 
-
   useEffect(() => {
     if (quill == null) return;
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return
-      currentContent.current = quill.root.innerHTML;
-      console.log(currentContent.current);
+      //currentContent.current = quill.root.innerHTML;
+
+      currentContent.current = makeComponentsFromContent(quill.root.innerHTML);
+
+      console.log("NUVARANDE: " +currentContent.current);
     }
     quill.on("text-change", handler)
 
@@ -102,9 +108,68 @@ export default function Editor(props) {
    
   }, [quill]);
 
+  function makeComponentsFromContent(content) {
+    let temp = "";
+    let counted = 0;
+    let components = [];
+    let component = "";
+    console.log("HTML: " + content);
+    let tagid = 1;
+    for (let i = 0; i < content.length; i++) {
+      if (content[i] == "<" && counted == 0) {
+        temp += "<";
+        component += "<";
+        if (content[i + 1] == "p") {
+          temp += "p id=" + tagid + ">";
+          component += "p id=" + tagid + ">";
+          tagid++;
+          counted = 3;
+        }
 
+        if (content[i + 1] == "h") {
+          if (content[i + 2] == "1") {
+            temp += "h1 id=" + tagid + ">";
+            component += "h1 id=" + tagid + ">";
+            tagid++;
+            counted = 4;
+          }
 
- 
+          if (content[i + 2] == "2") {
+            temp += "h2 id=" + tagid + ">";
+            component += "h2 id=" + tagid + ">";
+            tagid++;
+            counted = 4;
+          }
+
+          if (content[i + 2] == "3") {
+            temp += "h3 id=" + tagid + ">";
+            component += "h3 id=" + tagid + ">";
+            tagid++;
+            counted = 4;
+          }
+        }
+      } 
+      else if (content[i] != ">" && counted == 0) {
+        temp += content[i];
+        component += content[i];
+      }
+      if (content[i] == ">" && counted == 0) {
+        component += ">";
+        components.push(component);
+        component = "";
+        temp += ">";
+      }
+
+      if (counted > 0) {
+        counted--;
+      }
+    }
+
+    setComponents(components);
+    console.log(components);
+    console.log(temp);
+    return temp;
+  }
 
   // useEffect(() => {
 
@@ -121,44 +186,64 @@ export default function Editor(props) {
   function onMenuClickHandler() {
     if (!showConverter.current) {
       setConverterStyle("EditorConverter animateEditorConverter");
-   
+
       showConverter.current = true;
-   
     } else {
       setConverterStyle("EditorConverter animateBackEditorConverter");
-   
+
       showConverter.current = false;
-     
     }
 
-
     if (!showmenuArea.current) {
-    
       setMenuAreaStyle("menuButtonArea animateMenuArea");
-   
+
       showmenuArea.current = true;
     } else {
-    
       setMenuAreaStyle("menuButtonArea animateBackMenuArea");
-   
+
       showmenuArea.current = false;
     }
   }
 
-
-
-
-  function onSaveHandler(_cardname, _carddesc){
-
+  function onSaveHandler(_cardname, _carddesc) {
     console.log(_cardname, _carddesc);
     props.createPost(_cardname, currentContent.current);
-
   }
 
-  function onDeleteHandler(){
-
+  function onDeleteHandler() {
     props.deletePost();
+  }
 
+
+  function test(){
+
+    console.log(currentContent.current);
+    quill.root.innerHTML = makeComponentsFromContent(currentContent.current);
+  }
+
+  useEffect(() => {
+    if (quill == null) return;
+    if(currentContent.current == null || ""){
+
+    }
+    else if(quill.root.innerHTML != null || quill.root.innerHTML == ""){
+      quill.root.innerHTML = currentContent.current;
+    }
+     
+   
+  }, [showShowMode]);
+
+  function onSetShowModeHandler() {
+    if (showShowMode) {
+      console.log("set to falase");
+      setShowShowMode(false);
+    } else {
+      console.log("SET TO TRU");
+
+      setShowShowMode(true);
+
+     
+    }
   }
 
   return (
@@ -201,44 +286,15 @@ export default function Editor(props) {
       </div>
 
       <div id="container" ref={wrapperRef}>
-
-      <div className="checkBarArea">
-
-      <div className="checkBar">
-
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-            
-            <input type="checkbox"></input>
-            <br></br>
-       
-
-            
-
+        <Mirror components={components} showMode={showShowMode}></Mirror>
       </div>
-      </div> 
-          
-      </div>
-      
-      <Converter onSave={onSaveHandler} onDelete={onDeleteHandler} converterStyle={converterStyle}></Converter>
+
+      <Converter
+        onSetShowMode={onSetShowModeHandler}
+        onSave={onSaveHandler}
+        onDelete={onDeleteHandler}
+        converterStyle={converterStyle}
+      ></Converter>
     </div>
   );
 }
