@@ -19,6 +19,7 @@ export default function NoteLadMovable(props) {
         let addToContent = false;
         let compID = "";
         let compStyle = "";
+        let foundID = false;
 
         for (let i = 0; i < component.length; i++) {
           if (component[i] == "<") {
@@ -31,7 +32,8 @@ export default function NoteLadMovable(props) {
 
         if(!addToContent){
 
-            if(component[i] == "i"){
+            if(component[i] == "i" && !foundID){
+                
                 if(component[i + 1] == "d"){
                     if(component[i+2] == "="){
                         if(component[i+3] != ">"){
@@ -43,6 +45,8 @@ export default function NoteLadMovable(props) {
 
                     }
                 }
+
+                
             }
 
             if(component[i] == "p"){
@@ -69,12 +73,13 @@ export default function NoteLadMovable(props) {
         }
 
         if(component[i] == ">"){
+            foundID = true;
             addToContent = true;
         }
         
         
         
-        else if(addToContent){
+        else if(addToContent && foundID){
             temp += component[i];     
         }
         

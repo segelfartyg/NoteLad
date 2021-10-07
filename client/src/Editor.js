@@ -115,61 +115,108 @@ export default function Editor(props) {
     let component = "";
     console.log("HTML: " + content);
     let tagid = 1;
+    let foundID = false;
+    let acceptable = true;
+    let newID = 1;
+
+    let closed = 0;
+
+    let tagfound = false;
+
     for (let i = 0; i < content.length; i++) {
-      if (content[i] == "<" && counted == 0) {
-        temp += "<";
-        component += "<";
-        if (content[i + 1] == "p") {
-          temp += "p id=" + tagid + ">";
-          component += "p id=" + tagid + ">";
-          tagid++;
-          counted = 3;
-        }
 
-        if (content[i + 1] == "h") {
-          if (content[i + 2] == "1") {
-            temp += "h1 id=" + tagid + ">";
-            component += "h1 id=" + tagid + ">";
-            tagid++;
-            counted = 4;
+      if(content[i] == "<"){
+
+        
+          if(!foundID){
+            if(content[i] == "i"){
+              foundID = true;
+              acceptable = false;
+            }
+
+            if(content[i] == "i" && !foundID){
+              tagid = content[i] + "d=" + content[i + 3];
+
+              temp += tagid;
+              component += tagid
+
+              foundID = true;
+              acceptable = false;   
+            }
           }
 
-          if (content[i + 2] == "2") {
-            temp += "h2 id=" + tagid + ">";
-            component += "h2 id=" + tagid + ">";
-            tagid++;
-            counted = 4;
-          }
+      }
 
-          if (content[i + 2] == "3") {
-            temp += "h3 id=" + tagid + ">";
-            component += "h3 id=" + tagid + ">";
-            tagid++;
-            counted = 4;
-          }
-        }
-      } 
-      else if (content[i] != ">" && counted == 0) {
+      if(acceptable){
         temp += content[i];
+
+  
         component += content[i];
+        console.log("TEMP:::: " + temp);
+        console.log("COMPPP:::: " + component);
+        if(content[i] == ">"){
+
+
+          closed++;
+          if(!foundID){
+
+            //console.log("EYYYYY: " + component[component.length - 1]);
+
+            console.log("STRÄNG INNNAN: " + component);
+
+            let newcomponent = "";
+            for(let j = 0; j < component.length - 1; j++){
+              newcomponent += component[j];
+            }
+          
+            newcomponent += " id=" + newID + ">";
+            component = newcomponent;
+
+            console.log("STRÄNG EFTER: " + component);
+
+            
+            let newtemp = "";
+            for(let j = 0; j < temp.length - 1; j++){
+              newtemp += temp[j];
+            }
+          
+            temp = newtemp;
+            temp += " id=" + newID + ">";
+            newID++;
+
+            foundID = true;
+          }
+
+          if(closed == 2){
+
+            components.push(component);
+            component = "";
+            closed = 0;
+            foundID = false;
+           
+          }
+        
+        }
+        
       }
-      if (content[i] == ">" && counted == 0) {
-        component += ">";
-        components.push(component);
-        component = "";
-        temp += ">";
+      else{
+        acceptable = true;
       }
 
-      if (counted > 0) {
-        counted--;
-      }
+
+     
     }
 
-    setComponents(components);
+    setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
     console.log(components);
-    console.log(temp);
+    console.log(temp); //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
     return temp;
   }
+
+  function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substring(0,index) + chr + str.substring(index+1);
+}
 
   // useEffect(() => {
 
