@@ -55,6 +55,8 @@ export default function Editor(props) {
 
   const currentContent = useRef("");
 
+  const compIDs = useRef([]);
+
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
@@ -98,7 +100,7 @@ export default function Editor(props) {
 
       currentContent.current = makeComponentsFromContent(quill.root.innerHTML);
 
-      console.log("NUVARANDE: " +currentContent.current);
+  
     }
     quill.on("text-change", handler)
 
@@ -109,11 +111,16 @@ export default function Editor(props) {
   }, [quill]);
 
   function makeComponentsFromContent(content) {
+
+
+    console.log(quill.getText());
+
+
     let temp = "";
-    let counted = 0;
+ 
     let components = [];
     let component = "";
-    console.log("HTML: " + content);
+
     let tagid = 1;
     let foundID = false;
     let acceptable = true;
@@ -121,7 +128,7 @@ export default function Editor(props) {
 
     let closed = 0;
 
-    let tagfound = false;
+
 
     for (let i = 0; i < content.length; i++) {
 
@@ -136,7 +143,9 @@ export default function Editor(props) {
 
             if(content[i] == "i" && !foundID){
               tagid = content[i] + "d=" + content[i + 3];
-
+              if(compIDs.current.contains(tagid[3])){
+                console.log("TAGGID: " + tagid[3]);
+              }
               temp += tagid;
               component += tagid
 
@@ -152,8 +161,7 @@ export default function Editor(props) {
 
   
         component += content[i];
-        console.log("TEMP:::: " + temp);
-        console.log("COMPPP:::: " + component);
+     
         if(content[i] == ">"){
 
 
@@ -162,7 +170,7 @@ export default function Editor(props) {
 
             //console.log("EYYYYY: " + component[component.length - 1]);
 
-            console.log("STRÄNG INNNAN: " + component);
+            
 
             let newcomponent = "";
             for(let j = 0; j < component.length - 1; j++){
@@ -172,7 +180,7 @@ export default function Editor(props) {
             newcomponent += " id=" + newID + ">";
             component = newcomponent;
 
-            console.log("STRÄNG EFTER: " + component);
+ 
 
             
             let newtemp = "";
@@ -208,15 +216,11 @@ export default function Editor(props) {
     }
 
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
-    console.log(components);
-    console.log(temp); //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
+ //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
     return temp;
   }
 
-  function setCharAt(str,index,chr) {
-    if(index > str.length-1) return str;
-    return str.substring(0,index) + chr + str.substring(index+1);
-}
+
 
   // useEffect(() => {
 
@@ -253,7 +257,8 @@ export default function Editor(props) {
   }
 
   function onSaveHandler(_cardname, _carddesc) {
-    console.log(_cardname, _carddesc);
+
+    
     props.createPost(_cardname, currentContent.current);
   }
 
@@ -262,11 +267,6 @@ export default function Editor(props) {
   }
 
 
-  function test(){
-
-    console.log(currentContent.current);
-    quill.root.innerHTML = makeComponentsFromContent(currentContent.current);
-  }
 
   useEffect(() => {
     if (quill == null) return;
@@ -282,10 +282,10 @@ export default function Editor(props) {
 
   function onSetShowModeHandler() {
     if (showShowMode) {
-      console.log("set to falase");
+
       setShowShowMode(false);
     } else {
-      console.log("SET TO TRU");
+
 
       setShowShowMode(true);
 
@@ -307,25 +307,26 @@ export default function Editor(props) {
           <defs></defs>
           <g>
             <path
-              class="cls-1"
+              className="cls-1"
               d="M469,925C217.09,924.84,13,720.5,13.16,468.6A456.14,456.14,0,0,1,291.5,48.83C523.56-49.2,791.15,59.5,889.18,291.5S878.56,791.14,646.5,889.17A452.83,452.83,0,0,1,469,925Z"
             />
             <path
-              class="cls-2"
+              className="cls-2"
               d="M469,25.5c245,.18,443.48,199,443.3,444A443.63,443.63,0,0,1,641.62,877.7C415.92,973,155.68,867.36,60.34,641.7s10.34-485.94,236-581.28A440.69,440.69,0,0,1,469,25.5m0-25C210.25.5.5,210.25.5,469S210.25,937.5,469,937.5,937.5,727.75,937.5,469,727.75.5,469,.5Z"
             />
           </g>
           <g>
             <path
-              class="cls-3 first"
+              className="cls-3 first"
               d="M679,384H259a15,15,0,0,1-15-15h0a15,15,0,0,1,15-15H679a15,15,0,0,1,15,15h0A15,15,0,0,1,679,384Z"
             />
             <path
-              class="cls-3"
+              className="cls-3"
               d="M726.6,484H211.4c-10.16,0-18.4-6.72-18.4-15h0c0-8.28,8.24-15,18.4-15H726.6c10.16,0,18.4,6.72,18.4,15h0C745,477.28,736.76,484,726.6,484Z"
             />
             <path
-              class="cls-3"
+              className
+              ="cls-3"
               d="M679,584H259a15,15,0,0,1-15-15h0a15,15,0,0,1,15-15H679a15,15,0,0,1,15,15h0A15,15,0,0,1,679,584Z"
             />
           </g>

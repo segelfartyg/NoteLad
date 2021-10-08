@@ -22,7 +22,7 @@ export default function Mirror(props) {
 
     const components = props.components.map((component) => <NoteLadMovable componentData={component}>{}</NoteLadMovable>);
 
-    console.log(components);
+
 
 
 

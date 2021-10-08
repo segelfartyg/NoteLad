@@ -82,7 +82,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  console.log("UPDATING NOTELIST FROM APPLAYER: ", notes);
+  
   
 }, [notes])
 
@@ -100,7 +100,7 @@ useEffect(() => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-     console.log(res.data[0]);
+
       setEditorStatus(res.data[0]);
      
      setCurrentNoteID(res.data[1]);

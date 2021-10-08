@@ -14,7 +14,7 @@ export default function NoteLadMovable(props) {
 
       
       
-        let counted = 0;
+        let count = 0;
         let temp = "";
         let addToContent = false;
         let compID = "";
@@ -80,7 +80,26 @@ export default function NoteLadMovable(props) {
         
         
         else if(addToContent && foundID){
-            temp += component[i];     
+
+            if(component[i] + component[i+1] + component[i+2] == "&lt"){
+                temp += "<";
+                count = 4;
+            }
+
+            if(component[i] + component[i+1] + component[i+2] == "&gt"){
+                temp += ">";
+                count = 4;
+            }
+           
+          if(count == 0){
+                temp += component[i];  
+                
+            }
+            else{
+                count--;  
+            }
+            
+          
         }
         
        
