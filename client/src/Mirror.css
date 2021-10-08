@@ -16,6 +16,7 @@
 }
 
 .mirrorMainArea{
+    display: flex;
     height: 100%;
     width: 100%;
     background: rgb(255, 255, 255);

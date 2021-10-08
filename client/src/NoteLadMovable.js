@@ -8,7 +8,7 @@ export default function NoteLadMovable(props) {
     
     let style = "NoteLadMovable ";
 
-    console.log("FRÅN MOVABLE: " + props.componentData)
+
     
     function componentFiltering(component){
 
@@ -56,18 +56,20 @@ export default function NoteLadMovable(props) {
 
             if(component[i] + component[i+1]== "h1"){
 
-                    compStyle = "h1"
+                    compStyle = "h1";
+                    style += " h1";
             }
 
             if(component[i] + component[i+1]== "h2"){
-                compStyle = "h2"
-
+                compStyle = "h2";
+                style += " h2";
             }
 
             
             if(component[i] + component[i+1]== "h3"){
 
-                compStyle = "h3"
+                compStyle = "h3";
+                style += " h3";
             }
 
         }
@@ -105,6 +107,8 @@ export default function NoteLadMovable(props) {
        
     }
 
+
+    
     console.log(compID);
     console.log(compStyle);
     return [temp, compID, compStyle];
