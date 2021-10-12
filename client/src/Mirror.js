@@ -17,10 +17,14 @@ export default function Mirror(props) {
         style = "mirrorArea ";
     }
 
-    
+    function sendMovableData(data){
 
 
-    const components = props.components.map((component) => <NoteLadMovable componentData={component}>{}</NoteLadMovable>);
+      props.sendMovableDataFromMirror(data);
+    }
+
+
+    const components = props.components.map((component) => <NoteLadMovable sendMovableData={sendMovableData} componentData={component}>{}</NoteLadMovable>);
 
 
 

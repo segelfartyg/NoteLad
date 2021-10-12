@@ -8,12 +8,8 @@ export default function NoteLadMovable(props) {
     
     let style = "NoteLadMovable ";
 
-
-    
     function componentFiltering(component){
-
-      
-      
+ 
         let count = 0;
         let temp = "";
         let addToContent = false;
@@ -23,30 +19,23 @@ export default function NoteLadMovable(props) {
 
         for (let i = 0; i < component.length; i++) {
           if (component[i] == "<") {
-           
-            addToContent = false;
-
-            
-          
+            addToContent = false;    
         }
 
         if(!addToContent){
-
             if(component[i] == "i" && !foundID){
                 
                 if(component[i + 1] == "d"){
                     if(component[i+2] == "="){
                         if(component[i+3] != ">"){
-                            compID += component[i+3];
+                            compID = component[i+3];
                             if(component[i+4] != ">"){
-                                compID += component[i+4];
+                                compID = component[i+4];
                             }
                         }
 
                     }
-                }
-
-                
+                }           
             }
 
             if(component[i] == "p"){
@@ -64,23 +53,21 @@ export default function NoteLadMovable(props) {
                 compStyle = "h2";
                 style += " h2";
             }
-
-            
+    
             if(component[i] + component[i+1]== "h3"){
 
                 compStyle = "h3";
                 style += " h3";
             }
-
         }
 
         if(component[i] == ">"){
+
+
             foundID = true;
             addToContent = true;
         }
-        
-        
-        
+             
         else if(addToContent && foundID){
 
             if(component[i] + component[i+1] + component[i+2] == "&lt"){
@@ -92,25 +79,23 @@ export default function NoteLadMovable(props) {
                 temp += ">";
                 count = 4;
             }
-           
+   
           if(count == 0){
                 temp += component[i];  
                 
             }
             else{
                 count--;  
-            }
-            
-          
-        }
-        
-       
+            } 
+        }   
     }
 
 
     
     console.log(compID);
     console.log(compStyle);
+
+    console.log("TEMP: ÄR : " + temp)
     return [temp, compID, compStyle];
 }
 
@@ -122,6 +107,8 @@ export default function NoteLadMovable(props) {
     
     console.log(movableSettings.current);
    
+
+    props.sendMovableData(movableSettings.current);
   
     
     

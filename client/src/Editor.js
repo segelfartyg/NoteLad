@@ -55,7 +55,15 @@ export default function Editor(props) {
 
   const currentContent = useRef("");
 
-  const compIDs = useRef([]);
+  const movableList = useRef([]);
+
+  const allComponents = useRef("");
+
+  const allIDs = useRef([1]);
+
+  const tagSettings = useRef([["Samuel", 1, "p"], ["Woho", 2, "p"]]);
+
+
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -110,111 +118,153 @@ export default function Editor(props) {
    
   }, [quill]);
 
+
+function arrangeHTMLTAG(content, id, type){
+
+
+if(tagSettings.current[0][1]){
+
+}
+
+return "<" + type + " id="+ id + ">" + content + "</" + type + ">"; 
+
+
+}
+
+
+
+
   function makeComponentsFromContent(content) {
 
+    allComponents.current = "";
 
-    console.log(quill.getText());
-
+  
 
     let temp = "";
  
     let components = [];
     let component = "";
 
-    let tagid = 1;
+    let tagid = "";
+    let secondtagid = "";
+
     let foundID = false;
+    let secondfoundID = false;
     let acceptable = true;
     let newID = 1;
 
-    let closed = 0;
+    let closed = 2;
 
 
+   
+ 
 
     for (let i = 0; i < content.length; i++) {
 
-      if(content[i] == "<"){
 
-        
-          if(!foundID){
-            if(content[i] == "i"){
-              foundID = true;
-              acceptable = false;
-            }
 
-            if(content[i] == "i" && !foundID){
-              tagid = content[i] + "d=" + content[i + 3];
-              if(compIDs.current.contains(tagid[3])){
-                console.log("TAGGID: " + tagid[3]);
-              }
-              temp += tagid;
-              component += tagid
 
-              foundID = true;
-              acceptable = false;   
-            }
-          }
-
+      if(content[i] == "<")
+      {
+   
+        acceptable = false; 
+        temp += "<";
+        component += "<";
       }
+
+
+      if(!foundID && closed == 2){
+     
+        if(content[i] == "i" && !foundID){
+          tagid = content[i] + "d=" + content[i + 3];  
+       
+          foundID = true;
+      
+          acceptable = false;     
+        }
+      }
+
+      if(foundID && closed == 2){
+ 
+        if(content[i] == 'i'){
+          secondtagid = content[i] + 'd="' + content[i + 4];
+         
+          secondfoundID = true;   
+          acceptable = false;   
+        }
+      }
+
+      if(content[i] == ">"){
+     
+     
+        if(closed == 2){
+
+          if(secondfoundID){
+            temp += secondtagid;
+            component += secondtagid;
+          }
+          if(!secondfoundID && foundID){
+            temp += tagid;
+            component += tagid;
+          }
+          if(!secondfoundID && !foundID){
+            
+            newID++;
+            temp += " id=" + newID;
+            component += " id=" + newID;
+
+
+     
+            
+            
+          }
+        
+        acceptable = true;
+        closed--;
+
+
+
+
+        }
+        else{
+          closed--;
+        }
+          
+      }
+
+
+     
+
+     
+
 
       if(acceptable){
         temp += content[i];
-
-  
         component += content[i];
+    
      
-        if(content[i] == ">"){
-
-
-          closed++;
-          if(!foundID){
-
-            //console.log("EYYYYY: " + component[component.length - 1]);
-
             
-
-            let newcomponent = "";
-            for(let j = 0; j < component.length - 1; j++){
-              newcomponent += component[j];
-            }
-          
-            newcomponent += " id=" + newID + ">";
-            component = newcomponent;
-
- 
-
-            
-            let newtemp = "";
-            for(let j = 0; j < temp.length - 1; j++){
-              newtemp += temp[j];
-            }
-          
-            temp = newtemp;
-            temp += " id=" + newID + ">";
-            newID++;
-
-            foundID = true;
-          }
-
-          if(closed == 2){
-
-            components.push(component);
-            component = "";
-            closed = 0;
-            foundID = false;
-           
-          }
-        
-        }
-        
       }
       else{
         acceptable = true;
       }
 
+      if(closed == 0){
+        components.push(component);
+     
+        component = "";
+        closed = 2;
+   
+      }
 
      
     }
 
+
+   components.forEach(element => allComponents.current += element);
+
+  
+    
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
  //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
     return temp;
@@ -274,7 +324,8 @@ export default function Editor(props) {
 
     }
     else if(quill.root.innerHTML != null || quill.root.innerHTML == ""){
-      quill.root.innerHTML = currentContent.current;
+      // quill.root.innerHTML = allComponents.current;
+      
     }
      
    
@@ -291,6 +342,46 @@ export default function Editor(props) {
 
      
     }
+  }
+
+  function sendMovableData(data){
+
+    let changed = false;
+    console.log(data[1]);
+
+    if(movableList.current.length < 1){
+      movableList.current.push(data);
+
+    }
+
+    else{
+
+
+      for(let i = 0; i < movableList.current.length; i++){
+
+        if(data[1] == movableList.current[i][1]){
+
+          
+          movableList.current[i][0] = data[0];
+          movableList.current[i][2] = data[2];
+          changed = true;
+        }
+       
+  
+      }
+
+      if(!changed){
+        movableList.current.push(data);
+        changed = false;
+      }
+
+    }
+
+  
+
+
+   console.log(movableList.current);
+    
   }
 
   return (
@@ -334,7 +425,7 @@ export default function Editor(props) {
       </div>
 
       <div id="container" ref={wrapperRef}>
-        <Mirror components={components} showMode={showShowMode}></Mirror>
+        <Mirror sendMovableDataFromMirror={sendMovableData} components={components} showMode={showShowMode}></Mirror>
       </div>
 
       <Converter
