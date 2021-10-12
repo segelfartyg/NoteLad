@@ -151,79 +151,113 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
     let foundID = false;
     let secondfoundID = false;
     let acceptable = true;
-    let newID = 1;
+    let newID = 0;
+    let acceptableLength = 0;
+    let closed = 4;
 
-    let closed = 2;
+    let bannedTags = [];
 
-
-   
+    let approvedTag = false;
  
 
     for (let i = 0; i < content.length; i++) {
 
 
 
+      console.log("SHOW:::: " +content[i]);
+      if(content[i] == "<" && content[i+1] == "p"){
 
-      if(content[i] == "<")
+        approvedTag = true;
+
+      }
+
+
+
+
+
+
+
+      if(content[i] + content[i+1] == "<p" && approvedTag)
       {
    
         acceptable = false; 
-        temp += "<";
-        component += "<";
+        temp += "<p";
+        component += "<p";
+        console.log("ADDAS: :::" + "<p");
+        closed--;
+      }
+
+      
+      if(content[i] + content[i+1] == "</" && approvedTag)
+      {
+   
+        acceptable = false; 
+        temp += "</p";
+        component += "</p>";
+        console.log("ADDAS: :::" + "<p>");
+        closed--;
       }
 
 
-      if(!foundID && closed == 2){
+      if(!foundID && closed == 3 && approvedTag){
      
         if(content[i] == "i" && !foundID){
-          tagid = content[i] + "d=" + content[i + 3];  
+          tagid = " id=" + content[i + 4];  
        
           foundID = true;
       
-          acceptable = false;     
+          acceptable = false;  
+          
+          console.log("FIRSPROBLEM");
         }
       }
 
-      if(foundID && closed == 2){
+      else if(foundID && closed > 3 && approvedTag){
  
         if(content[i] == 'i'){
-          secondtagid = content[i] + 'd="' + content[i + 4];
+          secondtagid = ' id=' + content[i + 4];
          
           secondfoundID = true;   
           acceptable = false;   
+
+          
+          console.log("SECPROBLEM");
         }
       }
 
-      if(content[i] == ">"){
+      if(content[i] == ">" && approvedTag){
+        acceptable = true;
      
-     
-        if(closed == 2){
+        if(closed == 3){
 
           if(secondfoundID){
             temp += secondtagid;
             component += secondtagid;
+            console.log("ADDAS: :::" + secondtagid);
+
+            secondfoundID = false;
           }
-          if(!secondfoundID && foundID){
+          else if(!secondfoundID && foundID){
             temp += tagid;
             component += tagid;
+            console.log("ADDAS: :::" + tagid);
+
+            foundID = false;
           }
-          if(!secondfoundID && !foundID){
+          else if(!secondfoundID && !foundID){
             
+            secondfoundID = false;
+            foundID = false;
+
+         
             newID++;
             temp += " id=" + newID;
             component += " id=" + newID;
-
-
-     
-            
-            
+            console.log("ADDAS: :::" + " id=" + newID);
           }
         
-        acceptable = true;
+       
         closed--;
-
-
-
 
         }
         else{
@@ -232,40 +266,72 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
           
       }
 
+      if(acceptable && approvedTag){
 
+        if(!bannedTags.includes(content[i])){
+          temp += content[i];
+          component += content[i];
+         
+          console.log("ADDAS: :::" + content[i]);
+        }
      
-
-     
-
-
-      if(acceptable){
-        temp += content[i];
-        component += content[i];
-    
-     
+      
+        
+        if(closed == 2 && approvedTag){
+          console.log("PLUSSAR::::")
+          acceptableLength++;
             
+        }
+     
       }
       else{
-        acceptable = true;
+     
       }
 
-      if(closed == 0){
-        components.push(component);
-     
+    
+
+      if(closed == 0 && approvedTag){
+        console.log("LÄNGD PÅ COMPONENT: " + acceptableLength);
+        if(acceptableLength > 1){
+          console.log(acceptableLength);
+          components.push(component);
+          acceptableLength = 0;
+        }
+       
         component = "";
-        closed = 2;
+        approvedTag = false;
+        closed = 4;
    
-      }
+      }  
 
-     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
     }
-
 
    components.forEach(element => allComponents.current += element);
 
   
     
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
+    console.log("COMPONENTS: " + components)
  //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
     return temp;
   }
@@ -324,8 +390,19 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
 
     }
     else if(quill.root.innerHTML != null || quill.root.innerHTML == ""){
-      // quill.root.innerHTML = allComponents.current;
-      
+
+      let temp = "";
+
+
+     movableList.current.map((item) => {
+
+
+          temp += arrangeHTMLTAG(item[0], item[1], item[2]);
+
+      });
+     
+      quill.root.innerHTML = temp;
+
     }
      
    
