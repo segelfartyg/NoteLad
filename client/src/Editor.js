@@ -35,7 +35,7 @@ export default function Editor(props) {
 
   useEffect(() => {
     if (quill == null) return;
-  
+
     quill.root.innerHTML = props.editorStatus;
   }, [props.editorStatus]);
 
@@ -59,11 +59,12 @@ export default function Editor(props) {
 
   const allComponents = useRef("");
 
-  const allIDs = useRef([1]);
+  const allIDs = useRef([-1]);
 
-  const tagSettings = useRef([["Samuel", 1, "p"], ["Woho", 2, "p"]]);
-
-
+  const tagSettings = useRef([
+    ["Samuel", 1, "p"],
+    ["Woho", 2, "p"],
+  ]);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -103,240 +104,154 @@ export default function Editor(props) {
     if (quill == null) return;
 
     const handler = (delta, oldDelta, source) => {
-      if (source !== "user") return
+      if (source !== "user") return;
       //currentContent.current = quill.root.innerHTML;
 
-      currentContent.current = makeComponentsFromContent(quill.root.innerHTML);
-
-  
-    }
-    quill.on("text-change", handler)
+      currentContent.current = quill.root.innerHTML;
+    };
+    quill.on("text-change", handler);
 
     return () => {
-      quill.off("text-change", handler)
-    }
-   
+      quill.off("text-change", handler);
+    };
   }, [quill]);
 
+  function arrangeHTMLTAG(content, id, type) {
+    if (tagSettings.current[0][1]) {
+    }
 
-function arrangeHTMLTAG(content, id, type){
-
-
-if(tagSettings.current[0][1]){
-
-}
-
-return "<" + type + " id="+ id + ">" + content + "</" + type + ">"; 
-
-
-}
-
-
-
+    return "<" + type + " id=" + id + ">" + content + "</" + type + ">";
+  }
 
   function makeComponentsFromContent(content) {
-
     allComponents.current = "";
 
-  
-
     let temp = "";
- 
     let components = [];
     let component = "";
-
     let tagid = "";
     let secondtagid = "";
-
     let foundID = false;
     let secondfoundID = false;
     let acceptable = true;
     let newID = 0;
     let acceptableLength = 0;
     let closed = 4;
-
+    let takenIDs = [];
     let bannedTags = [];
 
     let approvedTag = false;
- 
+
+    let foundIDs = [];
 
     for (let i = 0; i < content.length; i++) {
-
-
-
-      console.log("SHOW:::: " +content[i]);
-      if(content[i] == "<" && content[i+1] == "p"){
-
+      if (content[i] == "<" && content[i + 1] == "p") {
         approvedTag = true;
-
       }
 
-
-
-
-
-
-
-      if(content[i] + content[i+1] == "<p" && approvedTag)
-      {
-   
-        acceptable = false; 
+      if (content[i] + content[i + 1] == "<p" && approvedTag) {
+        acceptable = false;
         temp += "<p";
         component += "<p";
-        console.log("ADDAS: :::" + "<p");
+
         closed--;
       }
 
-      
-      if(content[i] + content[i+1] == "</" && approvedTag)
-      {
-   
-        acceptable = false; 
+      if (content[i] + content[i + 1] == "</" && approvedTag) {
+        acceptable = false;
         temp += "</p";
         component += "</p>";
-        console.log("ADDAS: :::" + "<p>");
+
         closed--;
       }
 
-
-      if(!foundID && closed == 3 && approvedTag){
-     
-        if(content[i] == "i" && !foundID){
-          tagid = " id=" + content[i + 4];  
-       
+      if (!foundID && closed == 3 && approvedTag) {
+        if (content[i] == "i" && !foundID) {
           foundID = true;
-      
-          acceptable = false;  
-          
-          console.log("FIRSPROBLEM");
-        }
-      }
 
-      else if(foundID && closed > 3 && approvedTag){
- 
-        if(content[i] == 'i'){
-          secondtagid = ' id=' + content[i + 4];
-         
-          secondfoundID = true;   
-          acceptable = false;   
+          acceptable = false;
 
-          
-          console.log("SECPROBLEM");
-        }
-      }
+          if (allIDs.current.includes(parseInt(content[i + 4]) && !takenIDs.includes(parseInt(content[i + 4])))) {
 
-      if(content[i] == ">" && approvedTag){
-        acceptable = true;
-     
-        if(closed == 3){
+            takenIDs.push(parseInt(content[i + 4]));
 
-          if(secondfoundID){
-            temp += secondtagid;
-            component += secondtagid;
-            console.log("ADDAS: :::" + secondtagid);
-
-            secondfoundID = false;
+            console.log("HITTADE ID!!!!");
+            let plusOne = parseInt(content[i + 4]);
+            
+            tagid = " id=" + plusOne;
+          } 
+          else{
+            tagid = " id=" +parseInt(Math.max(...allIDs.current) + 1);
+            allIDs.current.push(tagid);
+                       
           }
-          else if(!secondfoundID && foundID){
+        }
+      } 
+
+
+
+      if (content[i] == ">" && approvedTag) {
+        acceptable = true;
+
+        if (closed == 3) {
+          if(foundID) {
             temp += tagid;
             component += tagid;
-            console.log("ADDAS: :::" + tagid);
-
             foundID = false;
-          }
-          else if(!secondfoundID && !foundID){
+          } else if (!foundID) {
+     
+            foundID = false;
+
+            // newID = parseInt(Math.max(...allIDs.current) + 1);
+            // temp += " id=" + newID;
+            // component += " id=" + newID;
+            // allIDs.current.push(newID);
+            // console.log("ADDAT NYTT ID.");
             
-            secondfoundID = false;
-            foundID = false;
-
-         
-            newID++;
-            temp += " id=" + newID;
-            component += " id=" + newID;
-            console.log("ADDAS: :::" + " id=" + newID);
           }
-        
-       
-        closed--;
 
-        }
-        else{
+          closed--;
+        } else {
           closed--;
         }
-          
       }
 
-      if(acceptable && approvedTag){
-
-        if(!bannedTags.includes(content[i])){
+      if (acceptable && approvedTag) {
+        if (!bannedTags.includes(content[i])) {
           temp += content[i];
           component += content[i];
-         
-          console.log("ADDAS: :::" + content[i]);
         }
-     
-      
-        
-        if(closed == 2 && approvedTag){
-          console.log("PLUSSAR::::")
+
+        if (closed == 2 && approvedTag) {
           acceptableLength++;
-            
         }
-     
-      }
-      else{
-     
+      } else {
       }
 
-    
-
-      if(closed == 0 && approvedTag){
-        console.log("LÄNGD PÅ COMPONENT: " + acceptableLength);
-        if(acceptableLength > 1){
-          console.log(acceptableLength);
+      if (closed == 0 && approvedTag) {
+        if (acceptableLength > 1) {
+     
           components.push(component);
           acceptableLength = 0;
         }
-       
+
         component = "";
         approvedTag = false;
         closed = 4;
-   
-      }  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
+      }
     }
 
-   components.forEach(element => allComponents.current += element);
+    components.forEach((element) => (allComponents.current += element));
 
-  
-    
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
-    console.log("COMPONENTS: " + components)
- //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
+
+    console.log("ALLA IDS: : : : " + allIDs.current);
+
+    console.log("COMPONENTS: " + components);
+    //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
+    takenIDs = [];
     return temp;
   }
-
-
 
   // useEffect(() => {
 
@@ -373,8 +288,6 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
   }
 
   function onSaveHandler(_cardname, _carddesc) {
-
-    
     props.createPost(_cardname, currentContent.current);
   }
 
@@ -382,83 +295,70 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
     props.deletePost();
   }
 
-
-
   useEffect(() => {
-    if (quill == null) return;
-    if(currentContent.current == null || ""){
+
+    if(showShowMode){
+
+
+
+      makeComponentsFromContent(quill.root.innerHTML);
+      console.log("VISNINGSLÄGE!")
+
+
+
+
 
     }
-    else if(quill.root.innerHTML != null || quill.root.innerHTML == ""){
+    else{
 
-      let temp = "";
+      console.log("EDITORLÄGE!")
 
-
-     movableList.current.map((item) => {
-
-
+      if (quill == null) return;
+      if (currentContent.current == null || "") {
+      } else if (quill.root.innerHTML != null || quill.root.innerHTML == "") {
+        let temp = "";
+  
+        movableList.current.map((item) => {
           temp += arrangeHTMLTAG(item[0], item[1], item[2]);
+        });
+  
+        quill.root.innerHTML = temp;
+      }
 
-      });
-     
-      quill.root.innerHTML = temp;
+
+
 
     }
-     
    
   }, [showShowMode]);
 
   function onSetShowModeHandler() {
     if (showShowMode) {
-
       setShowShowMode(false);
     } else {
-
-
       setShowShowMode(true);
-
-     
     }
   }
 
-  function sendMovableData(data){
-
+  function sendMovableData(data) {
     let changed = false;
-    console.log(data[1]);
 
-    if(movableList.current.length < 1){
+    if (movableList.current.length < 1) {
       movableList.current.push(data);
-
-    }
-
-    else{
-
-
-      for(let i = 0; i < movableList.current.length; i++){
-
-        if(data[1] == movableList.current[i][1]){
-
-          
+    } else {
+      for (let i = 0; i < movableList.current.length; i++) {
+        if (data[1] == movableList.current[i][1]) {
           movableList.current[i][0] = data[0];
           movableList.current[i][2] = data[2];
           changed = true;
         }
-       
-  
       }
 
-      if(!changed){
+      if (!changed) {
         movableList.current.push(data);
         changed = false;
       }
-
     }
-
-  
-
-
-   console.log(movableList.current);
-    
   }
 
   return (
@@ -493,8 +393,7 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
               d="M726.6,484H211.4c-10.16,0-18.4-6.72-18.4-15h0c0-8.28,8.24-15,18.4-15H726.6c10.16,0,18.4,6.72,18.4,15h0C745,477.28,736.76,484,726.6,484Z"
             />
             <path
-              className
-              ="cls-3"
+              className="cls-3"
               d="M679,584H259a15,15,0,0,1-15-15h0a15,15,0,0,1,15-15H679a15,15,0,0,1,15,15h0A15,15,0,0,1,679,584Z"
             />
           </g>
@@ -502,7 +401,11 @@ return "<" + type + " id="+ id + ">" + content + "</" + type + ">";
       </div>
 
       <div id="container" ref={wrapperRef}>
-        <Mirror sendMovableDataFromMirror={sendMovableData} components={components} showMode={showShowMode}></Mirror>
+        <Mirror
+          sendMovableDataFromMirror={sendMovableData}
+          components={components}
+          showMode={showShowMode}
+        ></Mirror>
       </div>
 
       <Converter
