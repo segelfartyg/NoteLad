@@ -59,7 +59,7 @@ export default function Editor(props) {
 
   const allComponents = useRef("");
 
-  const allIDs = useRef([-1]);
+  const allIDs = useRef([0]);
 
   const tagSettings = useRef([
     ["Samuel", 1, "p"],
@@ -124,132 +124,110 @@ export default function Editor(props) {
   }
 
   function makeComponentsFromContent(content) {
-    allComponents.current = "";
+  
+  
+console.log(content);
 
     let temp = "";
-    let components = [];
     let component = "";
-    let tagid = "";
-    let secondtagid = "";
-    let foundID = false;
-    let secondfoundID = false;
-    let acceptable = true;
-    let newID = 0;
-    let acceptableLength = 0;
-    let closed = 4;
-    let takenIDs = [];
-    let bannedTags = [];
-
+    let components = [];
+    let closeTagCountDown = 4;
+    let countDown = 0;
+    let openingTag = "";
+    let closingTag = "";
+    let tagContent = "";
     let approvedTag = false;
+    let occupiedMoreThanOnce = [];
+    for(let i = 0; i < content.length; i++){
 
-    let foundIDs = [];
 
-    for (let i = 0; i < content.length; i++) {
-      if (content[i] == "<" && content[i + 1] == "p") {
+
+
+      if(content[i] + content[i+1] + content[i+2] === "<p>"){
+        console.log("HITTADE ÖPPNING")
+        openingTag = '<p id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
+        allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        closeTagCountDown--;
+        closeTagCountDown--;
         approvedTag = true;
+        countDown = 3; 
       }
 
-      if (content[i] + content[i + 1] == "<p" && approvedTag) {
-        acceptable = false;
-        temp += "<p";
-        component += "<p";
 
-        closed--;
-      }
+      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] == '<p id="'){
+        
 
-      if (content[i] + content[i + 1] == "</" && approvedTag) {
-        acceptable = false;
-        temp += "</p";
-        component += "</p>";
+        if(!occupiedMoreThanOnce.includes(parseInt(content[i+7]))){
 
-        closed--;
-      }
-
-      if (!foundID && closed == 3 && approvedTag) {
-        if (content[i] == "i" && !foundID) {
-          foundID = true;
-
-          acceptable = false;
-
-          if (allIDs.current.includes(parseInt(content[i + 4]) && !takenIDs.includes(parseInt(content[i + 4])))) {
-
-            takenIDs.push(parseInt(content[i + 4]));
-
-            console.log("HITTADE ID!!!!");
-            let plusOne = parseInt(content[i + 4]);
-            
-            tagid = " id=" + plusOne;
-          } 
-          else{
-            tagid = " id=" +parseInt(Math.max(...allIDs.current) + 1);
-            allIDs.current.push(tagid);
-                       
-          }
+          console.log("HITTADE ÖPPNING MED ID");
+          openingTag = '<p id="' + content[i+7] + '">';
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 10; 
+          occupiedMoreThanOnce.push(parseInt(content[i+7]))
         }
-      } 
-
-
-
-      if (content[i] == ">" && approvedTag) {
-        acceptable = true;
-
-        if (closed == 3) {
-          if(foundID) {
-            temp += tagid;
-            component += tagid;
-            foundID = false;
-          } else if (!foundID) {
-     
-            foundID = false;
-
-            // newID = parseInt(Math.max(...allIDs.current) + 1);
-            // temp += " id=" + newID;
-            // component += " id=" + newID;
-            // allIDs.current.push(newID);
-            // console.log("ADDAT NYTT ID.");
-            
-          }
-
-          closed--;
-        } else {
-          closed--;
+        else{
+          console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
+          openingTag = '<p id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
+          allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 10; 
         }
       }
 
-      if (acceptable && approvedTag) {
-        if (!bannedTags.includes(content[i])) {
-          temp += content[i];
-          component += content[i];
-        }
 
-        if (closed == 2 && approvedTag) {
-          acceptableLength++;
-        }
-      } else {
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "</p>"){
+        console.log("HITTADE STÄNGING")
+        closingTag = "</p>";
+        closeTagCountDown = 0;
+        approvedTag = true;
+        countDown = 4; 
       }
 
-      if (closed == 0 && approvedTag) {
-        if (acceptableLength > 1) {
-     
-          components.push(component);
-          acceptableLength = 0;
-        }
-
-        component = "";
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<br>"){
+       console.log("HITTADE BAN BR"); 
         approvedTag = false;
-        closed = 4;
+        countDown = 4; 
+      }
+   
+
+
+      if(closeTagCountDown == 2 && countDown == 0 && approvedTag){
+        tagContent += content[i];     
+      }
+      else{
+        countDown--;
+      }
+   
+      if(closeTagCountDown == 0 && approvedTag){
+   
+        component = openingTag + tagContent + closingTag;
+
+        if(tagContent != ""){
+          temp += component;
+          components.push(component);
+        }
+       
+        component = "";
+        closeTagCountDown = 4;
+        closingTag = "";
+        tagContent = "";
+        openingTag = "";
+        countDown = 0;
+        approvedTag = false;
+      
       }
     }
+
+    console.log(components);
 
     components.forEach((element) => (allComponents.current += element));
 
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
-
-    console.log("ALLA IDS: : : : " + allIDs.current);
-
-    console.log("COMPONENTS: " + components);
-    //SKA VARA HELA HTML STRÄNGEN, DET SOM SKA FINNAS I EDITORN
-    takenIDs = [];
+   
     return temp;
   }
 
