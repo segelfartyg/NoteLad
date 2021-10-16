@@ -24,7 +24,7 @@ export default function Mirror(props) {
     }
 
 
-    const components = props.components.map((component) => <NoteLadMovable sendMovableData={sendMovableData} componentData={component}>{}</NoteLadMovable>);
+    const components = props.components.map((component) => <NoteLadMovable key={Math.random} sendMovableData={sendMovableData} componentData={component}>{}</NoteLadMovable>);
 
 
 

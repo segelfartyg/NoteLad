@@ -143,9 +143,19 @@ export default function Editor(props) {
         countDown = 3; 
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3]=== "<h1>"){
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<h1>"){
         console.log("HITTADE ÖPPNING")
         openingTag = '<h1 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
+        allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        closeTagCountDown--;
+        closeTagCountDown--;
+        approvedTag = true;
+        countDown = 4; 
+      }
+
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<h2>"){
+        console.log("HITTADE ÖPPNING")
+        openingTag = '<h2 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
         allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
         closeTagCountDown--;
         closeTagCountDown--;
@@ -198,6 +208,28 @@ export default function Editor(props) {
         }
       }
 
+      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] === '<h2 id="'){
+        
+        if(!occupiedMoreThanOnce.includes(parseInt(content[i+8]))){
+          console.log("HITTADE ÖPPNING MED ID");
+          openingTag = '<h2 id="' + content[i+8] + '">';
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 11; 
+          occupiedMoreThanOnce.push(parseInt(content[i+8]))
+        }
+        else{
+          console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
+          openingTag = '<h2 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
+          allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 11; 
+        }
+      }
+
 
 
 
@@ -217,20 +249,28 @@ export default function Editor(props) {
         countDown = 5; 
       }
 
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] === "</h2>"){
+        console.log("HITTADE STÄNGING")
+        closingTag = "</h2>";
+        closeTagCountDown = 0;
+        approvedTag = true;
+        countDown = 5; 
+      }
+
       if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<br>"){
        console.log("HITTADE BAN BR"); 
         approvedTag = false;
         countDown = 4; 
       }
    
-      if(closeTagCountDown == 2 && countDown == 0 && approvedTag){
+      if(closeTagCountDown === 2 && countDown === 0 && approvedTag){
         tagContent += content[i];     
       }
       else{
         countDown--;
       }
    
-      if(closeTagCountDown == 0 && approvedTag){
+      if(closeTagCountDown === 0 && approvedTag){
    
         component = openingTag + tagContent + closingTag;
 
@@ -259,17 +299,6 @@ export default function Editor(props) {
     return temp;
   }
 
-  // useEffect(() => {
-
-  //   if(showConverter){
-  //     converterStyle = "EditorConverter animateEditorConverter";
-
-  //   }
-  //   else{
-  //     converterStyle = "EditorConverter animateBackEditorConverter";
-  //   }
-
-  //   }, [showConverter]);
 
   function onMenuClickHandler() {
     if (!showConverter.current) {
@@ -304,24 +333,15 @@ export default function Editor(props) {
   useEffect(() => {
 
     if(showShowMode){
-
-
-
       makeComponentsFromContent(quill.root.innerHTML);
       console.log("VISNINGSLÄGE!")
-
-
-
-
-
     }
     else{
-
       console.log("EDITORLÄGE!")
 
       if (quill == null) return;
       if (currentContent.current == null || "") {
-      } else if (quill.root.innerHTML != null || quill.root.innerHTML == "") {
+      } else if (quill.root.innerHTML != null || quill.root.innerHTML === "") {
         let temp = "";
         console.log(movableList.current);
         movableList.current.map((item) => {
@@ -331,12 +351,7 @@ export default function Editor(props) {
   
         quill.root.innerHTML = temp;
       }
-
-
-
-
     }
-   
   }, [showShowMode]);
 
   function onSetShowModeHandler() {
