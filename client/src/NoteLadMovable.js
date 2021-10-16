@@ -92,10 +92,7 @@ export default function NoteLadMovable(props) {
 
 
     
-    console.log(compID);
-    console.log(compStyle);
 
-    console.log("TEMP: ÄR : " + temp)
     return [temp, compID, compStyle];
 }
 

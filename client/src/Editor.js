@@ -120,7 +120,6 @@ export default function Editor(props) {
   function makeComponentsFromContent(content) {
   
   
-console.log(content);
 
     let temp = "";
     let component = "";
@@ -256,7 +255,7 @@ console.log(content);
     components.forEach((element) => (allComponents.current += element));
 
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
-   
+    movableList.current = components;
     return temp;
   }
 
@@ -326,7 +325,8 @@ console.log(content);
         let temp = "";
         console.log(movableList.current);
         movableList.current.map((item) => {
-          temp += arrangeHTMLTAG(item[0], item[1], item[2]);
+          console.log(item);
+          temp += item;
         });
   
         quill.root.innerHTML = temp;
@@ -349,33 +349,31 @@ console.log(content);
 
   function sendMovableData(data) {
 
-    let changed = false;
-    console.log(data);
-    let temp = [];
+    // console.log("DATAN!!! :::: " +data)
     
-    if (movableList.current.length < 1) {
-      movableList.current.push(data);
-    } else {
-      for (let i = 0; i < movableList.current.length; i++) {
-        if (data[1] == movableList.current[i][1]) {
-          movableList.current[i][0] = data[0];
-          movableList.current[i][2] = data[2];
-         
-          changed = true;
-        }
-   
+    // movableList.current.push(data);
+    // console.log("MOVABLE CURRENT:::: " + movableList.current)
+    // let templist = [];
+    // let takenIDs = [];
+
+
+    // for(let i = 0; i < movableList.current.length; i++){
        
-      }
-
-      if (!changed) {
+    //     if(!takenIDs.includes(movableList.current[i][1])){
+         
+    //       templist.push(movableList.current[i]);
+    //       takenIDs.push(movableList.current[i][1]);
+    //     }
     
-        movableList.current.push(data);
-        changed = false;
-      }
-    }
-    console.log(movableList.current);
-  }
+    //    }
 
+
+    //    console.log("TEMPLIST:::: " + templist);
+    // movableList.current = templist;
+  
+
+
+}
   return (
     <div id="Editor">
       <div onClick={onMenuClickHandler} className={menuAreaStyle}>
