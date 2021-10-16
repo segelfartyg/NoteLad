@@ -31,9 +31,10 @@ export default function Converter(props) {
 <div className="converterForm">
 
 <div className="firstColumn">
+<button className="saveCard" onClick={onSubmitClick}>SAVE CARD</button>
+<button className="createCollection">CREATE COLLECTION</button>
 
-
-  <button onClick={onSetShowModeHandler}>SWITCH TO SHOWMODE</button>
+  <button onClick={onSetShowModeHandler}>SWITCH</button>
   {/* <div>
 
 
@@ -74,8 +75,8 @@ export default function Converter(props) {
 <div className="middleColumn">
 
   
-<div className="cardNameField">
- <label id="nameField" htmlFor="nameField">CARD NAME:</label>
+
+ <h2 id="nameField">CARD NAME:</h2>
  <input id="noteNameField" name="nameField" type="text" ref={currentNoteName}></input>
 
  {/* <div className="inputField">
@@ -86,7 +87,7 @@ export default function Converter(props) {
 
 
 
-</div>
+
 
 
 <div>
@@ -111,9 +112,6 @@ export default function Converter(props) {
 
 
 <div>
-<button className="saveCard" onClick={onSubmitClick}>SAVE CARD</button>
-<button className="createCollection">CREATE COLLECTION</button>
-</div>
 
 <svg onClick={onDeleteClick} id="Layer_1" className="trashBin" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
   <defs>
@@ -139,6 +137,11 @@ export default function Converter(props) {
     <path className="trash3 top" d="M375.67,161.55H562.33c3.7,0,6.67,6.68,6.67,14.95h0c0,8.27-3,14.95-6.67,14.95H375.67c-3.7,0-6.67-6.68-6.67-14.95h0C369,168.23,372,161.55,375.67,161.55Z"/>
   </g>
 </svg>
+
+
+</div>
+
+
 
 </div>
  

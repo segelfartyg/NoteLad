@@ -8,7 +8,9 @@
 .NoteLadHeader{
   height: 1.5rem;
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
-  margin: 2rem;
+  margin-right: 2rem;
+  margin-top: 0.5rem;
+  z-index: 5;
 }
