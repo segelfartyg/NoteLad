@@ -19,29 +19,17 @@ export default function NavBar(props) {
     return (
         <div className="navbar">
 
-
-
                 <div className="logotitle">
-
-
-            
                 {/*<h1>Notelad</h1>*/}
                 <img className="headerlogo" src={logo} alt="logo"/>  
-
                 </div>
                
                <NoteList sendGetRequestToAppLayer={sendGetRequestToAppLayer} listofNotes={props.noteList}></NoteList>
                
-
                <div className="addNewNoteArea">
                <img className="addNoteNavBar" onClick={props.newNote} src={NoteLadPlus} alt="addNote"></img>
 
-               </div>
-               
-
-
-
-        
+               </div>    
         </div>
     )
 }

@@ -105,7 +105,7 @@ export default function NoteLadMovable(props) {
 
     movableSettings.current = componentFiltering(props.componentData);
     
-    console.log(movableSettings.current);
+    console.log("MOVABLESETTINGS: " + movableSettings.current);
    
 
     props.sendMovableData(movableSettings.current);

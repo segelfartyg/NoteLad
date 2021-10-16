@@ -61,11 +61,6 @@ export default function Editor(props) {
 
   const allIDs = useRef([0]);
 
-  const tagSettings = useRef([
-    ["Samuel", 1, "p"],
-    ["Woho", 2, "p"],
-  ]);
-
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
@@ -117,8 +112,7 @@ export default function Editor(props) {
   }, [quill]);
 
   function arrangeHTMLTAG(content, id, type) {
-    if (tagSettings.current[0][1]) {
-    }
+ 
 
     return "<" + type + " id=" + id + ">" + content + "</" + type + ">";
   }
@@ -140,9 +134,6 @@ console.log(content);
     let occupiedMoreThanOnce = [];
     for(let i = 0; i < content.length; i++){
 
-
-
-
       if(content[i] + content[i+1] + content[i+2] === "<p>"){
         console.log("HITTADE ÖPPNING")
         openingTag = '<p id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
@@ -153,12 +144,19 @@ console.log(content);
         countDown = 3; 
       }
 
+      if(content[i] + content[i+1] + content[i+2] + content[i+3]=== "<h1>"){
+        console.log("HITTADE ÖPPNING")
+        openingTag = '<h1 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
+        allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        closeTagCountDown--;
+        closeTagCountDown--;
+        approvedTag = true;
+        countDown = 4; 
+      }
 
-      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] == '<p id="'){
+      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] === '<p id="'){
         
-
         if(!occupiedMoreThanOnce.includes(parseInt(content[i+7]))){
-
           console.log("HITTADE ÖPPNING MED ID");
           openingTag = '<p id="' + content[i+7] + '">';
           closeTagCountDown--;
@@ -179,6 +177,31 @@ console.log(content);
       }
 
 
+      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] === '<h1 id="'){
+        
+        if(!occupiedMoreThanOnce.includes(parseInt(content[i+8]))){
+          console.log("HITTADE ÖPPNING MED ID");
+          openingTag = '<h1 id="' + content[i+8] + '">';
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 11; 
+          occupiedMoreThanOnce.push(parseInt(content[i+8]))
+        }
+        else{
+          console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
+          openingTag = '<h1 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
+          allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 11; 
+        }
+      }
+
+
+
+
       if(content[i] + content[i+1] + content[i+2] + content[i+3] === "</p>"){
         console.log("HITTADE STÄNGING")
         closingTag = "</p>";
@@ -187,14 +210,20 @@ console.log(content);
         countDown = 4; 
       }
 
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] === "</h1>"){
+        console.log("HITTADE STÄNGING")
+        closingTag = "</h1>";
+        closeTagCountDown = 0;
+        approvedTag = true;
+        countDown = 5; 
+      }
+
       if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<br>"){
        console.log("HITTADE BAN BR"); 
         approvedTag = false;
         countDown = 4; 
       }
    
-
-
       if(closeTagCountDown == 2 && countDown == 0 && approvedTag){
         tagContent += content[i];     
       }
@@ -295,7 +324,7 @@ console.log(content);
       if (currentContent.current == null || "") {
       } else if (quill.root.innerHTML != null || quill.root.innerHTML == "") {
         let temp = "";
-  
+        console.log(movableList.current);
         movableList.current.map((item) => {
           temp += arrangeHTMLTAG(item[0], item[1], item[2]);
         });
@@ -319,8 +348,11 @@ console.log(content);
   }
 
   function sendMovableData(data) {
-    let changed = false;
 
+    let changed = false;
+    console.log(data);
+    let temp = [];
+    
     if (movableList.current.length < 1) {
       movableList.current.push(data);
     } else {
@@ -328,15 +360,20 @@ console.log(content);
         if (data[1] == movableList.current[i][1]) {
           movableList.current[i][0] = data[0];
           movableList.current[i][2] = data[2];
+         
           changed = true;
         }
+   
+       
       }
 
       if (!changed) {
+    
         movableList.current.push(data);
         changed = false;
       }
     }
+    console.log(movableList.current);
   }
 
   return (
