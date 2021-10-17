@@ -12,17 +12,16 @@ const axios = require("axios");
 
 var toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
-  ["image", "blockquote", "code-block"],
+  [],
 
   [{ header: 1 }, { header: 2 }], // custom button values
-  [{ list: "ordered" }, { list: "bullet" }],
-  [{ script: "sub" }, { script: "super" }], // superscript/subscript
-  [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+
+
   [{ direction: "rtl" }], // text direction
 
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-  [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+  // dropdown with defaults from theme
   [{ font: [] }],
   [{ align: [] }],
 
@@ -59,7 +58,7 @@ export default function Editor(props) {
 
   const allComponents = useRef("");
 
-  const allIDs = useRef([0]);
+  const allIDs = useRef(["___0"]);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -117,8 +116,54 @@ export default function Editor(props) {
     return "<" + type + " id=" + id + ">" + content + "</" + type + ">";
   }
 
-  function makeComponentsFromContent(content) {
+
+  function getLongNewID(wishedID){
+
+    
+
+      if(wishedID < 10){
+
+        return  "___" + wishedID;
+      }
+        
+      else if(wishedID >= 10 && wishedID < 100){
+        return  "__" + wishedID;
+      }
+       
+
+      else if(wishedID >= 100 && wishedID < 1000){
+        return  "_" + wishedID;
+      }
+   
+     
+   
+    }
   
+
+  function getIDfromString(item){
+
+    if(item !== ""){
+
+      return parseInt(item.replaceAll("_", " "));
+    }
+    
+  }
+
+
+  function getHighestID(){
+
+    let templist = [];
+    for(let i = 0; i < allIDs.current.length; i++){
+
+      
+      templist.push(getIDfromString(allIDs.current[i]));
+
+    }
+
+    return Math.max(...templist);
+  }
+
+  function makeComponentsFromContent(content) {
   
 
     let temp = "";
@@ -131,22 +176,29 @@ export default function Editor(props) {
     let tagContent = "";
     let approvedTag = false;
     let occupiedMoreThanOnce = [];
+    let isImage = false;
+
     for(let i = 0; i < content.length; i++){
 
       if(content[i] + content[i+1] + content[i+2] === "<p>"){
-        console.log("HITTADE ÖPPNING")
-        openingTag = '<p id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
-        allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        // console.log(getLongNewID(2));
+         
+       
+       
+       
+        openingTag = '<p id="' + getLongNewID(getHighestID() + 1) + '">';
+        allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown--;
         closeTagCountDown--;
         approvedTag = true;
         countDown = 3; 
+        console.log(allIDs.current);
       }
 
       if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<h1>"){
         console.log("HITTADE ÖPPNING")
-        openingTag = '<h1 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
-        allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        openingTag = '<h1 id="' + getLongNewID(getHighestID() + 1) + '">';
+        allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown--;
         closeTagCountDown--;
         approvedTag = true;
@@ -155,78 +207,85 @@ export default function Editor(props) {
 
       if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<h2>"){
         console.log("HITTADE ÖPPNING")
-        openingTag = '<h2 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
-        allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        openingTag = '<h2 id="' + getLongNewID(getHighestID() + 1) + '">';
+        allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown--;
         closeTagCountDown--;
         approvedTag = true;
         countDown = 4; 
       }
 
+
+     
+
+
       if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] === '<p id="'){
         
-        if(!occupiedMoreThanOnce.includes(parseInt(content[i+7]))){
+        if(!occupiedMoreThanOnce.includes(content[i+7] + content[i+8] + content[i+9] + content[i+10])){
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<p id="' + content[i+7] + '">';
+          openingTag = '<p id="' + content[i+7] + content[i+8] + content[i+9] + content[i+10] + '">';
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 10; 
-          occupiedMoreThanOnce.push(parseInt(content[i+7]))
+          countDown = 13; 
+          occupiedMoreThanOnce.push(content[i+7] + content[i+8] + content[i+9] + content[i+10]);
         }
         else{
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
-          openingTag = '<p id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
-          allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+        
+
+          openingTag = '<p id="' + getLongNewID(getHighestID() + 1) + '">';
+          allIDs.current.push(getLongNewID(getHighestID() + 1));
+        
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 10; 
+          countDown = 13; 
         }
       }
 
 
       if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] === '<h1 id="'){
         
-        if(!occupiedMoreThanOnce.includes(parseInt(content[i+8]))){
+        if(!occupiedMoreThanOnce.includes(content[i+8] + content[i+9] + content[i+10] + content[i+11])){
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<h1 id="' + content[i+8] + '">';
+          openingTag = '<h1 id="' + content[i+8] + content[i+9] + content[i+10] + content[i+11] + '">';
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 11; 
-          occupiedMoreThanOnce.push(parseInt(content[i+8]))
+          countDown = 14; 
+          occupiedMoreThanOnce.push(content[i+8] + content[i+9] + content[i+10] + content[i+11]);
         }
         else{
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
-          openingTag = '<h1 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
-          allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+          openingTag = '<h1 id="' + getLongNewID(getHighestID() + 1) + '">';
+          allIDs.current.push(getLongNewID(getHighestID() + 1));
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 11; 
+          countDown = 14; 
         }
       }
 
       if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] === '<h2 id="'){
         
-        if(!occupiedMoreThanOnce.includes(parseInt(content[i+8]))){
+        if(!occupiedMoreThanOnce.includes(content[i+8] + content[i+9] + content[i+10] + content[i+11])){
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<h2 id="' + content[i+8] + '">';
+          openingTag = '<h2 id="' + content[i+8] + content[i+9] + content[i+10] + content[i+11] + '">';
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 11; 
-          occupiedMoreThanOnce.push(parseInt(content[i+8]))
+          countDown = 14; 
+          occupiedMoreThanOnce.push(parseInt(content[i+8] + content[i+9] + content[i+10] + content[i+11]))
         }
         else{
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
-          openingTag = '<h2 id="' + parseInt(Math.max(...allIDs.current) + 1) + '">';
-          allIDs.current.push(parseInt(Math.max(...allIDs.current) + 1));
+          openingTag = '<h2 id="' + getLongNewID(getHighestID() + 1) + '">';
+          allIDs.current.push(getLongNewID(getHighestID() + 1));
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 11; 
+          countDown = 14; 
         }
       }
 
@@ -262,6 +321,9 @@ export default function Editor(props) {
         approvedTag = false;
         countDown = 4; 
       }
+
+     
+
    
       if(closeTagCountDown === 2 && countDown === 0 && approvedTag){
         tagContent += content[i];     

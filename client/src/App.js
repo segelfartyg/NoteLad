@@ -184,8 +184,8 @@ function onNewNoteHandler(){
         <NavBar newNote={onNewNoteHandler} noteList={notes} sendGetRequest={sendGetRequest}/>
         <Editor createPost={createPostHandler} editorStatus={editorStatus} setEditorStatus={setEditorStatusHandler} deletePost={deletePostHandler}/>
       
-        <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
-  
+        {/* <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
+   */}
     </div>
   );
 }

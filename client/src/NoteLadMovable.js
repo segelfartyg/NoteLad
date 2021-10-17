@@ -8,6 +8,8 @@ export default function NoteLadMovable(props) {
     
     let style = "NoteLadMovable ";
 
+    console.log(props);
+
     function componentFiltering(component){
  
         let count = 0;
@@ -27,12 +29,7 @@ export default function NoteLadMovable(props) {
                 
                 if(component[i + 1] == "d"){
                     if(component[i+2] == "="){
-                        if(component[i+3] != ">"){
-                            compID = component[i+3];
-                            if(component[i+4] != ">"){
-                                compID = component[i+4];
-                            }
-                        }
+                       compID = component[i+3] + component[i+4] + component[i+5] + component[i+6] + component[i+7];
 
                     }
                 }           
@@ -91,8 +88,6 @@ export default function NoteLadMovable(props) {
     }
 
 
-    
-
     return [temp, compID, compStyle];
 }
 
@@ -106,12 +101,41 @@ export default function NoteLadMovable(props) {
    
 
     props.sendMovableData(movableSettings.current);
+
+    const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
+
+
+    function adjustXPos(e){
+        e.preventDefault();
+        e.stopPropagation();
+        const {x, y} = controlledPosition();
+        setControlledPosition({x: x - 10, y});
+      };
+
+      function adjustYPos(e){
+        e.preventDefault();
+        e.stopPropagation();
+        const {x, y} = controlledPosition;
+        setControlledPosition({x, y: y - 10});
+      };
+
+      function onControlledDrag(e, position){
+        const {x, y} = position;
+        setControlledPosition({x, y})
+      };
+
+
+      console.log(controlledPosition);
   
     
+
+
+
     
     return (
 
-        <Draggable>
+        <Draggable position={controlledPosition} onDrag={onControlledDrag}>
+
         <div className={style}>
 
 
