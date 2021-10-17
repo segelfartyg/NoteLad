@@ -9,7 +9,7 @@ export default function NoteLadMovable(props) {
     var trans =  'rotate(120deg)';
 
     const style = {
-        transform: "scale(2, 0.5)",
+        transform: "rotate(90deg)",
     }
 
     let classname = "NoteLadMovable ";
@@ -142,13 +142,13 @@ export default function NoteLadMovable(props) {
 
         <Draggable bounds="parent" position={controlledPosition} onDrag={onControlledDrag}>
 
-        <div className={classname} style={style}>
+        <div className={classname}>
 
-
+        <div style={style}>
 
            {movableSettings.current[0]}
 
-
+           </div>
 
 
         </div>
