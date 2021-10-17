@@ -6,7 +6,13 @@ export default function NoteLadMovable(props) {
     
     const movableSettings = useRef([]);
     
-    let style = "NoteLadMovable ";
+    var trans =  'rotate(120deg)';
+
+    const style = {
+        transform: "scale(2, 0.5)",
+    }
+
+    let classname = "NoteLadMovable ";
 
     console.log(props);
 
@@ -43,18 +49,18 @@ export default function NoteLadMovable(props) {
             if(component[i] + component[i+1]== "h1"){
 
                     compStyle = "h1";
-                    style += " h1";
+                    classname += " h1";
             }
 
             if(component[i] + component[i+1]== "h2"){
                 compStyle = "h2";
-                style += " h2";
+                classname += " h2";
             }
     
             if(component[i] + component[i+1]== "h3"){
 
                 compStyle = "h3";
-                style += " h3";
+                classname += " h3";
             }
         }
 
@@ -134,9 +140,9 @@ export default function NoteLadMovable(props) {
     
     return (
 
-        <Draggable position={controlledPosition} onDrag={onControlledDrag}>
+        <Draggable bounds="parent" position={controlledPosition} onDrag={onControlledDrag}>
 
-        <div className={style}>
+        <div className={classname} style={style}>
 
 
 

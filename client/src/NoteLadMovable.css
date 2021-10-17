@@ -1,11 +1,8 @@
 .NoteLadMovable{
     user-select: none;
-
-
+    position: absolute;
     width: fit-content;
-
     height: fit-content;
-
     margin: 0;
     padding: 0;
 
