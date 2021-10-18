@@ -60,6 +60,13 @@ export default function Editor(props) {
 
   const allIDs = useRef(["___0"]);
 
+  const [topBarStyle, setTopBarStyle] = useState("topBarclosed");
+
+  const [showEditor, setShowEditor] = useState("");
+
+  const [showPresentation, setShowPresentation] = useState("entireMirror dontshowpresentation")
+
+
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
@@ -396,7 +403,11 @@ export default function Editor(props) {
 
     if(showShowMode){
       makeComponentsFromContent(quill.root.innerHTML);
-      console.log("VISNINGSLÄGE!")
+      console.log("VISNINGSLÄGE!");
+      setTopBarStyle("topBar");
+      setShowEditor("hide");
+      
+      setShowPresentation("entireMirror showpresentation");
     }
     else{
       console.log("EDITORLÄGE!")
@@ -410,7 +421,9 @@ export default function Editor(props) {
           console.log(item);
           temp += item;
         });
-  
+        setShowEditor("donthide");
+        setShowPresentation("entireMirror dontshowpresentation");
+        setTopBarStyle("topBar topBarclosed");
         quill.root.innerHTML = temp;
       }
     }
@@ -451,6 +464,8 @@ export default function Editor(props) {
 
 
 }
+
+
   return (
     <div id="Editor">
       <div onClick={onMenuClickHandler} className={menuAreaStyle}>
@@ -490,14 +505,16 @@ export default function Editor(props) {
         </svg>
       </div>
 
-      <div id="container" ref={wrapperRef}>
-        <Mirror
+      <div id="container" className={showEditor}ref={wrapperRef}>
+      
+      </div>
+      <Mirror
+          mirrorStyle={showPresentation}        
+          topBarStyle={topBarStyle}
           sendMovableDataFromMirror={sendMovableData}
           components={components}
           showMode={showShowMode}
         ></Mirror>
-      </div>
-
       <Converter
         onSetShowMode={onSetShowModeHandler}
         onSave={onSaveHandler}

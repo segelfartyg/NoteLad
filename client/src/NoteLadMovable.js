@@ -6,10 +6,10 @@ export default function NoteLadMovable(props) {
     
     const movableSettings = useRef([]);
     
-    var trans =  'rotate(120deg)';
+    var trans =  'rotate(110deg)';
 
     const style = {
-        transform: "rotate(90deg)",
+        transform: "rotate(0deg)",
     }
 
     let classname = "NoteLadMovable ";

@@ -70,6 +70,14 @@
 
 }
 
+.hide{
+    opacity: 0;
+}
+
+.donthide{
+    opacity: 1;
+}
+
 .ql-editor{
     
     width: 8.5in;
@@ -105,7 +113,7 @@
     min-height: 3rem;
     border: none;
     order: 1;
-    z-index: 2;
+    
 }
 
 .TEST{

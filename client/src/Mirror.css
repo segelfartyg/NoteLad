@@ -1,14 +1,82 @@
 
+.entireMirror{
+  display: flex;
+  flex-direction: row;
+ 
+  height: 100%;
+  width: 90%;
+  position: absolute;
+  opacity: 0;
+  z-index: -2;
+
+}
+
+
+
+.showpresentation{
+  opacity: 1;
+  z-index: 0;
+}
+
+.dontshowpresentation{
+  opacity: 0;
+  z-index: -2;
+}
+
 .mirrorArea{
    
-    height: 98%;
+    height: 100%;
     width: 100%;
     order: 2;
     display: grid;
-    grid-template-columns: 1fr 8.5in 1fr;
-    position: absolute;
+   
+  
+    background: linear-gradient(-45deg, #ffffff, rgb(221, 221, 221), rgb(221, 221, 221), #ffffff);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
   z-index: 0;
 
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.topBar{
+  background: white;
+ width: 90%;
+  height: 3rem;
+  z-index: 5;
+  position: fixed;
+  display: grid;
+  grid-template-columns: 1fr 8.5in 1fr;
+ 
+  justify-content: center;
+  filter: drop-shadow(1px 5px 1.5px black);
+}
+
+.topBarclosed{
+ 
+  z-index: 0;
+}
+
+.topBar div{
+  margin: auto;
+  order: 2;
+  
+}
+
+.topBar div input{
+  font-family: rig-shaded-light-face,sans-serif;
+  margin: 0.25rem;
 }
 
 .show{
@@ -20,25 +88,18 @@
     height: 100%;
     width: 100%;
     background: rgb(255, 255, 255);
-    margin-top: 8rem;
-
+    filter: drop-shadow(5px 5px 5px black);
+    
+    margin: auto;
+ 
+    flex-direction: row;
     position: relative;
    
     opacity: 1;
 }
 
 .leftArea{
-    
-  height: fit-content;
-  width: 100px;
-  background: white;
 
-  border-right: none;
-  margin: auto;
-  margin-right: 0;
-  margin-top: 8rem;
-  z-index: 2;
- 
   
 
 }

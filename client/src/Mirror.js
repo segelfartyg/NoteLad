@@ -33,10 +33,29 @@ export default function Mirror(props) {
 
 
   return (
+
+    <div className={props.mirrorStyle}>
+      <div className={props.topBarStyle}>
+
+        <div className="firstColTool">
+      
+        </div>
+
+        <div className="secondColTool">
+
+        <input type="number" placeholder="angle"></input>
+        
+        <input type="number" placeholder="width"></input>
+        
+        <input type="number" placeholder="height"></input>
+
+        </div>
+
+      </div>
     <div className={style}>
+    
 
-
-      <div className="leftArea"></div>
+  
 
       <div className="mirrorMainArea">
 
@@ -52,10 +71,12 @@ export default function Mirror(props) {
 
       </div>
 
-      <div className="rightArea"></div>
+    
 
 
 
     </div>
+
+</div>
   );
 }
