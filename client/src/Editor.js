@@ -477,7 +477,16 @@ export default function Editor(props) {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 938 938"
         >
-          <defs></defs>
+          <defs>
+
+          <linearGradient id="grad1" x1="0%" y1="00%" x2="10%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f5" />
+      <stop offset="50%" stop-color="#fdfdfd" />
+      <stop offset="100%" stop-color="#d8d8d8" />
+    </linearGradient>
+
+
+          </defs>
           <g>
             <path
               className="cls-1"

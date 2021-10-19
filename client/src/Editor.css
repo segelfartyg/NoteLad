@@ -11,8 +11,6 @@
 	animation: gradient 15s ease infinite;
     display: flex;
     flex-direction: column;
- 
- 
 }
 
 
@@ -207,6 +205,7 @@ position: relative;
 
 .cls-1 {
     fill: #fff;
+    fill: url(#grad1);
   }
 
   .cls-1, .cls-2, .cls-3 {

@@ -11,8 +11,20 @@
 .headerlogo{
     width: 5rem;
     filter: drop-shadow(0rem 0rem 0.15rem black);
+    
   }
 
+  .headerlogo svg{
+
+  }
+
+  .cls-1555{
+
+    fill: url(#grad1);
+    /* linear-gradient(-45deg, #ffffff, rgb(221, 221, 221), rgb(221, 221, 221), #ffffff); */
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+  }
   .addNoteNavBar{
     width: 2rem;
     filter: drop-shadow(0.0rem 0.0rem 0.45rem rgb(0, 0, 0));
