@@ -11,8 +11,6 @@
 
 }
 
-
-
 .showpresentation{
   opacity: 1;
   z-index: 0;
@@ -57,7 +55,7 @@
   z-index: 5;
   position: fixed;
   display: grid;
-  grid-template-columns: 1fr 8.5in 1fr;
+  grid-template-columns: 1fr;
  
   justify-content: center;
   filter: drop-shadow(1px 5px 1.5px black);
