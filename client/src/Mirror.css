@@ -76,8 +76,18 @@
 }
 
 .topBar div input{
+  height: fit-content;
+  width: fit-content;
   font-family: rig-shaded-light-face,sans-serif;
-  margin: 0.25rem;
+  border: black solid 1px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 10;
+  background: white;
+ 
+  margin-top: 1rem;
+  margin: 1rem;
+  margin-bottom: 1rem;
 }
 
 .show{
