@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useRef, useEffect} from "react";
 import Draggable from "react-draggable";
 import "./Mirror.css";
 import NoteLadMovable from "./NoteLadMovable";
@@ -7,6 +7,13 @@ import NoteLadMovable from "./NoteLadMovable";
 export default function Mirror(props) {
 
 
+
+  const[chosenComp, setChosenComp] = useState();
+  const[currentX, setCurrentX] = useState();
+  const[currentY, setCurrentY] = useState();
+  const[currentAngle, setCurrentAngle] = useState();
+ 
+  
     let style = "mirrorArea ";
 
 
@@ -24,12 +31,36 @@ export default function Mirror(props) {
     }
 
 
-    const components = props.components.map((component) => <NoteLadMovable key={Math.random} sendMovableData={sendMovableData} componentData={component}>{}</NoteLadMovable>);
+    const components = props.components.map((component) => 
+    <NoteLadMovable key={Math.random} chosenComp={chosenComp} currentX={currentX} currentAngle={currentAngle} currentY={currentY} sendMovableData={sendMovableData} clickHandlerChooseComp={clickHandlerChooseComp} componentData={component}>{}</NoteLadMovable>);
 
 
 
 
+// const [currentAngle, setCurrentAngle] = useState();
 
+
+useEffect(() => {
+
+  
+}, [chosenComp])
+
+
+useEffect(() => {
+
+
+  
+}, [currentX])
+
+function clickHandlerChooseComp(_chosenComp, x, y, angle){
+
+setChosenComp(_chosenComp);
+setCurrentX(x);
+setCurrentY(y);
+setCurrentAngle(angle);
+console.log(x, y);
+console.log(chosenComp);
+}
 
 
   return (
@@ -43,11 +74,11 @@ export default function Mirror(props) {
 
         <div className="secondColTool">
 
-        <input type="number" placeholder="angle"></input>
+        <input type="number" placeholder="angle" value={currentAngle} onChange={e => setCurrentAngle(e.target.value)}></input>
         
-        <input type="number" placeholder="width"></input>
+        <input type="number" placeholder="width" value={currentX} onChange={e => setCurrentX(e.target.value)}></input>
         
-        <input type="number" placeholder="height"></input>
+        <input type="number" placeholder="height" value={currentY} onChange={e => setCurrentY(e.target.value)}></input>
 
         </div>
 

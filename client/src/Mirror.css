@@ -103,8 +103,31 @@
  
     flex-direction: row;
     position: relative;
-   
+   overflow-y: scroll;
+   overflow-x: scroll;
     opacity: 1;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  height: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(44, 44, 44);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(0, 0, 0);
 }
 
 .leftArea{

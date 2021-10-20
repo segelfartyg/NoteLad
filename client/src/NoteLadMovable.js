@@ -8,13 +8,16 @@ export default function NoteLadMovable(props) {
     
     var trans =  'rotate(110deg)';
 
+    const [degrees, setDegrees] = useState(0);
+
     const style = {
-        transform: "rotate(0deg)",
+        transform: "rotate(" + degrees + "deg)",
     }
+    
 
     let classname = "NoteLadMovable ";
 
-    console.log(props);
+
 
     function componentFiltering(component){
  
@@ -97,13 +100,13 @@ export default function NoteLadMovable(props) {
     return [temp, compID, compStyle];
 }
 
-    
+   
     
     // const noteLadContent = componentFiltering(props.componentData);
 
     movableSettings.current = componentFiltering(props.componentData);
     
-    console.log("MOVABLESETTINGS: " + movableSettings.current);
+ 
    
 
     props.sendMovableData(movableSettings.current);
@@ -134,15 +137,43 @@ export default function NoteLadMovable(props) {
       console.log(controlledPosition);
   
     
+      function pressComponent(data){
+
+        props.clickHandlerChooseComp(movableSettings.current[1], controlledPosition.x, controlledPosition.y, degrees);
+      }
 
 
-
+      useEffect(() => {
+        if(props.chosenComp == movableSettings.current[1]){
+            console.log(props.chosenComp);
+            console.log(movableSettings.current);
+            console.log(props.currentAngle);
+            setDegrees(props.currentAngle);
+        }
+    }, [props.currentAngle])
     
+    useEffect(() => {
+        if(props.chosenComp == movableSettings.current[1]){
+            console.log(props.chosenComp);
+            console.log(movableSettings.current);
+            const {x, y} = controlledPosition;
+            setControlledPosition({x, y: props.currentY});
+        }
+    }, [props.currentY])
+
+    useEffect(() => {
+        if(props.chosenComp == movableSettings.current[1]){
+            console.log(props.chosenComp);
+            console.log(movableSettings.current);
+            const {x, y} = controlledPosition;
+            setControlledPosition({x: props.currentX, y});
+        }
+    }, [props.currentX])
     return (
 
-        <Draggable bounds="parent" position={controlledPosition} onDrag={onControlledDrag}>
+        <Draggable bounds="parent" position={controlledPosition} onDrag={onControlledDrag} >
 
-        <div className={classname}>
+        <div onClick={pressComponent} className={classname}>
 
         <div style={style}>
 
