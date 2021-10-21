@@ -136,6 +136,7 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
         }
 
         setControlledPosition({x: frameCords.current[props.frame.current - 1][0], y: frameCords.current[props.frame.current - 1][1]});
+        
         console.log(props.frame.current);
         console.log(frameCords.current);
 
