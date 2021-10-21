@@ -108,9 +108,11 @@
     z-index: 1;
     background: white;
     background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(190, 190, 190) 100%);
-    filter: drop-shadow(1px 5px 1.5px black);
-    min-height: 3rem;
+    filter: drop-shadow(1px 5px 5px black);
     border: none;
+    border-bottom: solid black;
+    min-height: 3rem;
+  
     order: 1;
    
     

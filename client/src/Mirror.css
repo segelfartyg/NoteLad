@@ -51,14 +51,15 @@
 .topBar{
   background: white;
  width: 90%;
-  height: 3rem;
+  min-height: 3rem;
   z-index: 5;
   position: fixed;
   display: grid;
   grid-template-columns: 1fr;
  
   justify-content: center;
-  filter: drop-shadow(1px 5px 1.5px black);
+  filter: drop-shadow(1px 5px 5px black);
+  border-bottom: solid black;
   background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(190, 190, 190) 100%);
 }
 

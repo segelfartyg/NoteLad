@@ -13,9 +13,12 @@ export default function NoteLadMovable(props) {
     const style = {
         transform: "rotate(" + degrees + "deg)",
     }
-    
+  
 
     let classname = "NoteLadMovable ";
+
+
+    const frameCords = useRef([])
 
 
 
@@ -102,17 +105,51 @@ export default function NoteLadMovable(props) {
 
    
     
+const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
     // const noteLadContent = componentFiltering(props.componentData);
 
-    movableSettings.current = componentFiltering(props.componentData);
+    useEffect(() => {
+
+
+        console.log(props.frame.current);
+        console.log(frameCords.current);
+
+        if(frameCords.current.length <= 0){
+            frameCords.current.push([200, 200]);
+            console.log("kom in här")
+        }
+        else{
     
- 
+            
+            if(frameCords.current.length <= props.frame.current){
+
+            frameCords.current.push(frameCords.current[frameCords.current.length - 1]);
+            }
+            else{
+
+
+                
+                
+                // setControlledPosition({x: frameCords.current[props.frame], y: frameCords.current[props.frame]});
+            }
+
+        }
+
+        setControlledPosition({x: frameCords.current[props.frame.current - 1][0], y: frameCords.current[props.frame.current - 1][1]});
+        console.log(props.frame.current);
+        console.log(frameCords.current);
+
+
+
+    }, [props.frameState])
    
 
     props.sendMovableData(movableSettings.current);
 
-    const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
 
+   
+   
+    movableSettings.current = [componentFiltering(props.componentData), controlledPosition.x, controlledPosition.y, props.frame.current];
 
     function adjustXPos(e){
         e.preventDefault();
@@ -129,44 +166,49 @@ export default function NoteLadMovable(props) {
       };
 
       function onControlledDrag(e, position){
+        
+       
+        props.setChosenComp(movableSettings.current[0][1]);
         const {x, y} = position;
-        setControlledPosition({x, y})
+        setControlledPosition({x, y});
+
+
+        props.setCurrentX(x);
+        props.setCurrentY(y);
       };
 
-
-      console.log(controlledPosition);
-  
     
       function pressComponent(data){
 
-        props.clickHandlerChooseComp(movableSettings.current[1], controlledPosition.x, controlledPosition.y, degrees);
+        props.clickHandlerChooseComp(movableSettings.current[0][1], controlledPosition.x, controlledPosition.y, degrees);
       }
 
 
       useEffect(() => {
-        if(props.chosenComp == movableSettings.current[1]){
-            console.log(props.chosenComp);
-            console.log(movableSettings.current);
-            console.log(props.currentAngle);
+        if(props.chosenComp == movableSettings.current[0][1]){
+        
+   
             setDegrees(props.currentAngle);
+         
         }
     }, [props.currentAngle])
     
     useEffect(() => {
-        if(props.chosenComp == movableSettings.current[1]){
-            console.log(props.chosenComp);
-            console.log(movableSettings.current);
+        if(props.chosenComp == movableSettings.current[0][1]){
+       
             const {x, y} = controlledPosition;
-            setControlledPosition({x, y: props.currentY});
+            setControlledPosition({x, y: parseInt(props.currentY)});
+           
         }
     }, [props.currentY])
 
     useEffect(() => {
-        if(props.chosenComp == movableSettings.current[1]){
-            console.log(props.chosenComp);
-            console.log(movableSettings.current);
+        if(props.chosenComp == movableSettings.current[0][1]){
+          
+
             const {x, y} = controlledPosition;
-            setControlledPosition({x: props.currentX, y});
+            setControlledPosition({x: parseInt(props.currentX), y});
+            frameCords.current[props.frame.current] = [parseInt(props.currentX), parseInt(props.currentY)];
         }
     }, [props.currentX])
     return (
@@ -177,7 +219,7 @@ export default function NoteLadMovable(props) {
 
         <div style={style}>
 
-           {movableSettings.current[0]}
+           {movableSettings.current[0][0]}
 
            </div>
 

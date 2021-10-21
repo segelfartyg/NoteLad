@@ -12,6 +12,7 @@ export default function Mirror(props) {
   const[currentX, setCurrentX] = useState();
   const[currentY, setCurrentY] = useState();
   const[currentAngle, setCurrentAngle] = useState();
+  const [showComponents, setShowComponents] = useState();
  
   
     let style = "mirrorArea ";
@@ -31,11 +32,20 @@ export default function Mirror(props) {
     }
 
 
-    const components = props.components.map((component) => 
-    <NoteLadMovable key={Math.random} chosenComp={chosenComp} currentX={currentX} currentAngle={currentAngle} currentY={currentY} sendMovableData={sendMovableData} clickHandlerChooseComp={clickHandlerChooseComp} componentData={component}>{}</NoteLadMovable>);
+   
+    const components = [props.components.map((component) => 
+    <NoteLadMovable frame={props.currentFrameRef} frameState={props.currentFrame} key={Math.random} setChosenComp={setChosenComp} chosenComp={chosenComp} setCurrentX={setCurrentX} currentX={currentX} currentAngle={currentAngle} setCurrentY={setCurrentY} currentY={currentY} sendMovableData={sendMovableData} clickHandlerChooseComp={clickHandlerChooseComp} componentData={component}>{}</NoteLadMovable>)];
+     
+   
+
+  
+
+    useEffect(() => {
+      
+     
 
 
-
+    }, [props.currentFrame])
 
 // const [currentAngle, setCurrentAngle] = useState();
 
@@ -58,8 +68,7 @@ setChosenComp(_chosenComp);
 setCurrentX(x);
 setCurrentY(y);
 setCurrentAngle(angle);
-console.log(x, y);
-console.log(chosenComp);
+
 }
 
 
@@ -94,7 +103,7 @@ console.log(chosenComp);
                 <div className="NoteLadMovable">
                 </div>
                 </Draggable> */}
-                    {components}
+                    {components[0]}
 
                
     

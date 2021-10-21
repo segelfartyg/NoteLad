@@ -78,6 +78,13 @@ export default function Converter(props) {
 
  <h2 id="nameField">CARD NAME:</h2>
  <input id="noteNameField" name="nameField" type="text" ref={currentNoteName}></input>
+ 
+ <div >
+ <p >CARD: {props.currentCard[0]} FRAME: {props.currentFrame}</p>
+ <button onClick={props.newFrame}>NEW FRAME</button>
+ <input type="number" onChange={props.navigateToFrame} value={props.currentFrame}></input>
+  </div>
+
 
  {/* <div className="inputField">
  <label for="descField">DESCRIPTION:</label>

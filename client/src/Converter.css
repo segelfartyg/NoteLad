@@ -11,7 +11,8 @@
       background: rgb(255, 255, 255);
     
       
-      filter: drop-shadow(0px 0px 1.5px black);
+ border-top: solid black;
+ filter: drop-shadow(0px -1px 5px black);
       display: none;
       /*animation: glide 1s forwards;*/
   z-index: 4;
@@ -33,21 +34,21 @@
 @keyframes glide{
   0%{
       transform: translateY(75%);
-      filter: drop-shadow(1px -5px 1.5px black);
+      
   }
   100%{
-    filter: drop-shadow(1px -5px 1.5px black);
+   
       transform: translateY(0px);
   }
 }
 @keyframes glider{
   0%{
       transform: translateY(0px);
-      filter: drop-shadow(1px -5px 1.5px black);
+   
   }
   
   100%{
-    filter: drop-shadow(1px -5px 1.5px black);
+  
     transform: translateY(100%);
       
  

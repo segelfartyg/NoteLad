@@ -66,6 +66,11 @@ export default function Editor(props) {
 
   const [showPresentation, setShowPresentation] = useState("entireMirror dontshowpresentation")
 
+  const [currentCard, setCurrentCard] = useState([1, 1]);
+
+  const [currentFrame, setCurrentFrame] = useState(1);
+
+  const currentFrameRef = useRef(1);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -437,31 +442,27 @@ export default function Editor(props) {
     }
   }
 
-  function sendMovableData(data) {
-
-    // console.log("DATAN!!! :::: " +data)
+  function onNewFrame(){
     
-    // movableList.current.push(data);
-    // console.log("MOVABLE CURRENT:::: " + movableList.current)
-    // let templist = [];
-    // let takenIDs = [];
-
-
-    // for(let i = 0; i < movableList.current.length; i++){
-       
-    //     if(!takenIDs.includes(movableList.current[i][1])){
-         
-    //       templist.push(movableList.current[i]);
-    //       takenIDs.push(movableList.current[i][1]);
-    //     }
-    
-    //    }
-
-
-    //    console.log("TEMPLIST:::: " + templist);
-    // movableList.current = templist;
+    setCurrentCard([1, currentCard[1] + 1]);
+    setCurrentFrame(currentCard[1] + 1);
   
+    currentFrameRef.current = currentCard[1] + 1;
+  }
 
+  function navigateToFrame(data){
+
+    console.log(data.target.value);
+
+    if(data.target.value <= currentCard[1] && data.target.value > 0){
+     setCurrentFrame(data.target.value);
+      currentFrameRef.current = data.target.value;
+    }
+ 
+
+  }
+
+  function sendMovableData(data) {
 
 }
 
@@ -518,6 +519,9 @@ export default function Editor(props) {
       
       </div>
       <Mirror
+          currentCard={currentCard}
+          currentFrame={currentFrame}
+          currentFrameRef={currentFrameRef}
           mirrorStyle={showPresentation}        
           topBarStyle={topBarStyle}
           sendMovableDataFromMirror={sendMovableData}
@@ -525,6 +529,10 @@ export default function Editor(props) {
           showMode={showShowMode}
         ></Mirror>
       <Converter
+      currentCard={currentCard}
+      currentFrame={currentFrame}
+      navigateToFrame={navigateToFrame}
+      newFrame={onNewFrame}
         onSetShowMode={onSetShowModeHandler}
         onSave={onSaveHandler}
         onDelete={onDeleteHandler}
