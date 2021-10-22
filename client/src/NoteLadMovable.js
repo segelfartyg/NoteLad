@@ -115,7 +115,7 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
         console.log(frameCords.current);
 
         if(frameCords.current.length <= 0){
-            frameCords.current.push([200, 200]);
+            frameCords.current.push([controlledPosition.x, controlledPosition.y]);
             console.log("kom in här")
         }
         else{
@@ -135,11 +135,12 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
 
         }
 
+
         setControlledPosition({x: frameCords.current[props.frame.current - 1][0], y: frameCords.current[props.frame.current - 1][1]});
         
         console.log(props.frame.current);
         console.log(frameCords.current);
-
+        console.log(controlledPosition);
 
 
     }, [props.frameState])
@@ -172,7 +173,7 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
         props.setChosenComp(movableSettings.current[0][1]);
         const {x, y} = position;
         setControlledPosition({x, y});
-
+        frameCords.current[props.frame.current - 1] = [parseInt(props.currentX), parseInt(props.currentY)];
 
         props.setCurrentX(x);
         props.setCurrentY(y);
@@ -199,7 +200,9 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
        
             const {x, y} = controlledPosition;
             setControlledPosition({x, y: parseInt(props.currentY)});
-           
+            frameCords.current[props.frame.current - 1] = [parseInt(props.currentX), parseInt(props.currentY)];
+            console.log(props.frame)
+            console.log(frameCords.current)
         }
     }, [props.currentY])
 
@@ -209,7 +212,9 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
 
             const {x, y} = controlledPosition;
             setControlledPosition({x: parseInt(props.currentX), y});
-            frameCords.current[props.frame.current] = [parseInt(props.currentX), parseInt(props.currentY)];
+            frameCords.current[props.frame.current - 1] = [parseInt(props.currentX), parseInt(props.currentY)];
+            console.log(props.frame)
+            console.log(frameCords.current)
         }
     }, [props.currentX])
     return (
