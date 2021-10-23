@@ -72,6 +72,10 @@ export default function Editor(props) {
 
   const currentFrameRef = useRef(1);
 
+  const playCard = useRef(false);
+
+  const animationSpeed = useRef(10);
+
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
@@ -462,6 +466,78 @@ export default function Editor(props) {
 
   }
 
+
+  function onPlayButtonHandler(data){
+    
+    
+    if(playCard.current){
+      playCard.current = false;
+    }
+    else{
+      playCard.current = true; 
+      loopBFFrames();
+    }
+
+
+
+  }
+
+function loopBFFrames(data){
+   
+let iterations = 0;
+let animationsTime = 100;
+
+if(animationSpeed.current.value != null){
+  console.log(animationSpeed.current.value);
+  animationsTime = animationSpeed.current.value;
+}
+
+
+
+
+
+
+
+
+  var interval = setInterval(function(){
+    iterations++;
+    if(iterations === currentCard[1]){
+      clearInterval(interval);
+  
+  
+      var interval2 = setInterval(function(){
+        iterations--;
+        if(iterations === 1 ){
+          
+          clearInterval(interval2);
+          loopBFFrames();
+          
+      
+        }
+  
+        if(!playCard.current){
+          clearInterval(interval2);
+        }
+        setCurrentFrame(iterations); 
+        currentFrameRef.current = iterations; 
+      }, animationsTime);
+  
+    }
+    if(!playCard.current){
+      clearInterval(interval);
+    }
+    setCurrentFrame(iterations); 
+    currentFrameRef.current = iterations; 
+  }, animationsTime);
+  
+
+
+}
+
+
+   
+  
+
   function sendMovableData(data) {
 
 }
@@ -529,6 +605,8 @@ export default function Editor(props) {
           showMode={showShowMode}
         ></Mirror>
       <Converter
+      animationSpeed={animationSpeed}
+      onPlayButtonHandler={onPlayButtonHandler}
       currentCard={currentCard}
       currentFrame={currentFrame}
       navigateToFrame={navigateToFrame}

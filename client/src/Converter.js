@@ -81,7 +81,9 @@ export default function Converter(props) {
  
  <div >
  <p >CARD: {props.currentCard[0]} FRAME: {props.currentFrame}</p>
+ <input type="number" ref={props.animationSpeed}></input>
  <button onClick={props.newFrame}>NEW FRAME</button>
+ <button onClick={props.onPlayButtonHandler}>PLAY ALTERNATE</button>
  <input type="number" onChange={props.navigateToFrame} value={props.currentFrame}></input>
   </div>
 
