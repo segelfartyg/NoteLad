@@ -45,9 +45,9 @@ const theme =
   "logoColor3": "rgb(190, 190, 190)",
   "menuButtonGradientAngle": "180",
   "converterColor": "white",
-  "menuColor1": "white",
-  "menuColor2": "red",
-  "menuColor3": "white",
+  "menuColor1": "rgb(255, 255, 255)",
+  "menuColor2": "rgb(201, 201, 201)",
+  "menuColor3": "rgb(100, 100, 100)",
 },
 
 "greenApple":{ 
