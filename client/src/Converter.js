@@ -6,6 +6,9 @@ export default function Converter(props) {
 
     const currentDesc = useRef("");
     const currentNoteName = useRef("");
+    const converterThemeStyle = {
+      'background': props.theme.converterColor,
+    }
 
     function onSubmitClick(){
 
@@ -26,7 +29,7 @@ export default function Converter(props) {
     return (
         <div>
 
-<div className={props.converterStyle}>
+<div className={props.converterStyle} style={converterThemeStyle}>
 
 <div className="converterForm">
 
@@ -124,9 +127,7 @@ export default function Converter(props) {
 
 <svg onClick={onDeleteClick} id="Layer_1" className="trashBin" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 938 938">
   <defs>
-    <style>
-  
-    </style>
+    
   </defs>
   <g>
     <path className="trash" d="M469,925C217.1,924.8,13,720.5,13.2,468.6A456.19,456.19,0,0,1,291.5,48.8c232.1-98,499.7,10.7,597.7,242.7S878.6,791.1,646.5,889.2A454.7,454.7,0,0,1,469,925Z"/>

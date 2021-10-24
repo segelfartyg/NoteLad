@@ -15,6 +15,9 @@ export default function Mirror(props) {
   const [showComponents, setShowComponents] = useState();
  
   
+  const themeStyle = {
+    'background': 'linear-gradient(' + props.theme.toolbarGradientAngle + 'deg, ' + props.theme.toolbarColor1 + ' 0%, '+ props.theme.toolbarColor2 + ' 50%, '+ props.theme.toolbarColor3 +' 100%)',
+  }
     let style = "mirrorArea ";
 
 
@@ -75,7 +78,7 @@ setCurrentAngle(angle);
   return (
 
     <div className={props.mirrorStyle}>
-      <div className={props.topBarStyle}>
+      <div className={props.topBarStyle} style={themeStyle}>
 
         <div className="firstColTool">
       

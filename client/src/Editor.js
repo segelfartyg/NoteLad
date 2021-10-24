@@ -76,6 +76,12 @@ export default function Editor(props) {
 
   const animationSpeed = useRef(10);
 
+  const menuStyle = {
+    'background': 'linear-gradient(' + props.theme.menuButtonGradientAngle + 'deg, ' + props.theme.menuColor1 + ' 0%, ' + props.theme.menuColor2 + ' 50%, ' + props.theme.menuColor3 + ' 100%',
+  }
+
+  
+
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
@@ -544,9 +550,13 @@ if(animationSpeed.current.value != null){
 
 
   return (
+    
     <div id="Editor">
-      <div onClick={onMenuClickHandler} className={menuAreaStyle}>
+
+
+      <div onClick={onMenuClickHandler}  className={menuAreaStyle} style={menuStyle}>
         <svg
+        
           className="MenuButton"
           alt="MBUTTON"
           id="Layer_1"
@@ -591,10 +601,14 @@ if(animationSpeed.current.value != null){
         </svg>
       </div>
 
+   
+
       <div id="container" className={showEditor}ref={wrapperRef}>
-      
+      <style dangerouslySetInnerHTML={{__html: `.ql-toolbar.ql-snow { background: linear-gradient(` + props.theme.toolbarGradientAngle + `deg, ` + props.theme.toolbarColor1 + ` 0%, ` + props.theme.toolbarColor2 + ` 50%, ` + props.theme.toolbarColor3 + ` 100%) } 
+      `}} />
       </div>
       <Mirror
+          theme={props.theme}
           currentCard={currentCard}
           currentFrame={currentFrame}
           currentFrameRef={currentFrameRef}
@@ -605,6 +619,7 @@ if(animationSpeed.current.value != null){
           showMode={showShowMode}
         ></Mirror>
       <Converter
+      theme={props.theme}
       animationSpeed={animationSpeed}
       onPlayButtonHandler={onPlayButtonHandler}
       currentCard={currentCard}

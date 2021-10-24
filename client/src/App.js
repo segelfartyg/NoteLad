@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import Editor from "./Editor";
 import socketClient from "socket.io-client";
 import NoteLadHeader from "./noteladheader.svg"
+
 const axios = require("axios");
 
 
@@ -25,6 +26,58 @@ const [updated, setUpdated] = useState(false);
 
 const [notes, setNotes] = useState([]);
 
+
+const theme =
+  
+{
+  "white":{ 
+  "navbarColor1" : "rgb(255, 255, 255)",
+  "navbarColor2" : "rgb(201, 201, 201)",
+  "navbarColor3" : "rgb(100, 100, 100)",
+  "borderColor": "black",
+  "navBarGradientAngle": "180",
+  "toolbarColor1": "rgb(255, 255, 255)",
+  "toolbarColor2": "rgb(255, 255, 255)",
+  "toolbarColor3": "rgb(190, 190, 190)",
+  "toolbarGradientAngle": "90",
+  "logoColor1": "rgb(255, 255, 255)",
+  "logoColor2": "rgb(255, 255, 255)",
+  "logoColor3": "rgb(190, 190, 190)",
+  "menuButtonGradientAngle": "180",
+  "converterColor": "white",
+  "menuColor1": "white",
+  "menuColor2": "red",
+  "menuColor3": "white",
+},
+
+"greenApple":{ 
+  "navbarColor1" : "#25b031",
+  "navbarColor2" : "#52da5e",
+  "navbarColor3" : "#2ac537",
+  "borderColor": "black",
+  "navBarGradientAngle": "180",
+  "toolbarColor1": "#25b031",
+  "toolbarColor2": "#52da5e",
+  "toolbarColor3": "#1f9128",
+  "toolbarGradientAngle": "90",
+  "logoColor1": "#ffc500",
+  "logoColor2": "#ffde00",
+  "logoColor3": "#fdff00",
+  "menuButtonGradientAngle": "180",
+  "converterColor": "#52da5e",
+  "menuColor1": "#25b031",
+  "menuColor2": "#52da5e",
+  "menuColor3": "#1f9128",
+},
+
+}
+
+const [currentTheme, setCurrentTheme] = useState(theme.greenApple);
+
+
+
+
+console.log(currentTheme);
 
 
 useEffect(() => {
@@ -181,9 +234,10 @@ function onNewNoteHandler(){
   return (
     <div className="App">
     
-        <NavBar newNote={onNewNoteHandler} noteList={notes} sendGetRequest={sendGetRequest}/>
-        <Editor createPost={createPostHandler} editorStatus={editorStatus} setEditorStatus={setEditorStatusHandler} deletePost={deletePostHandler}/>
-      
+
+        <NavBar theme={currentTheme} newNote={onNewNoteHandler} noteList={notes} sendGetRequest={sendGetRequest}/>
+        <Editor theme={currentTheme} createPost={createPostHandler} editorStatus={editorStatus} setEditorStatus={setEditorStatusHandler} deletePost={deletePostHandler}/>
+  
         {/* <img className="NoteLadHeader" alt="NoteLadHeader" src={NoteLadHeader}></img>
    */}
     </div>

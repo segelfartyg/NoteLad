@@ -8,6 +8,9 @@ import NoteLadPlus from "./noteladplus.svg";
 export default function NavBar(props) {
 
     
+  const style = {
+    'background': 'linear-gradient(' + props.theme.navBarGradientAngle + 'deg, ' + props.theme.navbarColor1 + ' 0%, '+ props.theme.navbarColor2 + ' 50%, '+ props.theme.navbarColor3 +' 100%)',
+  }
 
     function sendGetRequestToAppLayer(endpoint){
 
@@ -17,7 +20,7 @@ export default function NavBar(props) {
 
 
     return (
-        <div className="navbar">
+        <div style={style} className="navbar">
 
                 <div className="logotitle">
                 {/*<h1>Notelad</h1>*/}
@@ -29,9 +32,9 @@ export default function NavBar(props) {
       } */}
     </style>
     <linearGradient id="grad1" x1="0%" y1="00%" x2="10%" y2="100%">
-      <stop offset="0%" stop-color="#f5f5f5" />
-      <stop offset="50%" stop-color="#fdfdfd" />
-      <stop offset="100%" stop-color="#d8d8d8" />
+      <stop offset="0%" stop-color={props.theme.logoColor1} />
+      <stop offset="50%" stop-color={props.theme.logoColor2} />
+      <stop offset="100%" stop-color={props.theme.logoColor3} />
     </linearGradient>
   </defs>
   <g>
