@@ -90,9 +90,50 @@ const theme =
   "menuColor3": "#1f9128",
 },
 
+"gold":{ 
+  "navbarColor1" : "#DBB42C",
+  "navbarColor2" : "#EDC531",
+  "navbarColor3" : "#FAD643",
+  "borderColor": "#2b000a",
+  "navBarGradientAngle": "180",
+  "toolbarColor1": "#DBB42C",
+  "toolbarColor2": "#EDC531",
+  "toolbarColor3": "#FAD643",
+  "toolbarGradientAngle": "90",
+  "logoColor1": "#B69121",
+  "logoColor2": "#C9A227",
+  "logoColor3": "#DBB42C",
+  "menuButtonGradientAngle": "180",
+  "converterColor": "#FAD643",
+  "menuColor1": "#B69121",
+  "menuColor2": "#C9A227",
+  "menuColor3": "#DBB42C",
+},
+
+"sapphire":{ 
+  "navbarColor1" : "#2196F3",
+  "navbarColor2" : "#1E88E5",
+  "navbarColor3" : "#1976D2",
+  "borderColor": "#2b000a",
+  "navBarGradientAngle": "180",
+  "toolbarColor1": "#2196F3",
+  "toolbarColor2": "#1E88E5",
+  "toolbarColor3": "#1976D2",
+  "toolbarGradientAngle": "90",
+  "logoColor1": "#1976D2",
+  "logoColor2": "#1E88E5",
+  "logoColor3": "#2196F3",
+  "menuButtonGradientAngle": "180",
+  "converterColor": "#1976D2",
+  "menuColor1": "#1976D2",
+  "menuColor2": "#1565C0",
+  "menuColor3": "#1976D2",
+},
+
+
 }
 
-const [currentTheme, setCurrentTheme] = useState(theme.greenApple);
+const [currentTheme, setCurrentTheme] = useState(theme.redApple);
 
 
 
