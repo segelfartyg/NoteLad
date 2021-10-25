@@ -70,6 +70,26 @@ const theme =
   "menuColor3": "#1f9128",
 },
 
+"redApple":{ 
+  "navbarColor1" : "#c31b00",
+  "navbarColor2" : "#ff2a08",
+  "navbarColor3" : "#660500",
+  "borderColor": "#2b000a",
+  "navBarGradientAngle": "180",
+  "toolbarColor1": "#c31b00",
+  "toolbarColor2": "#ff2a08",
+  "toolbarColor3": "#660500",
+  "toolbarGradientAngle": "90",
+  "logoColor1": "#25b031",
+  "logoColor2": "#52da5e",
+  "logoColor3": "#2ac537",
+  "menuButtonGradientAngle": "180",
+  "converterColor": "#52da5e",
+  "menuColor1": "#25b031",
+  "menuColor2": "#52da5e",
+  "menuColor3": "#1f9128",
+},
+
 }
 
 const [currentTheme, setCurrentTheme] = useState(theme.greenApple);
