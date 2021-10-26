@@ -50,7 +50,8 @@ const theme =
   "menuColor3": "rgb(100, 100, 100)",
 },
 
-"greenApple":{ 
+
+"Patrick":{ 
   "navbarColor1" : "#25b031",
   "navbarColor2" : "#52da5e",
   "navbarColor3" : "#2ac537",
@@ -70,7 +71,7 @@ const theme =
   "menuColor3": "#1f9128",
 },
 
-"redApple":{ 
+"Pepper":{ 
   "navbarColor1" : "#c31b00",
   "navbarColor2" : "#ff2a08",
   "navbarColor3" : "#660500",
@@ -90,7 +91,7 @@ const theme =
   "menuColor3": "#1f9128",
 },
 
-"gold":{ 
+"Midas":{ 
   "navbarColor1" : "#DBB42C",
   "navbarColor2" : "#EDC531",
   "navbarColor3" : "#FAD643",
@@ -110,7 +111,7 @@ const theme =
   "menuColor3": "#DBB42C",
 },
 
-"sapphire":{ 
+"Sapphire":{ 
   "navbarColor1" : "#2196F3",
   "navbarColor2" : "#1E88E5",
   "navbarColor3" : "#1976D2",
@@ -133,7 +134,7 @@ const theme =
 
 }
 
-const [currentTheme, setCurrentTheme] = useState(theme.redApple);
+const [currentTheme, setCurrentTheme] = useState(theme.Patrick);
 
 
 
