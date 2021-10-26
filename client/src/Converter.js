@@ -34,18 +34,32 @@ export default function Converter(props) {
 <div className="converterForm">
 
 <div className="firstColumn">
-  <div>
-  <button className="saveCard" onClick={onSubmitClick}>SAVE CARD</button>
-<button className="createCollection">CREATE COLLECTION</button>
-
-<button onClick={onSetShowModeHandler}>SWITCH</button>
-  </div>
-
-
-
-
+ 
 
   
+
+<div>
+
+  <div className="buttonAndInput">
+
+ 
+  <button onClick={props.onPlayButtonHandler}>PLAY ALTERNATE</button>
+  <input type="number" ref={props.animationSpeed}></input>
+  </div>
+
+<div className="buttonAndInput">
+<button onClick={props.newFrame}>NEW FRAME</button>
+<input type="number" onChange={props.navigateToFrame} value={props.currentFrame}></input>
+
+
+
+</div>
+
+
+
+</div>
+
+<p>CARD: {props.currentCard[0]} FRAME: {props.currentFrame}</p>
 
 
 
@@ -93,19 +107,18 @@ export default function Converter(props) {
 
   
  <input id="noteNameField" name="nameField" type="text" ref={currentNoteName}></input>
+
+
  
  <div>
-<p>CARD: {props.currentCard[0]} FRAME: {props.currentFrame}</p>
+ <div>
+  <button className="saveCard" onClick={onSubmitClick}>SAVE CARD</button>
+<button className="createCollection">CREATE COLLECTION</button>
 
-<div>
-<button onClick={props.onPlayButtonHandler}>PLAY ALTERNATE</button>
-<button onClick={props.newFrame}>NEW FRAME</button>
-</div>
+<button onClick={onSetShowModeHandler}>SWITCH</button>
+  </div>
 
-<div>
-<input type="number" ref={props.animationSpeed}></input>
-<input type="number" onChange={props.navigateToFrame} value={props.currentFrame}></input>
-</div>
+
 
 </div>
 

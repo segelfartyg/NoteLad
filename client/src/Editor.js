@@ -80,6 +80,10 @@ export default function Editor(props) {
     'background': 'linear-gradient(' + props.theme.menuButtonGradientAngle + 'deg, ' + props.theme.menuColor1 + ' 0%, ' + props.theme.menuColor2 + ' 50%, ' + props.theme.menuColor3 + ' 100%',
   }
 
+  const backgroundStyle ={
+    'background': 'linear-gradient(' + props.theme.backgroundAngle + 'deg, ' + props.theme.background1 + ' 0%, ' + props.theme.background2 + ' 50%, ' + props.theme.background3 + ' 100%',
+  }
+
   
 
   const wrapperRef = useCallback((wrapper) => {
@@ -551,7 +555,7 @@ if(animationSpeed.current.value != null){
 
   return (
     
-    <div id="Editor">
+    <div style={backgroundStyle} id="Editor">
 
 
       <div onClick={onMenuClickHandler}  className={menuAreaStyle} style={menuStyle}>
