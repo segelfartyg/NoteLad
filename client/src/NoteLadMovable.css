@@ -28,7 +28,10 @@
     font-weight: bold;
 }
 
-
+img {
+    user-select: none;
+    pointer-events: none;
+}
 
 .content{
     user-select: none;

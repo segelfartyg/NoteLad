@@ -146,7 +146,7 @@ const theme =
 
 }
 
-const [currentTheme, setCurrentTheme] = useState(theme.white);
+const [currentTheme, setCurrentTheme] = useState(theme.Sapphire);
 
 
 
