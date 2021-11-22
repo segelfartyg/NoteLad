@@ -146,7 +146,7 @@ const theme =
 
 }
 
-const [currentTheme, setCurrentTheme] = useState(theme.Patrick);
+const [currentTheme, setCurrentTheme] = useState(theme.white);
 
 
 

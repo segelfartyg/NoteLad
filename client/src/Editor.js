@@ -202,7 +202,7 @@ export default function Editor(props) {
     let tagContent = "";
     let approvedTag = false;
     let occupiedMoreThanOnce = [];
-    let isImage = false;
+    let imageTag = false;
 
     for(let i = 0; i < content.length; i++){
 
@@ -242,6 +242,18 @@ export default function Editor(props) {
       }
 
 
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] + content[i+8] + content[i+9]=== '<img src="'){
+        console.log("HITTADE ÖPPNING")
+        openingTag = '<img id="' + getLongNewID(getHighestID() + 1) + '" src="';
+        allIDs.current.push(getLongNewID(getHighestID() + 1));
+        closeTagCountDown = 10;
+        approvedTag = true;
+        countDown = 10; 
+        imageTag = true; 
+       
+      }
+
+     
      
 
 
@@ -316,7 +328,13 @@ export default function Editor(props) {
       }
 
 
-
+      if(content[i] + content[i+1] === '">' && imageTag){
+        closingTag = '">';
+        closeTagCountDown = 0;
+        approvedTag = true;
+        countDown = 2; 
+        imageTag = false;
+      }
 
       if(content[i] + content[i+1] + content[i+2] + content[i+3] === "</p>"){
         console.log("HITTADE STÄNGING")
@@ -347,11 +365,14 @@ export default function Editor(props) {
         approvedTag = false;
         countDown = 4; 
       }
+      
 
      
-
-   
-      if(closeTagCountDown === 2 && countDown === 0 && approvedTag){
+      if(imageTag && countDown === 0){
+        tagContent += content[i]; 
+      
+      }
+      else if(closeTagCountDown === 2 && countDown === 0 && approvedTag && !imageTag){
         tagContent += content[i];     
       }
       else{
@@ -365,6 +386,7 @@ export default function Editor(props) {
         if(tagContent != ""){
           temp += component;
           components.push(component);
+    
         }
        
         component = "";
