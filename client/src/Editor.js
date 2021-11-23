@@ -242,7 +242,7 @@ export default function Editor(props) {
       }
 
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] + content[i+8] + content[i+9]=== '<img src="'){
+      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] + content[i+8] + content[i+9] === '<img src="'){
         console.log("HITTADE ÖPPNING")
         openingTag = '<img id="' + getLongNewID(getHighestID() + 1) + '" src="';
         allIDs.current.push(getLongNewID(getHighestID() + 1));
@@ -327,6 +327,29 @@ export default function Editor(props) {
         }
       }
 
+      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] + content[i+8] === '<img id="'){
+        imageTag = true;
+        if(!occupiedMoreThanOnce.includes(content[i+9] + content[i+10] + content[i+11] + content[i+12])){
+          console.log("HITTADE ÖPPNING MED ID");
+          openingTag = '<img id="' + content[i+9] + content[i+10] + content[i+11] + content[i+12] + '" ';
+          closeTagCountDown = 1000;
+          closeTagCountDown = 1000;
+          approvedTag = true;
+          countDown = 14; 
+          occupiedMoreThanOnce.push(parseInt(content[i+9] + content[i+10] + content[i+11] + content[i+12]))
+        }
+        else{
+          console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
+          openingTag = '<img id="' + getLongNewID(getHighestID() + 1) + '" ';
+          allIDs.current.push(getLongNewID(getHighestID() + 1));
+          closeTagCountDown--;
+          closeTagCountDown--;
+          approvedTag = true;
+          countDown = 14; 
+        }
+      }
+
+
 
       if(content[i] + content[i+1] === '">' && imageTag){
         closingTag = '">';
@@ -382,7 +405,7 @@ export default function Editor(props) {
       if(closeTagCountDown === 0 && approvedTag){
    
         component = openingTag + tagContent + closingTag;
-
+        console.log(component);
         if(tagContent != ""){
           temp += component;
           components.push(component);

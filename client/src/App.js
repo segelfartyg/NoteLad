@@ -146,7 +146,7 @@ const theme =
 
 }
 
-const [currentTheme, setCurrentTheme] = useState(theme.Sapphire);
+const [currentTheme, setCurrentTheme] = useState(theme.Midas);
 
 
 
