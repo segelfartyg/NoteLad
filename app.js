@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const autoIncriment = require("mongoose-auto-increment");
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const bp = require("body-parser");
+const multer = require("multer");
+const upload = multer({dest: "./images/"});
+
 
 
 app.use(bp.json());
@@ -19,7 +22,7 @@ const options = {
   origins: ["http://localhost:3000"],
 };
 
-
+app.use("/images", express.static("images"));
 
 
 mongoose.connect("mongodb://localhost/NoteLadDB")
@@ -232,6 +235,23 @@ app.get("/getNotes", async function (req, res) {
    
     });
 
+
+    app.post("/images", upload.single("image"), function (req, res, next) {
+
+        console.log(req)
+        res.send(req.file.filename)
+      });
+
+
+      app.get("/images/:key", function (req, res, next) {
+
+
+        req.params.key
+        console.log(req)
+
+
+        res.send(req.file.filename)
+      });
 
 
     app.post("/delete", async function (req, res) {

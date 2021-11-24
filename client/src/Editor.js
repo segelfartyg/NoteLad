@@ -1,18 +1,30 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactQuill, { Quill } from "react-quill";
+import QuillImageDropAndPaste from 'quill-image-drop-and-paste';
+import { ImageData } from 'quill-image-drop-and-paste'
+
 
 import "react-quill/dist/quill.snow.css";
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module-react";
+import ImageUploader from "quill-image-uploader";
 import "./Editor.css";
 import MenuButton from "./menubutton.svg";
 import Converter from "./Converter";
 import Mirror from "./Mirror";
 const axios = require("axios");
 
+
+
+
+
+
 var toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
-  [],
+  ["image"],
+
+ 
+
 
   [{ header: 1 }, { header: 2 }], // custom button values
 
@@ -28,15 +40,94 @@ var toolbarOptions = [
   ["clean"], // remove formatting button
 ];
 
+
 export default function Editor(props) {
+
   Quill.register("modules/imageDrop", ImageDrop);
   Quill.register("modules/imageResize", ImageResize);
+  Quill.register("modules/imageUploader", ImageUploader);
+  Quill.register('modules/imageDropAndPaste', QuillImageDropAndPaste)
 
   useEffect(() => {
     if (quill == null) return;
 
     quill.root.innerHTML = props.editorStatus;
   }, [props.editorStatus]);
+
+
+
+  function uploadFile(file){
+
+
+    
+  }
+  
+  function imageHandlerDrop(image){
+
+ 
+    console.log(image)
+    // upload image to your server
+    // callUploadAPI(your_upload_url, formData, (err, res) => {
+    //   if (err) return
+    //   // success? you should return the uploaded image's url
+    //   // then insert into the quill editor
+    //   let index = (quill.getSelection() || {}).index;
+    //   if (index === undefined || index < 0) index = quill.getLength();
+    //   quill.insertEmbed(index, 'image', res.data.image_url, 'user')
+    // })
+
+
+  }
+
+  function imageHandler(){
+    
+
+  
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+    input.onchange = async function() {
+      const file = input.files[0];
+
+      console.log(file);
+      console.log('User trying to uplaod this:', file);
+
+      
+
+      var imageID;
+      let formdata = new FormData();
+      formdata.append("image", file)
+     
+       axios({
+        method: "POST",
+        url: "http://localhost:8080/images",
+        headers: {
+        },
+        data: formdata
+      }).then((res) => {
+        
+      console.log(res);
+          
+      const link = "http://localhost:3000/images/" + res.data;
+      const range = quill.getSelection();
+
+      quill.insertEmbed(range.index, 'image', link); 
+        
+      }).catch(err => {return "CANT UPLOAD"});
+    
+  
+
+      // this part the image is inserted
+      // by 'image' option below, you just have to put src(link) of img here. 
+
+    }.bind(this); // react thing
+  
+  
+  
+  }
+  
+
 
   const [quill, setQuill] = useState();
 
@@ -92,18 +183,32 @@ export default function Editor(props) {
     const editor = document.createElement("div");
     wrapper.append(editor);
     const q = new Quill(editor, {
+
+     
+
+
       modules: {
         toolbar: toolbarOptions,
         imageResize: {
           parchment: Quill.import("parchment"),
           modules: ["Resize", "DisplaySize", "Toolbar"],
         },
+        imageDropAndPaste: {
+          // add an custom image handler
+          handler: imageHandlerDrop
+        },
+      
         imageDrop: {},
+
       },
       theme: "snow",
-    });
+  
+ 
+    }); 
 
-    setQuill(q);
+    
+
+    setQuill(q)
   }, []);
 
   useEffect(() => {
@@ -121,7 +226,16 @@ export default function Editor(props) {
   }, [quill]);
 
   useEffect(() => {
+    
+    
+    
     if (quill == null) return;
+
+
+    var toolbar = quill.getModule("toolbar");
+    toolbar.addHandler("image", imageHandler);
+ 
+    
 
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
@@ -135,6 +249,8 @@ export default function Editor(props) {
       quill.off("text-change", handler);
     };
   }, [quill]);
+
+
 
   function arrangeHTMLTAG(content, id, type) {
  

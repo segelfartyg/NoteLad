@@ -17,7 +17,9 @@
     "mongoose": "^6.0.8",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-sequence": "^5.3.1",
+    "multer": "^1.4.3",
     "path": "^0.12.7",
+    "quill-image-drop-and-paste": "^1.2.9",
     "socket.io": "^4.2.0"
   }
 }
