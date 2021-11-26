@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactQuill, { Quill } from "react-quill";
 
-
-
-
 import "react-quill/dist/quill.snow.css";
-import QuillResize from 'quill-resize-module';
+import QuillResize from "quill-resize-module";
 import ImageUploader from "quill-image-uploader";
 import "./Editor.css";
 import MenuButton from "./menubutton.svg";
@@ -13,167 +10,102 @@ import Converter from "./Converter";
 import Mirror from "./Mirror";
 const axios = require("axios");
 
-
-
-
-
-
 var toolbarOptions = [
-  ["bold", "italic", "underline", "strike"], // toggled buttons
+  // toggled buttons
   ["image"],
-
- 
-
-
-  [{ header: 1 }, { header: 2 }], // custom button values
-
-
-  [{ direction: "rtl" }], // text direction
-
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-  // dropdown with defaults from theme
-  [{ font: [] }],
+  [{ header: [1, 2, 3, false] }],
   [{ align: [] }],
-
-  ["clean"], // remove formatting button
 ];
 
-
 export default function Editor(props) {
-
-  
   Quill.register("modules/imageUploader", ImageUploader);
- 
-  Quill.register('modules/resize', QuillResize);
+  Quill.register("modules/resize", QuillResize);
+
   useEffect(() => {
     if (quill == null) return;
 
     quill.root.innerHTML = props.editorStatus;
   }, [props.editorStatus]);
 
-
-
-  function uploadFile(file){
-
-
-    
-  }
-  
-  function imageHandlerDrop(image){
-
- 
-    console.log(image)
-    // upload image to your server
-    // callUploadAPI(your_upload_url, formData, (err, res) => {
-    //   if (err) return
-    //   // success? you should return the uploaded image's url
-    //   // then insert into the quill editor
-    //   let index = (quill.getSelection() || {}).index;
-    //   if (index === undefined || index < 0) index = quill.getLength();
-    //   quill.insertEmbed(index, 'image', res.data.image_url, 'user')
-    // })
-
-
-  }
-
-  function imageHandler(){
-    
-
-  
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+  function imageHandler() {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
     input.click();
-    input.onchange = async function() {
+    input.onchange = async function () {
       const file = input.files[0];
-
       console.log(file);
-      console.log('User trying to uplaod this:', file);
-
-      
-
+      console.log("User trying to uplaod this:", file);
       var imageID;
       let formdata = new FormData();
-      formdata.append("image", file)
-     
-       axios({
+      formdata.append("image", file);
+
+      axios({
         method: "POST",
         url: "http://localhost:8080/images",
-        headers: {
-        },
-        data: formdata
-      }).then((res) => {
-        
-      console.log(res);
-          
-      const link = "http://localhost:3000/images/" + res.data;
-      const range = quill.getSelection();
+        headers: {},
+        data: formdata,
+      })
+        .then((res) => {
+          console.log(res);
 
-      quill.insertEmbed(range.index, 'image', link); 
-        
-      }).catch(err => {return "CANT UPLOAD"});
-    
-  
+          const link = "http://localhost:3000/images/" + res.data;
+          const range = quill.getSelection();
 
-      // this part the image is inserted
-      // by 'image' option below, you just have to put src(link) of img here. 
-
-    }.bind(this); // react thing
-  
-  
-  
+          quill.insertEmbed(range.index, "image", link);
+        })
+        .catch((err) => {
+          return "CANT UPLOAD";
+        });
+    };
   }
-  
-
 
   const [quill, setQuill] = useState();
-
   const showConverter = useRef(false);
-
   const showmenuArea = useRef(false);
-
   const [components, setComponents] = useState([]);
-
   const [showShowMode, setShowShowMode] = useState(false);
-
   const [converterStyle, setConverterStyle] = useState("EditorConverter");
-
   const [menuAreaStyle, setMenuAreaStyle] = useState("menuButtonArea");
-
   const currentContent = useRef("");
-
   const movableList = useRef([]);
-
   const allComponents = useRef("");
-
   const allIDs = useRef(["___0"]);
-
   const [topBarStyle, setTopBarStyle] = useState("topBarclosed");
-
   const [showEditor, setShowEditor] = useState("");
-
-  const [showPresentation, setShowPresentation] = useState("entireMirror dontshowpresentation")
-
+  const [showPresentation, setShowPresentation] = useState(
+    "entireMirror dontshowpresentation"
+  );
   const [currentCard, setCurrentCard] = useState([1, 1]);
-
   const [currentFrame, setCurrentFrame] = useState(1);
-
   const currentFrameRef = useRef(1);
-
   const playCard = useRef(false);
-
   const animationSpeed = useRef(10);
 
   const menuStyle = {
-    'background': 'linear-gradient(' + props.theme.menuButtonGradientAngle + 'deg, ' + props.theme.menuColor1 + ' 0%, ' + props.theme.menuColor2 + ' 50%, ' + props.theme.menuColor3 + ' 100%',
-  }
-
-  const backgroundStyle ={
-    'background': 'linear-gradient(' + props.theme.backgroundAngle + 'deg, ' + props.theme.background1 + ' 0%, ' + props.theme.background2 + ' 50%, ' + props.theme.background3 + ' 100%',
-  }
-
-  
+    background:
+      "linear-gradient(" +
+      props.theme.menuButtonGradientAngle +
+      "deg, " +
+      props.theme.menuColor1 +
+      " 0%, " +
+      props.theme.menuColor2 +
+      " 50%, " +
+      props.theme.menuColor3 +
+      " 100%",
+  };
+  const backgroundStyle = {
+    background:
+      "linear-gradient(" +
+      props.theme.backgroundAngle +
+      "deg, " +
+      props.theme.background1 +
+      " 0%, " +
+      props.theme.background2 +
+      " 50%, " +
+      props.theme.background3 +
+      " 100%",
+  };
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
@@ -181,27 +113,19 @@ export default function Editor(props) {
     const editor = document.createElement("div");
     wrapper.append(editor);
     const q = new Quill(editor, {
-
-     
-
-
       modules: {
         toolbar: toolbarOptions,
         resize: {
-          modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
+          modules: ["Resize", "DisplaySize", "Toolbar"],
         },
       },
       theme: "snow",
-    }); 
-
-    
-
-    setQuill(q)
+    });
+    setQuill(q);
   }, []);
 
   useEffect(() => {
     if (quill == null) return;
-
     axios({
       method: "GET",
       url: "http://localhost:8080/",
@@ -214,17 +138,9 @@ export default function Editor(props) {
   }, [quill]);
 
   useEffect(() => {
-    
-    
-    
     if (quill == null) return;
-
-
     var toolbar = quill.getModule("toolbar");
     toolbar.addHandler("image", imageHandler);
- 
-    
-
     const handler = (delta, oldDelta, source) => {
       if (source !== "user") return;
       //currentContent.current = quill.root.innerHTML;
@@ -232,70 +148,36 @@ export default function Editor(props) {
       currentContent.current = quill.root.innerHTML;
     };
     quill.on("text-change", handler);
-
     return () => {
       quill.off("text-change", handler);
     };
   }, [quill]);
 
-
-
-  function arrangeHTMLTAG(content, id, type) {
- 
-
-    return "<" + type + " id=" + id + ">" + content + "</" + type + ">";
+  function getLongNewID(wishedID) {
+    if (wishedID < 10) {
+      return "___" + wishedID;
+    } else if (wishedID >= 10 && wishedID < 100) {
+      return "__" + wishedID;
+    } else if (wishedID >= 100 && wishedID < 1000) {
+      return "_" + wishedID;
+    }
   }
 
-
-  function getLongNewID(wishedID){
-
-    
-
-      if(wishedID < 10){
-
-        return  "___" + wishedID;
-      }
-        
-      else if(wishedID >= 10 && wishedID < 100){
-        return  "__" + wishedID;
-      }
-       
-
-      else if(wishedID >= 100 && wishedID < 1000){
-        return  "_" + wishedID;
-      }
-   
-     
-   
-    }
-  
-
-  function getIDfromString(item){
-
-    if(item !== ""){
-
+  function getIDfromString(item) {
+    if (item !== "") {
       return parseInt(item.replaceAll("_", " "));
     }
-    
   }
 
-
-  function getHighestID(){
-
+  function getHighestID() {
     let templist = [];
-    for(let i = 0; i < allIDs.current.length; i++){
-
-      
+    for (let i = 0; i < allIDs.current.length; i++) {
       templist.push(getIDfromString(allIDs.current[i]));
-
     }
-
     return Math.max(...templist);
   }
 
   function makeComponentsFromContent(content) {
-  
-
     let temp = "";
     let component = "";
     let components = [];
@@ -308,214 +190,325 @@ export default function Editor(props) {
     let occupiedMoreThanOnce = [];
     let imageTag = false;
 
-    for(let i = 0; i < content.length; i++){
-
-      if(content[i] + content[i+1] + content[i+2] === "<p>"){
-        // console.log(getLongNewID(2));
-         
-       
-       
-       
+    for (let i = 0; i < content.length; i++) {
+      if (content[i] + content[i + 1] + content[i + 2] === "<p>") {
         openingTag = '<p id="' + getLongNewID(getHighestID() + 1) + '">';
         allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown--;
         closeTagCountDown--;
         approvedTag = true;
-        countDown = 3; 
+        countDown = 3;
         console.log(allIDs.current);
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<h1>"){
-        console.log("HITTADE ÖPPNING")
+      if (
+        content[i] + content[i + 1] + content[i + 2] + content[i + 3] ===
+        "<h1>"
+      ) {
+        console.log("HITTADE ÖPPNING");
         openingTag = '<h1 id="' + getLongNewID(getHighestID() + 1) + '">';
         allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown--;
         closeTagCountDown--;
         approvedTag = true;
-        countDown = 4; 
+        countDown = 4;
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<h2>"){
-        console.log("HITTADE ÖPPNING")
+      if (
+        content[i] + content[i + 1] + content[i + 2] + content[i + 3] ===
+        "<h2>"
+      ) {
+        console.log("HITTADE ÖPPNING");
         openingTag = '<h2 id="' + getLongNewID(getHighestID() + 1) + '">';
         allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown--;
         closeTagCountDown--;
         approvedTag = true;
-        countDown = 4; 
+        countDown = 4;
       }
 
-
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] + content[i+8] + content[i+9] === '<img src="'){
-        console.log("HITTADE ÖPPNING")
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] +
+          content[i + 5] +
+          content[i + 6] +
+          content[i + 7] +
+          content[i + 8] +
+          content[i + 9] ===
+        '<img src="'
+      ) {
+        console.log("HITTADE ÖPPNING");
         openingTag = '<img id="' + getLongNewID(getHighestID() + 1) + '" src="';
         allIDs.current.push(getLongNewID(getHighestID() + 1));
         closeTagCountDown = 10;
         approvedTag = true;
-        countDown = 10; 
-        imageTag = true; 
-       
+        countDown = 10;
+        imageTag = true;
       }
 
-     
-     
-
-
-      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] === '<p id="'){
-        
-        if(!occupiedMoreThanOnce.includes(content[i+7] + content[i+8] + content[i+9] + content[i+10])){
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] +
+          content[i + 5] +
+          content[i + 6] ===
+        '<p id="'
+      ) {
+        if (
+          !occupiedMoreThanOnce.includes(
+            content[i + 7] + content[i + 8] + content[i + 9] + content[i + 10]
+          )
+        ) {
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<p id="' + content[i+7] + content[i+8] + content[i+9] + content[i+10] + '">';
+          openingTag =
+            '<p id="' +
+            content[i + 7] +
+            content[i + 8] +
+            content[i + 9] +
+            content[i + 10] +
+            '">';
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 13; 
-          occupiedMoreThanOnce.push(content[i+7] + content[i+8] + content[i+9] + content[i+10]);
-        }
-        else{
+          countDown = 13;
+          occupiedMoreThanOnce.push(
+            content[i + 7] + content[i + 8] + content[i + 9] + content[i + 10]
+          );
+        } else {
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
-        
 
           openingTag = '<p id="' + getLongNewID(getHighestID() + 1) + '">';
           allIDs.current.push(getLongNewID(getHighestID() + 1));
-        
+
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 13; 
+          countDown = 13;
         }
       }
 
-
-      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] === '<h1 id="'){
-        
-        if(!occupiedMoreThanOnce.includes(content[i+8] + content[i+9] + content[i+10] + content[i+11])){
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] +
+          content[i + 5] +
+          content[i + 6] +
+          content[i + 7] ===
+        '<h1 id="'
+      ) {
+        if (
+          !occupiedMoreThanOnce.includes(
+            content[i + 8] + content[i + 9] + content[i + 10] + content[i + 11]
+          )
+        ) {
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<h1 id="' + content[i+8] + content[i+9] + content[i+10] + content[i+11] + '">';
+          openingTag =
+            '<h1 id="' +
+            content[i + 8] +
+            content[i + 9] +
+            content[i + 10] +
+            content[i + 11] +
+            '">';
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 14; 
-          occupiedMoreThanOnce.push(content[i+8] + content[i+9] + content[i+10] + content[i+11]);
-        }
-        else{
+          countDown = 14;
+          occupiedMoreThanOnce.push(
+            content[i + 8] + content[i + 9] + content[i + 10] + content[i + 11]
+          );
+        } else {
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
           openingTag = '<h1 id="' + getLongNewID(getHighestID() + 1) + '">';
           allIDs.current.push(getLongNewID(getHighestID() + 1));
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 14; 
+          countDown = 14;
         }
       }
 
-      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] === '<h2 id="'){
-        
-        if(!occupiedMoreThanOnce.includes(content[i+8] + content[i+9] + content[i+10] + content[i+11])){
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] +
+          content[i + 5] +
+          content[i + 6] +
+          content[i + 7] ===
+        '<h2 id="'
+      ) {
+        if (
+          !occupiedMoreThanOnce.includes(
+            content[i + 8] + content[i + 9] + content[i + 10] + content[i + 11]
+          )
+        ) {
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<h2 id="' + content[i+8] + content[i+9] + content[i+10] + content[i+11] + '">';
+          openingTag =
+            '<h2 id="' +
+            content[i + 8] +
+            content[i + 9] +
+            content[i + 10] +
+            content[i + 11] +
+            '">';
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 14; 
-          occupiedMoreThanOnce.push(parseInt(content[i+8] + content[i+9] + content[i+10] + content[i+11]))
-        }
-        else{
+          countDown = 14;
+          occupiedMoreThanOnce.push(
+            parseInt(
+              content[i + 8] +
+                content[i + 9] +
+                content[i + 10] +
+                content[i + 11]
+            )
+          );
+        } else {
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
           openingTag = '<h2 id="' + getLongNewID(getHighestID() + 1) + '">';
           allIDs.current.push(getLongNewID(getHighestID() + 1));
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 14; 
+          countDown = 14;
         }
       }
 
-      if(content[i] + content[i+1] + content[i+2] +content[i+3] + content[i+4] + content[i+5] + content[i+6] + content[i+7] + content[i+8] === '<img id="'){
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] +
+          content[i + 5] +
+          content[i + 6] +
+          content[i + 7] +
+          content[i + 8] ===
+        '<img id="'
+      ) {
         imageTag = true;
-        if(!occupiedMoreThanOnce.includes(content[i+9] + content[i+10] + content[i+11] + content[i+12])){
+        if (
+          !occupiedMoreThanOnce.includes(
+            content[i + 9] + content[i + 10] + content[i + 11] + content[i + 12]
+          )
+        ) {
           console.log("HITTADE ÖPPNING MED ID");
-          openingTag = '<img id="' + content[i+9] + content[i+10] + content[i+11] + content[i+12] + '" ';
+          openingTag =
+            '<img id="' +
+            content[i + 9] +
+            content[i + 10] +
+            content[i + 11] +
+            content[i + 12] +
+            '" ';
           closeTagCountDown = 1000;
           closeTagCountDown = 1000;
           approvedTag = true;
-          countDown = 14; 
-          occupiedMoreThanOnce.push(parseInt(content[i+9] + content[i+10] + content[i+11] + content[i+12]))
-        }
-        else{
+          countDown = 14;
+          occupiedMoreThanOnce.push(
+            parseInt(
+              content[i + 9] +
+                content[i + 10] +
+                content[i + 11] +
+                content[i + 12]
+            )
+          );
+        } else {
           console.log("HITTADE ÖPPNING MED ID SOM REDAN PÅTRÄFFATS");
           openingTag = '<img id="' + getLongNewID(getHighestID() + 1) + '" ';
           allIDs.current.push(getLongNewID(getHighestID() + 1));
           closeTagCountDown--;
           closeTagCountDown--;
           approvedTag = true;
-          countDown = 14; 
+          countDown = 14;
         }
       }
 
-
-
-      if(content[i] + content[i+1] === '">' && imageTag){
+      if (content[i] + content[i + 1] === '">' && imageTag) {
         closingTag = '">';
         closeTagCountDown = 0;
         approvedTag = true;
-        countDown = 2; 
+        countDown = 2;
         imageTag = false;
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "</p>"){
-        console.log("HITTADE STÄNGING")
+      if (
+        content[i] + content[i + 1] + content[i + 2] + content[i + 3] ===
+        "</p>"
+      ) {
+        console.log("HITTADE STÄNGING");
         closingTag = "</p>";
         closeTagCountDown = 0;
         approvedTag = true;
-        countDown = 4; 
+        countDown = 4;
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] === "</h1>"){
-        console.log("HITTADE STÄNGING")
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] ===
+        "</h1>"
+      ) {
+        console.log("HITTADE STÄNGING");
         closingTag = "</h1>";
         closeTagCountDown = 0;
         approvedTag = true;
-        countDown = 5; 
+        countDown = 5;
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] + content[i+4] === "</h2>"){
-        console.log("HITTADE STÄNGING")
+      if (
+        content[i] +
+          content[i + 1] +
+          content[i + 2] +
+          content[i + 3] +
+          content[i + 4] ===
+        "</h2>"
+      ) {
+        console.log("HITTADE STÄNGING");
         closingTag = "</h2>";
         closeTagCountDown = 0;
         approvedTag = true;
-        countDown = 5; 
+        countDown = 5;
       }
 
-      if(content[i] + content[i+1] + content[i+2] + content[i+3] === "<br>"){
-       console.log("HITTADE BAN BR"); 
+      if (
+        content[i] + content[i + 1] + content[i + 2] + content[i + 3] ===
+        "<br>"
+      ) {
+        console.log("HITTADE BAN BR");
         approvedTag = false;
-        countDown = 4; 
+        countDown = 4;
       }
-      
 
-     
-      if(imageTag && countDown === 0){
-        tagContent += content[i]; 
-      
-      }
-      else if(closeTagCountDown === 2 && countDown === 0 && approvedTag && !imageTag){
-        tagContent += content[i];     
-      }
-      else{
+      if (imageTag && countDown === 0) {
+        tagContent += content[i];
+      } else if (
+        closeTagCountDown === 2 &&
+        countDown === 0 &&
+        approvedTag &&
+        !imageTag
+      ) {
+        tagContent += content[i];
+      } else {
         countDown--;
       }
-   
-      if(closeTagCountDown === 0 && approvedTag){
-   
+
+      if (closeTagCountDown === 0 && approvedTag) {
         component = openingTag + tagContent + closingTag;
         console.log(component);
-        if(tagContent != ""){
+        if (tagContent != "") {
           temp += component;
           components.push(component);
-    
         }
-       
+
         component = "";
         closeTagCountDown = 4;
         closingTag = "";
@@ -523,11 +516,8 @@ export default function Editor(props) {
         openingTag = "";
         countDown = 0;
         approvedTag = false;
-      
       }
     }
-
-    console.log(components);
 
     components.forEach((element) => (allComponents.current += element));
 
@@ -535,7 +525,6 @@ export default function Editor(props) {
     movableList.current = components;
     return temp;
   }
-
 
   function onMenuClickHandler() {
     if (!showConverter.current) {
@@ -568,18 +557,16 @@ export default function Editor(props) {
   }
 
   useEffect(() => {
-
-    if(showShowMode){
+    if (showShowMode) {
+      setCurrentFrame(1);
+      currentFrameRef.current = 1;
       makeComponentsFromContent(quill.root.innerHTML);
-      console.log("VISNINGSLÄGE!");
       setTopBarStyle("topBar");
       setShowEditor("hide");
-      
       setShowPresentation("entireMirror showpresentation");
-    }
-    else{
-      console.log("EDITORLÄGE!")
-
+    } else {
+      setCurrentFrame(1);
+      currentFrameRef.current = 1;
       if (quill == null) return;
       if (currentContent.current == null || "") {
       } else if (quill.root.innerHTML != null || quill.root.innerHTML === "") {
@@ -605,111 +592,72 @@ export default function Editor(props) {
     }
   }
 
-  function onNewFrame(){
-    
+  function onNewFrame() {
     setCurrentCard([1, currentCard[1] + 1]);
     setCurrentFrame(currentCard[1] + 1);
-  
     currentFrameRef.current = currentCard[1] + 1;
   }
 
-  function navigateToFrame(data){
-
-    console.log(data.target.value);
-
-    if(data.target.value <= currentCard[1] && data.target.value > 0){
-     setCurrentFrame(data.target.value);
+  function navigateToFrame(data) {
+    if (data.target.value <= currentCard[1] && data.target.value > 0) {
+      setCurrentFrame(data.target.value);
       currentFrameRef.current = data.target.value;
     }
- 
-
   }
 
-
-  function onPlayButtonHandler(data){
-    
-    
-    if(playCard.current){
+  function onPlayButtonHandler(data) {
+    if (playCard.current) {
       playCard.current = false;
-    }
-    else{
-      playCard.current = true; 
+    } else {
+      playCard.current = true;
       loopBFFrames();
     }
-
-
-
   }
 
-function loopBFFrames(data){
-   
-let iterations = 0;
-let animationsTime = 100;
+  function loopBFFrames(data) {
+    let iterations = 0;
+    let animationsTime = 100;
 
-if(animationSpeed.current.value != null){
-  console.log(animationSpeed.current.value);
-  animationsTime = animationSpeed.current.value;
-}
-
-
-
-
-
-
-
-
-  var interval = setInterval(function(){
-    iterations++;
-    if(iterations === currentCard[1]){
-      clearInterval(interval);
-  
-  
-      var interval2 = setInterval(function(){
-        iterations--;
-        if(iterations === 1 ){
-          
-          clearInterval(interval2);
-          loopBFFrames();
-          
-      
-        }
-  
-        if(!playCard.current){
-          clearInterval(interval2);
-        }
-        setCurrentFrame(iterations); 
-        currentFrameRef.current = iterations; 
-      }, animationsTime);
-  
+    if (animationSpeed.current.value != null) {
+      console.log(animationSpeed.current.value);
+      animationsTime = animationSpeed.current.value;
     }
-    if(!playCard.current){
-      clearInterval(interval);
-    }
-    setCurrentFrame(iterations); 
-    currentFrameRef.current = iterations; 
-  }, animationsTime);
-  
 
+    var interval = setInterval(function () {
+      iterations++;
+      if (iterations === currentCard[1]) {
+        clearInterval(interval);
 
-}
+        var interval2 = setInterval(function () {
+          iterations--;
+          if (iterations === 1) {
+            clearInterval(interval2);
+            loopBFFrames();
+          }
 
-
-   
-  
-
-  function sendMovableData(data) {
-
-}
-
+          if (!playCard.current) {
+            clearInterval(interval2);
+          }
+          setCurrentFrame(iterations);
+          currentFrameRef.current = iterations;
+        }, animationsTime);
+      }
+      if (!playCard.current) {
+        clearInterval(interval);
+      }
+      setCurrentFrame(iterations);
+      currentFrameRef.current = iterations;
+    }, animationsTime);
+  }
 
   return (
-    
     <div style={backgroundStyle} id="Editor">
-
-
-      <div onClick={onMenuClickHandler}  className={menuAreaStyle} style={menuStyle}>
+      <div
+        onClick={onMenuClickHandler}
+        className={menuAreaStyle}
+        style={menuStyle}
+      >
         <svg
-        
           className="MenuButton"
           alt="MBUTTON"
           id="Layer_1"
@@ -718,14 +666,11 @@ if(animationSpeed.current.value != null){
           viewBox="0 0 938 938"
         >
           <defs>
-
-          <linearGradient id="grad1" x1="0%" y1="00%" x2="10%" y2="100%">
-      <stop offset="0%" stop-color="#f5f5f5" />
-      <stop offset="50%" stop-color="#fdfdfd" />
-      <stop offset="100%" stop-color="#d8d8d8" />
-    </linearGradient>
-
-
+            <linearGradient id="grad1" x1="0%" y1="00%" x2="10%" y2="100%">
+              <stop offset="0%" stop-color="#f5f5f5" />
+              <stop offset="50%" stop-color="#fdfdfd" />
+              <stop offset="100%" stop-color="#d8d8d8" />
+            </linearGradient>
           </defs>
           <g>
             <path
@@ -754,31 +699,41 @@ if(animationSpeed.current.value != null){
         </svg>
       </div>
 
-   
-
-      <div id="container" className={showEditor}ref={wrapperRef}>
-      <style dangerouslySetInnerHTML={{__html: `.ql-toolbar.ql-snow { background: linear-gradient(` + props.theme.toolbarGradientAngle + `deg, ` + props.theme.toolbarColor1 + ` 0%, ` + props.theme.toolbarColor2 + ` 50%, ` + props.theme.toolbarColor3 + ` 100%) } 
-      `}} />
+      <div id="container" className={showEditor} ref={wrapperRef}>
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              `.ql-toolbar.ql-snow { background: linear-gradient(` +
+              props.theme.toolbarGradientAngle +
+              `deg, ` +
+              props.theme.toolbarColor1 +
+              ` 0%, ` +
+              props.theme.toolbarColor2 +
+              ` 50%, ` +
+              props.theme.toolbarColor3 +
+              ` 100%) } 
+      `,
+          }}
+        />
       </div>
       <Mirror
-          theme={props.theme}
-          currentCard={currentCard}
-          currentFrame={currentFrame}
-          currentFrameRef={currentFrameRef}
-          mirrorStyle={showPresentation}        
-          topBarStyle={topBarStyle}
-          sendMovableDataFromMirror={sendMovableData}
-          components={components}
-          showMode={showShowMode}
-        ></Mirror>
+        theme={props.theme}
+        currentCard={currentCard}
+        currentFrame={currentFrame}
+        currentFrameRef={currentFrameRef}
+        mirrorStyle={showPresentation}
+        topBarStyle={topBarStyle}
+        components={components}
+        showMode={showShowMode}
+      ></Mirror>
       <Converter
-      theme={props.theme}
-      animationSpeed={animationSpeed}
-      onPlayButtonHandler={onPlayButtonHandler}
-      currentCard={currentCard}
-      currentFrame={currentFrame}
-      navigateToFrame={navigateToFrame}
-      newFrame={onNewFrame}
+        theme={props.theme}
+        animationSpeed={animationSpeed}
+        onPlayButtonHandler={onPlayButtonHandler}
+        currentCard={currentCard}
+        currentFrame={currentFrame}
+        navigateToFrame={navigateToFrame}
+        newFrame={onNewFrame}
         onSetShowMode={onSetShowModeHandler}
         onSave={onSaveHandler}
         onDelete={onDeleteHandler}

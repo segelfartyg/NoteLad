@@ -162,7 +162,7 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
 
         }
 
-
+        console.log("DEBUGJANNE: " + frameCords.current[props.frame.current - 1][0]);
         setControlledPosition({x: frameCords.current[props.frame.current - 1][0], y: frameCords.current[props.frame.current - 1][1]});
         
      
@@ -171,7 +171,7 @@ const[controlledPosition, setControlledPosition] = useState({x: 200, y: 200});
     }, [props.frameState])
    
 
-    props.sendMovableData(movableSettings.current);
+   
 
 
    
