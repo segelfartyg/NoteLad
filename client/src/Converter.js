@@ -2,20 +2,30 @@ import React, { useRef } from "react";
 import "./Converter.css";
 
 export default function Converter(props) {
+
+  // DESCRIPTION OF THE CURRENT NOTE
   const currentDesc = useRef("");
+
+  // NAME OF THE CURRENT NOTE
   const currentNoteName = useRef("");
+
+  // STYLE CHANGED BY THE THEME
   const converterThemeStyle = {
     background: props.theme.converterColor,
   };
 
+  // FUNCTION FOR SENDING THE NOTE TO DATABASE
   function onSubmitClick() {
     props.onSave(currentNoteName.current.value, currentDesc.current.value);
   }
 
+  
+  // FUNCTION FOR DELETING THE NOTE FROM DATABASE
   function onDeleteClick() {
     props.onDelete();
   }
 
+  // HANDLER FOR SETTING THE SHOWMODE ON
   function onSetShowModeHandler() {
     props.onSetShowMode(true);
   }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactQuill, { Quill } from "react-quill";
-
 import "react-quill/dist/quill.snow.css";
 import QuillResize from "quill-resize-module";
 import ImageUploader from "quill-image-uploader";
@@ -10,23 +9,32 @@ import Converter from "./Converter";
 import Mirror from "./Mirror";
 const axios = require("axios");
 
+
+// QUILL TOOLBAR OPTIONS
 var toolbarOptions = [
-  // toggled buttons
   ["image"],
   [{ header: [1, 2, 3, false] }],
   [{ align: [] }],
 ];
 
+
+
+// THE EDITOR ITSELF
 export default function Editor(props) {
+
+  // REGISTER QUILL MODULES
   Quill.register("modules/imageUploader", ImageUploader);
   Quill.register("modules/resize", QuillResize);
 
+
+
+  // SETS THE INNERHTML TO THE EDITORSTATUS WHEN THE STATUS IS SET
   useEffect(() => {
     if (quill == null) return;
-
     quill.root.innerHTML = props.editorStatus;
   }, [props.editorStatus]);
 
+  // THIS HANDLES THE IMAGE UPLOADING
   function imageHandler() {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -60,28 +68,66 @@ export default function Editor(props) {
     };
   }
 
+  // THE QUILL EDITOR VARIABLE
   const [quill, setQuill] = useState();
+
+  // VARIABLE FOR SHOWING THE CONVERTER
   const showConverter = useRef(false);
+
+  // VARIABLE FOR SHOWING THE MENUBUTTON AND ITS AREA
   const showmenuArea = useRef(false);
+
+  // VARIABLE FOR STORING THE CURRENT COMPONENTS
   const [components, setComponents] = useState([]);
+
+  // VARIABLE FOR SHOWING THE SHOWMODE OR NOT
   const [showShowMode, setShowShowMode] = useState(false);
-  const [converterStyle, setConverterStyle] = useState("EditorConverter");
-  const [menuAreaStyle, setMenuAreaStyle] = useState("menuButtonArea");
+
+  // REF FOR CONTINOUSLY SAVING USERS INPUT IN THE EDITOR
   const currentContent = useRef("");
+
+  // LISTS ALL THE COMPONENTS FOR LATER GETTING PUT INTO THE EDITOR AFTER SHOWMODE
   const movableList = useRef([]);
+
+  // SAME AS currentContent, BUT FOR THE COMPONENTS
   const allComponents = useRef("");
+
+  // ALL OCCUPIED ID:S
   const allIDs = useRef(["___0"]);
-  const [topBarStyle, setTopBarStyle] = useState("topBarclosed");
+
+  // BOOLEAN FOR SHOWING OR NOT SHOWING THE EDITOR
   const [showEditor, setShowEditor] = useState("");
+
+  // CURRENT CARD ([card, maxframes])
+  const [currentCard, setCurrentCard] = useState([1, 1]);
+
+  // CURRENT FRAME STATE VARIABLE
+  const [currentFrame, setCurrentFrame] = useState(1);
+
+  // CURRENT FRAME REF VARIABLE
+  const currentFrameRef = useRef(1);
+
+  // BOOLEAN FOR SETTING THE SHOWMODE IN PLAYMODE
+  const playCard = useRef(false);
+
+  // VARIABLE FOR SETTING THE SPEED OF PLAYMODE
+  const animationSpeed = useRef(10);
+
+  // STYLE FOR THE CONVERTER
+  const [converterStyle, setConverterStyle] = useState("EditorConverter");
+
+  // STYLE FOR THE MENUBUTTON AND ITS AREA
+  const [menuAreaStyle, setMenuAreaStyle] = useState("menuButtonArea");
+
+  // STYLE FOR THE topBar
+  const [topBarStyle, setTopBarStyle] = useState("topBarclosed");
+
+  // STYLE FOR THE MIRROR AREA
   const [showPresentation, setShowPresentation] = useState(
     "entireMirror dontshowpresentation"
   );
-  const [currentCard, setCurrentCard] = useState([1, 1]);
-  const [currentFrame, setCurrentFrame] = useState(1);
-  const currentFrameRef = useRef(1);
-  const playCard = useRef(false);
-  const animationSpeed = useRef(10);
 
+  // STYLE FOR THE MENU, BASED ON THEME
   const menuStyle = {
     background:
       "linear-gradient(" +
@@ -94,6 +140,8 @@ export default function Editor(props) {
       props.theme.menuColor3 +
       " 100%",
   };
+
+  // STYLE FOR THE BACKGROUND, BASED ON THEME
   const backgroundStyle = {
     background:
       "linear-gradient(" +
@@ -107,6 +155,8 @@ export default function Editor(props) {
       " 100%",
   };
 
+
+  //WRAPPER FOR THE ENTIRE EDITOR
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
@@ -124,6 +174,7 @@ export default function Editor(props) {
     setQuill(q);
   }, []);
 
+  // useEffect FOR SETTING THE EDITOR CONTENT TO THE RESPONSE FROM SERVER
   useEffect(() => {
     if (quill == null) return;
     axios({
@@ -137,6 +188,8 @@ export default function Editor(props) {
     });
   }, [quill]);
 
+
+  // WHEN EDITOR IS UPDATED, SET currentContent ACCORDINGLY
   useEffect(() => {
     if (quill == null) return;
     var toolbar = quill.getModule("toolbar");
@@ -153,6 +206,7 @@ export default function Editor(props) {
     };
   }, [quill]);
 
+  // FUNCTION FOR GETTING A NEW ID-STRING
   function getLongNewID(wishedID) {
     if (wishedID < 10) {
       return "___" + wishedID;
@@ -163,12 +217,14 @@ export default function Editor(props) {
     }
   }
 
+  // FUNCTION FOR GETTING THE ID NUMBER FROM THE ID-STRING
   function getIDfromString(item) {
     if (item !== "") {
       return parseInt(item.replaceAll("_", " "));
     }
   }
 
+  // RETURNS THE HIGHEST OCCUPIED ID
   function getHighestID() {
     let templist = [];
     for (let i = 0; i < allIDs.current.length; i++) {
@@ -177,6 +233,7 @@ export default function Editor(props) {
     return Math.max(...templist);
   }
 
+  // BIG FUNCTION FOR PARSING THE EDITOR CONTENT INTO COMPONENTS
   function makeComponentsFromContent(content) {
     let temp = "";
     let component = "";
@@ -526,36 +583,35 @@ export default function Editor(props) {
     return temp;
   }
 
+  // HANDLER FOR PRESSING THE MENUBUTTON
   function onMenuClickHandler() {
     if (!showConverter.current) {
       setConverterStyle("EditorConverter animateEditorConverter");
-
       showConverter.current = true;
     } else {
       setConverterStyle("EditorConverter animateBackEditorConverter");
-
       showConverter.current = false;
     }
 
     if (!showmenuArea.current) {
       setMenuAreaStyle("menuButtonArea animateMenuArea");
-
       showmenuArea.current = true;
     } else {
       setMenuAreaStyle("menuButtonArea animateBackMenuArea");
-
       showmenuArea.current = false;
     }
   }
 
+  // HANDLER FOR PRESSING SAVE NOTE
   function onSaveHandler(_cardname, _carddesc) {
     props.createPost(_cardname, currentContent.current);
   }
-
+  // HANDLER FOR PRESSING DELETE NOTE
   function onDeleteHandler() {
     props.deletePost();
   }
 
+  // WHEN PRESSING SWITCH MODE
   useEffect(() => {
     if (showShowMode) {
       setCurrentFrame(1);
@@ -584,6 +640,7 @@ export default function Editor(props) {
     }
   }, [showShowMode]);
 
+  // SWITCHES THE VALUE OF showShowMode
   function onSetShowModeHandler() {
     if (showShowMode) {
       setShowShowMode(false);
@@ -592,12 +649,14 @@ export default function Editor(props) {
     }
   }
 
+  // ADDS A NEW FRAME TO CARD 1
   function onNewFrame() {
     setCurrentCard([1, currentCard[1] + 1]);
     setCurrentFrame(currentCard[1] + 1);
     currentFrameRef.current = currentCard[1] + 1;
   }
 
+  // FIRES OF WHEN NAVIGATING BETWEEN FRAMES ON CARD 1
   function navigateToFrame(data) {
     if (data.target.value <= currentCard[1] && data.target.value > 0) {
       setCurrentFrame(data.target.value);
@@ -605,6 +664,7 @@ export default function Editor(props) {
     }
   }
 
+  // HANDLER FOR PRESSING THE PLAY BUTTON
   function onPlayButtonHandler(data) {
     if (playCard.current) {
       playCard.current = false;
@@ -614,6 +674,7 @@ export default function Editor(props) {
     }
   }
 
+  // LOOPS THROUGH ALL THE FRAMES FROM CARD 1
   function loopBFFrames(data) {
     let iterations = 0;
     let animationsTime = 100;

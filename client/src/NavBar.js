@@ -5,6 +5,8 @@ import NoteList from "./NoteList.js";
 import NoteLadPlus from "./noteladplus.svg";
 
 export default function NavBar(props) {
+
+  // STYLES FROM THEME
   const style = {
     background:
       "linear-gradient(" +
@@ -18,6 +20,7 @@ export default function NavBar(props) {
       " 100%)",
   };
 
+  // SENDS GET REQUEST TO SPECIFIC ENDPOINT ON SERVER
   function sendGetRequestToAppLayer(endpoint) {
     props.sendGetRequest(endpoint);
   }
@@ -25,7 +28,7 @@ export default function NavBar(props) {
   return (
     <div style={style} className="navbar">
       <div className="logotitle">
-        {/*<h1>Notelad</h1>*/}
+      
         <svg
           className="headerlogo"
           id="Layer_1"

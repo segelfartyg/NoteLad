@@ -11,16 +11,25 @@ const SERVER = "/";
 var socket = socketClient(SERVER);
 
 function App() {
+
+
+  // VARIABLE FOR SETTING THE QUILL EDITOR TO GET REQUEST RESPONSE
   const [editorStatus, setEditorStatus] = useState("");
 
+  // SETS THE CURRENT USERID, MADE FOR FUTURE FUNCTIONALITY
   const [currentUserID, setCurrentUserID] = useState("1");
 
+  // THE SAME AS ABOVE IMPLIES
   const [currentNoteID, setCurrentNoteID] = useState("");
 
+  // VARIABLE MADE FOR LISTENING, UPDATES NAVBAR AFTER CHANGES
   const [updated, setUpdated] = useState(false);
 
+  // LIST OF NOTES IN THE NAVBAR
   const [notes, setNotes] = useState([]);
 
+  // LIST OF THEMES
+  
   const theme = {
     white: {
       navbarColor1: "rgb(255, 255, 255)",
@@ -135,9 +144,12 @@ function App() {
     },
   };
 
-  const [currentTheme, setCurrentTheme] = useState(theme.white);
+  // STATE FOR STORING THE THEME, AND UPDATING IT
+  const [currentTheme, setCurrentTheme] = useState(theme.Midas);
 
-  console.log(currentTheme);
+
+
+  // useEffect THAT LISTENS FOR ADDED NOTES IN THE NAVBARLIST AND SETS THE NAVBAR ACCORDINGLY
 
   useEffect(() => {
     let endpointurl = "http://localhost:8080/getNotes?userID=";
@@ -160,6 +172,8 @@ function App() {
     });
     setUpdated(false);
   }, [updated]);
+
+  // RUNS ON FIRST RENDER, SETS THE NAVBAR ITEMS
 
   useEffect(() => {
     let endpointurl = "http://localhost:8080/getNotes?userID=";
@@ -184,6 +198,9 @@ function App() {
 
   useEffect(() => {}, [notes]);
 
+
+  // FUNCTION FOR SENDING GET REQUESTS, RIGHT NOW IT IS RECIEVING NOTE 1 FROM USER 1
+
   async function sendGetRequest(endpoint) {
     let endpointurl = "http://localhost:8080/getNoteContent?userID=1&noteID=";
     endpointurl += endpoint;
@@ -200,6 +217,8 @@ function App() {
       setCurrentNoteID(res.data[1]);
     });
   }
+
+  // THIS FUNCTION ADDS A NEW NOTE TO THE DATABASE
 
   async function sendPostRequest(_noteName, _content) {
     let endpointurl = "http://localhost:8080/add";
@@ -220,6 +239,8 @@ function App() {
     });
   }
 
+  // THIS FUNCTION DELETES NOTES
+
   async function sendDeleteRequest() {
     let endpointurl = "http://localhost:8080/delete";
     //endpointurl += endpoint;
@@ -239,19 +260,24 @@ function App() {
     });
   }
 
+  // FUNCTION FOR HANDLING THE CREATE POST FROM CHILD COMPONENTS
   function createPostHandler(_notename, _currentcontent) {
     sendPostRequest(_notename, _currentcontent);
   }
 
+  // FUNCTION FOR HANDLING THE DELETE POST FROM CHILD COMPONENTS
   function deletePostHandler() {
     sendDeleteRequest();
     setEditorStatus("");
   }
 
+  // SETS THE EDITOR STATUS FROM CHILD COMPONENTS
   function setEditorStatusHandler(content) {
     setEditorStatus(content);
   }
 
+  
+  // SETS THE EDITOR STATUS FROM CHILD COMPONENTS
   function onNewNoteHandler() {
     setEditorStatus("");
   }

@@ -1,4 +1,5 @@
 /node_modules
+/images
 /client/node_modules
 .idea/
 .vscode/

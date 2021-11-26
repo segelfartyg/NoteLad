@@ -4,12 +4,23 @@ import "./Mirror.css";
 import NoteLadMovable from "./NoteLadMovable";
 
 export default function Mirror(props) {
+
+  // THE COMPONENT THAT WAS PRESSED LAST
   const [chosenComp, setChosenComp] = useState();
+
+  // THE CURRENT X VALUE OF THE COMPONENT
   const [currentX, setCurrentX] = useState();
+
+  // THE CURRENT Y VALUE OF THE COMPONENT
   const [currentY, setCurrentY] = useState();
+
+  // THE CURRENT ANGLE OF THE CURRENT COMPONENT
   const [currentAngle, setCurrentAngle] = useState();
+
   const [showComponents, setShowComponents] = useState();
 
+
+  // CHANGES PROPER STYLES ACCORDING TO CURRENT THEME
   const themeStyle = {
     background:
       "linear-gradient(" +
@@ -30,10 +41,8 @@ export default function Mirror(props) {
     style = "mirrorArea ";
   }
 
-  function sendMovableData(data) {
-    props.sendMovableDataFromMirror(data);
-  }
 
+// RENDERS ALL THE COMPONENTS
   const components = [
     props.components.map((component) => (
       <NoteLadMovable
@@ -47,11 +56,9 @@ export default function Mirror(props) {
         currentAngle={currentAngle}
         setCurrentY={setCurrentY}
         currentY={currentY}
-        sendMovableData={sendMovableData}
         clickHandlerChooseComp={clickHandlerChooseComp}
         componentData={component}
       >
-        {}
       </NoteLadMovable>
     )),
   ];
@@ -64,6 +71,7 @@ export default function Mirror(props) {
 
   useEffect(() => {}, [currentX]);
 
+  // HANDLER FOR CLICKING AND SELECTING A COMPONENT
   function clickHandlerChooseComp(_chosenComp, x, y, angle) {
     setChosenComp(_chosenComp);
     setCurrentX(x);
@@ -75,7 +83,6 @@ export default function Mirror(props) {
     <div className={props.mirrorStyle}>
       <div className={props.topBarStyle} style={themeStyle}>
         <div className="firstColTool"></div>
-
         <div className="secondColTool">
           <input
             type="number"
