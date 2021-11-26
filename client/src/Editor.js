@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactQuill, { Quill } from "react-quill";
-import QuillImageDropAndPaste from 'quill-image-drop-and-paste';
-import { ImageData } from 'quill-image-drop-and-paste'
+
+
 
 
 import "react-quill/dist/quill.snow.css";
-import { ImageDrop } from "quill-image-drop-module";
-import ImageResize from "quill-image-resize-module-react";
+import QuillResize from 'quill-resize-module';
 import ImageUploader from "quill-image-uploader";
 import "./Editor.css";
 import MenuButton from "./menubutton.svg";
@@ -43,11 +42,10 @@ var toolbarOptions = [
 
 export default function Editor(props) {
 
-  Quill.register("modules/imageDrop", ImageDrop);
-  Quill.register("modules/imageResize", ImageResize);
+  
   Quill.register("modules/imageUploader", ImageUploader);
-  Quill.register('modules/imageDropAndPaste', QuillImageDropAndPaste)
-
+ 
+  Quill.register('modules/resize', QuillResize);
   useEffect(() => {
     if (quill == null) return;
 
@@ -189,21 +187,11 @@ export default function Editor(props) {
 
       modules: {
         toolbar: toolbarOptions,
-        imageResize: {
-          parchment: Quill.import("parchment"),
-          modules: ["Resize", "DisplaySize", "Toolbar"],
+        resize: {
+          modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
         },
-        imageDropAndPaste: {
-          // add an custom image handler
-          handler: imageHandlerDrop
-        },
-      
-        imageDrop: {},
-
       },
       theme: "snow",
-  
- 
     }); 
 
     

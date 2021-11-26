@@ -146,7 +146,7 @@ const theme =
 
 }
 
-const [currentTheme, setCurrentTheme] = useState(theme.Midas);
+const [currentTheme, setCurrentTheme] = useState(theme.white);
 
 
 
