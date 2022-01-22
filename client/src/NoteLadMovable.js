@@ -10,9 +10,18 @@ const movableSettings = useRef([]);
 // VARIABLE FOR THE DEGREES OF THE COMPONENT
 const [degrees, setDegrees] = useState(0);
 
+// VARIABLE FOR THE HEIGHT OF THE COMPONENT
+const [pixelHeight, setPixelHeight] = useState(0);
+
+// VARIABLE FOR THE WIDTH OF THE COMPONENT
+const [pixelWidth, setPixelWidth] = useState(0);
+
 // SETS THE STYLE FOR THE COMPONENT
 const style = {
     transform: "rotate(" + degrees + "deg)",
+    
+    
+    display: "flex"
   };
 
   // SETS CLASSNAME FOR MOVABLE
