@@ -238,16 +238,16 @@ app.get("/getNotes", async function (req, res) {
 
     app.post("/images", upload.single("image"), function (req, res, next) {
 
-        console.log(req)
-        res.send(req.file.filename)
+        console.log(req);
+        res.send(req.file.filename);
       });
 
 
       app.get("/images/:key", function (req, res, next) {
 
-
-        req.params.key
         console.log(req)
+        req.params.key
+        
 
 
         res.send(req.file.filename)

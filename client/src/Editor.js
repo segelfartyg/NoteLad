@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactQuill, { Quill } from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
-import QuillResize from "quill-resize-module";
-import ImageUploader from "quill-image-uploader";
+
+import QuillImageDropAndPaste from 'quill-image-drop-and-paste'
 import "./Editor.css";
 import MenuButton from "./menubutton.svg";
 import Converter from "./Converter";
 import Mirror from "./Mirror";
 const axios = require("axios");
+
+
+
 
 
 // QUILL TOOLBAR OPTIONS
@@ -23,9 +27,8 @@ var toolbarOptions = [
 export default function Editor(props) {
 
   // REGISTER QUILL MODULES
-  Quill.register("modules/imageUploader", ImageUploader);
-  Quill.register("modules/resize", QuillResize);
-
+  //Quill.register("modules/imageUploader", ImageUploader);
+  
 
 
   // SETS THE INNERHTML TO THE EDITORSTATUS WHEN THE STATUS IS SET
@@ -35,41 +38,52 @@ export default function Editor(props) {
   }, [props.editorStatus]);
 
   // THIS HANDLES THE IMAGE UPLOADING
-  function imageHandler() {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
-    input.onchange = async function () {
-      const file = input.files[0];
-      console.log(file);
-      console.log("User trying to uplaod this:", file);
-      var imageID;
-      let formdata = new FormData();
-      formdata.append("image", file);
+  // function imageHandler() {
+  //   const input = document.createElement("input");
+  //   input.setAttribute("type", "file");
+  //   input.setAttribute("accept", "image/*");
+  //   input.click();
+  //   input.onchange = async function () {
+  //     const file = input.files[0];
+  //     console.log(file);
+  //     console.log("User trying to uplaod this:", file);
+  //     var imageID;
+  //     let formdata = new FormData();
+  //     formdata.append("image", file);
 
-      axios({
-        method: "POST",
-        url: "http://localhost:8080/images",
-        headers: {},
-        data: formdata,
-      })
-        .then((res) => {
-          console.log(res);
+  //     axios({
+  //       method: "POST",
+  //       url: "http://localhost:8080/images",
+  //       headers: {},
+  //       data: formdata,
+  //     })
+  //       .then((res) => {
+  //         console.log(res);
 
-          const link = "http://localhost:3000/images/" + res.data;
-          const range = quill.getSelection();
+  //         const link = "http://localhost:3000/images/" + res.data;
+  //         const range = quill.getSelection();
 
-          quill.insertEmbed(range.index, "image", link);
-        })
-        .catch((err) => {
-          return "CANT UPLOAD";
-        });
-    };
-  }
+  //         quill.insertEmbed(range.index, "image", link);
+  //       })
+  //       .catch((err) => {
+  //         return "CANT UPLOAD";
+  //       });
+  //   };
+  // }
+ 
+
+    
+
+    
+
+
+  
+
 
   // THE QUILL EDITOR VARIABLE
   const [quill, setQuill] = useState();
+
+  const [Embed, setEmbed] = useState()
 
   // VARIABLE FOR SHOWING THE CONVERTER
   const showConverter = useRef(false);
@@ -126,6 +140,9 @@ export default function Editor(props) {
   const [showPresentation, setShowPresentation] = useState(
     "entireMirror dontshowpresentation"
   );
+  
+
+  
 
   // STYLE FOR THE MENU, BASED ON THEME
   const menuStyle = {
@@ -158,16 +175,20 @@ export default function Editor(props) {
 
   //WRAPPER FOR THE ENTIRE EDITOR
   const wrapperRef = useCallback((wrapper) => {
+    Quill.register('modules/imageDropAndPaste', QuillImageDropAndPaste)
+
     if (wrapper == null) return;
     wrapperRef.innerHTML = "";
     const editor = document.createElement("div");
     wrapper.append(editor);
     const q = new Quill(editor, {
       modules: {
-        toolbar: toolbarOptions,
-        resize: {
-          modules: ["Resize", "DisplaySize", "Toolbar"],
+        imageDropAndPaste: {
+          // add an custom image handler
+          handler: imageHandler
         },
+        toolbar: toolbarOptions,
+     
       },
       theme: "snow",
     });
@@ -193,9 +214,9 @@ export default function Editor(props) {
   useEffect(() => {
     if (quill == null) return;
     var toolbar = quill.getModule("toolbar");
-    toolbar.addHandler("image", imageHandler);
+   
     const handler = (delta, oldDelta, source) => {
-      if (source !== "user") return;
+      //if (source !== "user") return;
       //currentContent.current = quill.root.innerHTML;
 
       currentContent.current = quill.root.innerHTML;
@@ -205,6 +226,11 @@ export default function Editor(props) {
       quill.off("text-change", handler);
     };
   }, [quill]);
+
+
+ 
+
+
 
   // FUNCTION FOR GETTING A NEW ID-STRING
   function getLongNewID(wishedID) {
@@ -585,6 +611,7 @@ export default function Editor(props) {
 
   // HANDLER FOR PRESSING THE MENUBUTTON
   function onMenuClickHandler() {
+
     if (!showConverter.current) {
       setConverterStyle("EditorConverter animateEditorConverter");
       showConverter.current = true;
@@ -643,6 +670,7 @@ export default function Editor(props) {
   // SWITCHES THE VALUE OF showShowMode
   function onSetShowModeHandler() {
     if (showShowMode) {
+     
       setShowShowMode(false);
     } else {
       setShowShowMode(true);
@@ -710,6 +738,93 @@ export default function Editor(props) {
       currentFrameRef.current = iterations;
     }, animationsTime);
   }
+
+  
+
+
+
+  function imageHandler(imageDataUrl, type, imageData, ) {
+
+    //   const input = document.createElement("input");
+      //   input.setAttribute("type", "file");
+      //   input.setAttribute("accept", "image/*");
+      //   input.click();
+      //   input.onchange = async function () {
+      //     const file = input.files[0];
+      //     console.log(file);
+      //     console.log("User trying to uplaod this:", file);
+      //     var imageID;
+      //     let formdata = new FormData();
+      //     formdata.append("image", file);
+    
+        
+    
+        const blob = imageData.toBlob()
+        const file = imageData.toFile()
+    
+       ;
+        // generate a form data
+        const formData = new FormData()
+      
+        // // append blob data
+        //formData.append('file', blob)
+      
+        console.log(formData)
+        // // or just append the file
+        formData.append('image', file)
+      
+        // upload image to your server
+        // callUploadAPI("http://localhost:8080/images", formData, (err, res) => {
+        //   if (err) return
+        //   // success? you should return the uploaded image's url
+        //   // then insert into the quill editor
+        //   let index = (quill.getSelection() || {}).index;
+        //   if (index === undefined || index < 0) index = quill.getLength();
+        //   quill.insertEmbed(index, 'image', res.data.image_url, 'user')
+    
+    
+              axios({
+            method: "POST",
+            url: "http://localhost:8080/images",
+            headers: {},
+            data: formData,
+          })
+            .then((res) => {
+              console.log(res);
+              
+           
+              const link = "http://localhost:3000/images/" + res.data;
+              setEmbed(["image", link]);
+            
+
+             // quill.insertEmbed(range.index, "image", link);
+            
+           
+           
+              
+             
+            })
+            .catch((err) => {
+              return "CANT UPLOAD";
+            });
+         }
+
+
+         useEffect(() => {
+          if (quill == null) return;
+
+          if(Embed){
+
+            let range = quill.getSelection()
+            quill.insertEmbed(range, Embed[0], Embed[1]);
+            console.log(quill)
+
+          }
+       
+        }, [Embed, quill]);
+      
+
+
 
   return (
     <div style={backgroundStyle} id="Editor">

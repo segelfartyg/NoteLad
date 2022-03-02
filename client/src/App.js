@@ -145,7 +145,7 @@ function App() {
   };
 
   // STATE FOR STORING THE THEME, AND UPDATING IT
-  const [currentTheme, setCurrentTheme] = useState(theme.Midas);
+  const [currentTheme, setCurrentTheme] = useState(theme.white);
 
 
 
