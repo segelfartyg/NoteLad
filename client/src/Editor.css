@@ -108,12 +108,17 @@
     z-index: 3;
     background: white;
     background: linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(190, 190, 190) 100%);
-    filter: drop-shadow(1px 5px 5px black);
+    /*filter: drop-shadow(1px 5px 5px black);*/
     border: none;
-    border-bottom: solid black;
-    min-height: 3rem;
+    outline: solid black;
+    height: 3rem;
     order: 1;
    
+}
+
+.ql-formats{
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .ql-toolbar.ql-snow 

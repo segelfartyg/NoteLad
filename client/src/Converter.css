@@ -12,7 +12,7 @@
     
       
  border-top: solid black;
- filter: drop-shadow(0px -1px 5px black);
+ /*filter: drop-shadow(0px -1px 5px black);*/
       display: none;
       /*animation: glide 1s forwards;*/
   z-index: 4;
@@ -95,7 +95,7 @@ align-items: center;
 
 .firstColumn button{
 
-  height: fit-content;
+  height: 2rem;
   width: fit-content;
   font-family: rig-shaded-light-face,sans-serif;
   border: solid black 0.5px;
@@ -118,7 +118,7 @@ align-items: center;
     border: solid black 0.5px;
     border-radius: 10px;
     padding: 5px;
-    font-size: 1rem;
+    font-size: 1vw;
     font-weight: 10;
     background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(240, 240, 240) 100%);
     margin: 1rem;
@@ -166,9 +166,8 @@ align-items: center;
   height: fit-content;
   width: fit-content;
   font-family: rig-shaded-light-face,sans-serif;
-  border: black solid 1px;
+  border: black solid 2px;
   border-radius: 10px;
-  font-size: 1.5rem;
   font-weight: 10;
   background: white;
   margin: auto;
@@ -314,10 +313,7 @@ align-items: center;
     
       }
 
-      #noteNameField{
-       height: fit-content;
-       font-size: 1rem;
-    }
+    
 
 
   }

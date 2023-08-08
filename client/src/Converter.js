@@ -77,7 +77,11 @@ export default function Converter(props) {
               </div>
             </div>
 
-            <div></div>
+            <div>
+            <p>
+              SOME INFORMATION
+            </p>
+            </div>
           </div>
 
           <div className="lastColumn">

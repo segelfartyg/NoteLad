@@ -261,6 +261,8 @@ export default function Editor(props) {
 
   // BIG FUNCTION FOR PARSING THE EDITOR CONTENT INTO COMPONENTS
   function makeComponentsFromContent(content) {
+
+    console.log(content)
     let temp = "";
     let component = "";
     let components = [];
@@ -603,7 +605,7 @@ export default function Editor(props) {
     }
 
     components.forEach((element) => (allComponents.current += element));
-
+    console.log(allComponents.current)
     setComponents(components); //SKA VARA EN ARRAY MED ALL HTML FÖR VARJE TAGG
     movableList.current = components;
     return temp;

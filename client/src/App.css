@@ -15,3 +15,12 @@
   z-index: 5;
   
 }
+
+#signInMicrosoft{
+  position: absolute;
+  right: 1rem;
+  top: 0.2rem;
+  height: 2rem;
+
+  z-index: 6;
+}

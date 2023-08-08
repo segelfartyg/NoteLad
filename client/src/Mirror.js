@@ -82,7 +82,7 @@ export default function Mirror(props) {
   return (
     <div className={props.mirrorStyle}>
       <div className={props.topBarStyle} style={themeStyle}>
-        <div className="firstColTool"></div>
+     
         <div className="secondColTool">
           <input
             type="number"
