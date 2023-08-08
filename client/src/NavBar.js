@@ -72,14 +72,7 @@ export default function NavBar(props) {
         listofNotes={props.noteList}
       ></NoteList>
 
-      <div className="addNewNoteArea">
-        <img
-          className="addNoteNavBar"
-          onClick={props.newNote}
-          src={NoteLadPlus}
-          alt="addNote"
-        ></img>
-      </div>
+      <div className="addNewNoteArea"></div>
     </div>
   );
 }

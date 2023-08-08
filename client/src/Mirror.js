@@ -84,12 +84,12 @@ export default function Mirror(props) {
       <div className={props.topBarStyle} style={themeStyle}>
      
         <div className="secondColTool">
-          <input
+          {/* <input
             type="number"
             placeholder="angle"
             value={currentAngle}
             onChange={(e) => setCurrentAngle(e.target.value)}
-          ></input>
+          ></input> */}
 
           <input
             type="number"

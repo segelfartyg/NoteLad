@@ -19,8 +19,6 @@ const [pixelWidth, setPixelWidth] = useState(0);
 // SETS THE STYLE FOR THE COMPONENT
 const style = {
     transform: "rotate(" + degrees + "deg)",
-    
-    
     display: "flex"
   };
 
